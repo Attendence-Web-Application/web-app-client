@@ -1,32 +1,68 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components'
 import { Container } from 'bootstrap-4-react';
 import lockerImage from '../assets/locker.png'
 import { VscLock } from "react-icons/vsc";
+import Loading from '../components/Loading';
 
 const RegisterPage = () => {
-  return <Wrapper>
-    <Container>
-      <main className='main_section'>
-        <div className='left'>
-          <h2>New here?</h2>
-          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corrupti impedit placeat harum vitae maxime. Nobis explicabo asperiores at recusandae illum!</p>
-          <img src={lockerImage} alt="locker" className='lockerImage' />
-        </div>
-        <div className='mid'></div>
-        <div className='right'>
-          <h1>Sign in</h1>
-          <div className='input_section'>
-            <input type="text" placeholder='Username' />
-            <input type="email" placeholder='Email' />
-            <input type="password" placeholder='Password' />
-            <button className='btn-signin'>SIGN IN</button>
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const usernameChange = (e) => {
+    setUsername(e.target.value)
+  }
+  const emailChange = (e) => {
+    setEmail(e.target.value)
+  }
+  const passwordChange = (e) => {
+    setPassword(e.target.value)
+  }
+  const handleCreate = (e) => {
+    e.preventDefault()
+    fetch('http://localhost:8080/user/createUser', {
+      method: 'POST',
+      body: JSON.stringify({ user_name: username, user_password:password, user_email:email, user_type:"professor" }),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(res.statusText)
+        }
+        setLoading(true);
+        return res.json()
+      })
+      .catch(err => {console.log(err);})
+  }
+  if (loading) {
+    return <Loading setLoading={setLoading} />;
+  }
+
+  return(
+    <Wrapper>
+      <Container>
+        <main className='main_section'>
+          <div className='left'>
+            <h2>New here?</h2>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corrupti impedit placeat harum vitae maxime. Nobis explicabo asperiores at recusandae illum!</p>
+            <img src={lockerImage} alt="locker" className='lockerImage' />
           </div>
-          
-        </div>
-      </main>
-    </Container>
-  </Wrapper>
+          <div className='mid'></div>
+          <div className='right'>
+            <h1>Sign in</h1>
+            <form className='input_section'>
+              <input type="text" placeholder='Username' onChange={usernameChange} value={username} required />
+              <input type="email" placeholder='Email' onChange={emailChange} value={email} required />
+              <input type="password" placeholder='Password' onChange={passwordChange} value={password} required />
+              <button className='btn-signin' type='submit' onClick={handleCreate}>CREATE</button>
+            </form>
+          </div>
+        </main>
+      </Container>
+    </Wrapper>
+  )
 }
 
 
@@ -61,6 +97,7 @@ const Wrapper = styled.main`
     border: none; 
     padding: 8px;
     border-radius: 10px;
+    color: white;
     // box-shadow: rgba(255, 255, 255, 0.8) 2px 2px 10px 0px;
   }
   input:focus{
@@ -68,6 +105,7 @@ const Wrapper = styled.main`
     border: solid 2px rgba(94, 131, 255, 0.8);
     box-shadow: rgba(94, 131, 255, 0.8) 1px 1px 5px 0px;
   }
+
   
   .btn-signin{
     background-color:rgba(56, 101, 250, 0.8);
