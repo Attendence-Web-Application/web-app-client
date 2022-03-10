@@ -9,7 +9,7 @@ const HomePage = () => {
   
   const fetchData = async () => {
     try {
-      const response = await fetch('http://localhost:8081/getAll', {mode:'cors'});
+      const response = await fetch('http://localhost:8080/getAll', {mode:'cors'});
       const data = await response.json();
       setTest(data)
       console.log({ data })
