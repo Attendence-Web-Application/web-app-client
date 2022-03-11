@@ -2,22 +2,16 @@ import React, { useState, useContext, useReducer, useEffect } from 'react'
 import TestList from '../components/TestList'
 import { Container } from 'bootstrap-4-react';
 import NavBar from '../components/NavBar';
-
+import Classrooms from '../components/Classrooms'; 
 const ProfessorHomePage = () => {
   const [user, setUser] = useState('');
-  const [test, setTest] = useState([]);
-  
-  useEffect(() => {
-        const users = localStorage.getItem('user');
-        console.log("user", users);
-        setUser(user);
-    }, []);
+  const [classrooms, setClassrooms] = useState([]);
 
-  const fetchData = async () => {
+  const fetchData = async () => { //read all classrooms of this professor
     try {
       const response = await fetch('http://localhost:8080/getAll', {mode:'cors'});
       const data = await response.json();
-      setTest(data)
+      setClassrooms(data)
       console.log({ data })
     }
     catch (e) {
@@ -25,8 +19,11 @@ const ProfessorHomePage = () => {
     }
   }
   useEffect(() => {
-    fetchData();
-  }, [])
+       fetchData();
+        const users = localStorage.getItem('user');
+        console.log("user", users);
+        setUser(user);
+    }, []);
 
 
   return (
@@ -34,7 +31,8 @@ const ProfessorHomePage = () => {
       <React.Fragment>
         <h1>home</h1>
         <NavBar/>
-        <TestList test={test} setTest={setTest}  />
+        {/* <TestList test={test} setTest={setTest}  /> */}
+        <Classrooms classrooms = {classrooms} setClassrooms = {setClassrooms} />
       </React.Fragment>
 
     </Container>
