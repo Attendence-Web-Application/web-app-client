@@ -9,7 +9,9 @@ const RegisterPage = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [type, setType] = useState('professor');
   const [loading, setLoading] = useState(false);
+
 
   const usernameChange = (e) => {
     setUsername(e.target.value)
@@ -20,11 +22,14 @@ const RegisterPage = () => {
   const passwordChange = (e) => {
     setPassword(e.target.value)
   }
+  const typeChange = (e) => {
+    setType(e.target.value)
+  }
   const handleCreate = (e) => {
     e.preventDefault()
     fetch('http://localhost:8080/user/createUser', {
       method: 'POST',
-      body: JSON.stringify({ user_name: username, user_password:password, user_email:email, user_type:"professor" }),
+      body: JSON.stringify({ user_name: username, user_password: password, user_email: email, user_type: type }),
       headers: { 'Content-Type': 'application/json' },
     })
       .then(res => {
@@ -56,6 +61,10 @@ const RegisterPage = () => {
               <input type="text" placeholder='Username' onChange={usernameChange} value={username} required />
               <input type="email" placeholder='Email' onChange={emailChange} value={email} required />
               <input type="password" placeholder='Password' onChange={passwordChange} value={password} required />
+              <select value={type} onChange={typeChange}>
+                <option value="professor" selected>Professor</option>
+                <option value="student">Student</option>
+              </select>
               <button className='btn-signin' type='submit' onClick={handleCreate}>CREATE</button>
             </form>
           </div>
@@ -84,26 +93,31 @@ const Wrapper = styled.main`
   }
   .right{
     flex: 2;
-    margin-top: 20%;
+    margin-top: 18%;
     text-align:center;
   }
-  input {
+  
+  input, select {
     display: block;
     background-color: #2c3038;
     margin: 0 auto;
-    margin-bottom: 1.25em;
+    margin-bottom: 1.20em;
     margin-top: 30px;
     width: 280px;
     border: none; 
     padding: 8px;
     border-radius: 10px;
     color: white;
+    transition: 0.2s;
     // box-shadow: rgba(255, 255, 255, 0.8) 2px 2px 10px 0px;
   }
-  input:focus{
+  input:focus, select:focus{
     outline: none;
     border: solid 2px rgba(94, 131, 255, 0.8);
     box-shadow: rgba(94, 131, 255, 0.8) 1px 1px 5px 0px;
+  }
+  input:hover, select:hover{
+    background-color: #434950;
   }
 
   
