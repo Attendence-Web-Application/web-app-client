@@ -4,6 +4,7 @@ import { Container } from 'bootstrap-4-react';
 import lockerImage from '../assets/locker.png'
 import { VscLock } from "react-icons/vsc";
 import Loading from '../components/Loading';
+import { Link } from 'react-router-dom'
 
 const RegisterPage = () => {
   const [username, setUsername] = useState('');
@@ -56,7 +57,8 @@ const RegisterPage = () => {
           </div>
           <div className='mid'></div>
           <div className='right'>
-            <h1>Sign in</h1>
+            <h1>Create new account.</h1>
+            <p>Already A Member? <Link to="/login" className='login'>Log In</Link></p>
             <form className='input_section'>
               <input type="text" placeholder='Username' onChange={usernameChange} value={username} required />
               <input type="email" placeholder='Email' onChange={emailChange} value={email} required />
@@ -78,7 +80,7 @@ const RegisterPage = () => {
 const Wrapper = styled.main`
   color: white;
   background-color: #1f2125;
-  height: 100vh; 
+  height: 100vh;  
 
   .main_section{
     display: flex;
@@ -95,6 +97,10 @@ const Wrapper = styled.main`
     flex: 2;
     margin-top: 18%;
     text-align:center;
+  }
+  .login{
+    text-decoration:none;
+    transition: 0.3s;
   }
   
   input, select {
@@ -143,6 +149,11 @@ const Wrapper = styled.main`
     margin-top:10%;
     filter: drop-shadow(0px -2px 15px #fff);
   }
+  @media screen and (max-width: 600px) {
+    .main_section{
+      display: block;
+    }
+}
 `
 
 export default RegisterPage
