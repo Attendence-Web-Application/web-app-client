@@ -1,8 +1,9 @@
 import Home from './HomePage';
+import ProfessorHomePage from './ProfessorHomePage';
 import Test from './TestPage';
 import Error from './ErrorPage';
 import Register from './RegisterPage'
 import SignIn from './SignInPage'
 
 
-export { Home, Test, Error, Register, SignIn };
+export { Home, Test, Error, Register, SignIn, ProfessorHomePage };

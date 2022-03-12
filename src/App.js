@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { Home, SignIn, Register, Test, Error } from './pages'
+import { Home, SignIn, Register, Test, Error, ProfessorHomePage } from './pages'
 
 
 
@@ -12,6 +12,9 @@ function App() {
       <Switch>
         <Route exact path="/">
           <Home />
+        </Route>
+        <Route exact path="/professorhome">
+          <ProfessorHomePage />
         </Route>
         <Route exact path="/signin">
           <SignIn />
