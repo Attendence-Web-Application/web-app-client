@@ -18,3 +18,11 @@ body {
 code {
   font-family: "Poppins", sans-serif;
 }
+
+.align-components {
+  margin: auto;
+  display: flex;
+  align-items: flex-end;
+  border: 1px;
+  border-color: black;
+}

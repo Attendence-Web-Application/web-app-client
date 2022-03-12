@@ -3,16 +3,18 @@ import TestList from '../components/TestList'
 import { Container } from 'bootstrap-4-react';
 import NavBar from '../components/NavBar';
 import Classrooms from '../components/Classrooms'; 
+import NewClassroom from '../components/NewClassroom';
 const ProfessorHomePage = () => {
   const [user, setUser] = useState('');
   const [classrooms, setClassrooms] = useState([]);
 
-  const fetchData = async () => { //read all classrooms of this professor
+  //read all classrooms of this professor (need to change table)
+  const fetchData = async () => { 
     try {
       const response = await fetch('http://localhost:8080/getAll', {mode:'cors'});
       const data = await response.json();
       setClassrooms(data)
-      console.log({ data })
+      //use localStorage
     }
     catch (e) {
       console.log(e)
@@ -29,12 +31,10 @@ const ProfessorHomePage = () => {
   return (
     <Container>
       <React.Fragment>
-        <h1>home</h1>
-        <NavBar/>
-        {/* <TestList test={test} setTest={setTest}  /> */}
+        {/* <NavBar/>
+        <NewClassroom/> */}
         <Classrooms classrooms = {classrooms} setClassrooms = {setClassrooms} />
       </React.Fragment>
-
     </Container>
 
   )

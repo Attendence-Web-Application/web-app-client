@@ -1,49 +1,61 @@
 import React, { useState } from 'react';
 import styled from 'styled-components'
+import Dialog from "@material-ui/core/Dialog";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import Button from "@material-ui/core/Button";
+import '../index.css'
 
-const Classroom = ({item}) => {
+const Container = styled.div.attrs({
+    className: 'container',
+})`
+  margin: auto;
+  width: 80%;
+  padding: 10px;
+`
+const Classroom = ({item, enterClass, deleteClass}) => {
+    const [open, setOpen] = useState(false)
     const {id, name, age} = item;
-    const addTest = (e) => {
-        e.preventDefault()
-        fetch('http://localhost:8081/add1', {
-            method: 'POST',
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id: 8, name: "testadd8", age: 120 })
-        }).then(() => {
-            console.log("new test add");
-        })
+
+    //delete class from page and db when choose delete in pop up dialog
+    const handleToDelete = () => {
+        setOpen(false)
+        deleteClass(id)
     }
 
     return (
-        // <Wrapper>
-        //     {test.map((item, index) => {
-        //     return (
-        //         <div key={index} className="testBorder">
-        //             <p>id: {item.id}</p>
-        //             <p>name: {item.name}</p>
-        //             <p>age: {item.age}</p>
-        //             <button onClick={addTest}>add</button>
-        //         </div>
-        //     )
-        // })}
-        // </Wrapper>
         <section class="card" style={{width: 18 + 'em', margin: 30 + 'px'}}>
             <div class="card-body">
                 <h5 class="card-title">{id}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">{name}</h6>
                 <h6 class="card-subtitle mb-2 text-muted">{age}</h6>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
+                <Container>
+                    <button type="button" onClick={enterClass} class="btn btn-dark" style={{float:'left', marginLeft:0 + 'px'}}>Enter</button>
+                    <button type="button" onClick={() => {setOpen(true)}} class="btn btn-danger" style={{float:'right', marginRight:0 + 'px'}}>Delete</button>
+                </Container>
             </div>
+            <Dialog open={open} onClose={!open || handleToDelete}>
+                <DialogTitle>{"Delete Classroom"}</DialogTitle>
+                <DialogContent>
+                <DialogContentText>
+                    Do you want to delete classroom {name} ?
+                </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                <Button onClick={handleToDelete} 
+                        color="primary" autoFocus>
+                    Delete
+                </Button>
+                <Button onClick={() => {setOpen(false)}} 
+                        color="primary" autoFocus>
+                    Cancel
+                </Button>
+                </DialogActions>
+            </Dialog>
         </section>
     );
 }
 
-const Wrapper = styled.main`
-  .testBorder{
-    border: 2px solid black;
-    margin-top: 10px;
-  }
-`
- 
 export default Classroom;
