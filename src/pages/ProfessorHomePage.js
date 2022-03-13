@@ -1,6 +1,7 @@
 import React, { useState, useContext, useReducer, useEffect } from 'react'
 import TestList from '../components/TestList'
 import { Container } from 'bootstrap-4-react';
+import styled from 'styled-components'
 import NavBar from '../components/NavBar';
 import Classrooms from '../components/Classrooms'; 
 import NewClassroom from '../components/NewClassroom';
@@ -29,17 +30,22 @@ const ProfessorHomePage = () => {
 
 
   return (
-    <Container>
+    <Wrapper>
       <React.Fragment>
         {/* <NavBar/>
         <NewClassroom/> */}
         <Classrooms classrooms = {classrooms} setClassrooms = {setClassrooms} />
       </React.Fragment>
-    </Container>
+    </Wrapper>
 
   )
 }
 
+const Wrapper = styled.main`
+  background-color: #1f2125;
+  backgroundSize: 'cover',
+}
+`
 
 
 export default ProfessorHomePage

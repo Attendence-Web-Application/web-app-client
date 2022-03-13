@@ -40,17 +40,30 @@ const Classrooms = ({ classrooms, setClassrooms }) => {
     return (
             <React.Fragment>
                 <NavBar props={clearState}/>
-                <NewClassroom/>
-                <div class="row row-cols-3" style={{marginTop: 80 + 'px'}}>
-                    {isLogin && classrooms.map((item, index) => {  
-                    return (
-                        <Classroom key={index} item = {item} enterClass = {handleEnterClass} deleteClass = {handleDeleteClass}/>  
-                    ) 
-                })}
-                </div>
+                <ButtonWrapper><NewClassroom/></ButtonWrapper>
+                <Wrapper>
+                    <div class="row row-cols-auto row-cols-md-3" style={{margin: '0 auto', floag: 'none'}}>
+                        {isLogin && classrooms.map((item, index) => {  
+                        return (
+                            <Classroom class="shadow-lg p-3 mb-5 bg-white rounded" key={index} item = {item} enterClass = {handleEnterClass} deleteClass = {handleDeleteClass}/>  
+                        ) 
+                    })}
+                    </div>
+                </Wrapper>
+                
             </React.Fragment>
       
     );
 }
- 
+const ButtonWrapper = styled.main`
+  margin: 0 auto;
+  height: 10vh;
+  width: 100vw;
+`
+const Wrapper = styled.main`
+  margin: 0 auto;
+  width: 150vh;
+  height: 100vh;
+}
+`
 export default Classrooms;

@@ -26,13 +26,12 @@ const Classroom = ({item, enterClass, deleteClass}) => {
     }
 
     return (
-        <section class="card" style={{width: 18 + 'em', margin: 30 + 'px'}}>
+        <section class="card text-white bg-secondary mb-3" style={{width: 18 + 'em', margin: 20 + 'px', borderRadius: '20px 20px 20px 20px'}}>
             <div class="card-body">
                 <h5 class="card-title">{id}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">{name}</h6>
-                <h6 class="card-subtitle mb-2 text-muted">{age}</h6>
+                <h6 class="card-subtitle">{name}</h6>
                 <Container>
-                    <button type="button" onClick={enterClass} class="btn btn-dark" style={{float:'left', marginLeft:0 + 'px'}}>Enter</button>
+                    <button type="button" onClick={enterClass} class="btn btn-warning" style={{float:'left', marginLeft:0 + 'px'}}>Enter</button>
                     <button type="button" onClick={() => {setOpen(true)}} class="btn btn-danger" style={{float:'right', marginRight:0 + 'px'}}>Delete</button>
                 </Container>
             </div>
