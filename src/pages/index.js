@@ -4,6 +4,7 @@ import Test from './TestPage';
 import Error from './ErrorPage';
 import Register from './RegisterPage'
 import SignIn from './SignInPage'
+import Login from "./LoginPage"
 
 
-export { Home, Test, Error, Register, SignIn, ProfessorHomePage };
+export { Home, Test, Error, Register, Login, SignIn, ProfessorHomePage };
