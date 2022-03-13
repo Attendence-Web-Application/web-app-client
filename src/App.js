@@ -18,6 +18,7 @@ function App() {
         </Route>
         <Route exact path="/studenthome">
           <StudentHomePage />
+        </Route>
         <Route exact path="/login">
           <Login />
         </Route>
