@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { Home, Login, SignIn, Register, Test, Error, ProfessorHomePage } from './pages'
+import { Home, Login, SignIn, Register, Test, Error, ProfessorHomePage, StudentHomePage } from './pages'
 
 
 
@@ -16,6 +16,8 @@ function App() {
         <Route exact path="/professorhome">
           <ProfessorHomePage />
         </Route>
+        <Route exact path="/studenthome">
+          <StudentHomePage />
         <Route exact path="/login">
           <Login />
         </Route>
