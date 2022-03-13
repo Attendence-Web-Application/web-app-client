@@ -18,7 +18,7 @@ const NavBar = ({props}) => { //or destruct the props: {total}
         }
     }, []);
     return (
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
                 <img src={lockerImage} alt="Attendence" width="25px"/>
                 <a class="navbar-brand" href="#">Attendence System</a>
@@ -27,12 +27,12 @@ const NavBar = ({props}) => { //or destruct the props: {total}
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    {isLogin && <span class="nav-link active">Welcome {user}!</span>}
-                    {!isLogin && <span class="nav-link active">Please Sign in</span>}
-                    <a class="nav-link active" aria-current="page" href="#">HomePage</a>
-                    <a class="nav-link" href="#">Profile</a>
-                    {isLogin && <span class="nav-link" onClick={logout}>Signout</span>}
-                    {!isLogin && <span class="nav-link" onClick={logout}>Signin</span>}
+                    {isLogin && <span class="nav-link active" style={{color:'white'}}>Welcome {user}!</span>}
+                    {!isLogin && <span class="nav-link active" style={{color:'white'}}>Please Sign in</span>}
+                    <a class="nav-link active" aria-current="page" href="#" style={{color:'white'}}>HomePage</a>
+                    <a class="nav-link" href="#" style={{color:'white'}}>Profile</a>
+                    {isLogin && <span class="nav-link" onClick={logout} style={{color:'white'}}>Signout</span>}
+                    {!isLogin && <span class="nav-link" onClick={logout} style={{color:'white'}}>Signin</span>}
                 </div>
                 </div>
             </div>
