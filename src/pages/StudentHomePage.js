@@ -4,8 +4,8 @@ import { Container } from 'bootstrap-4-react';
 import styled from 'styled-components'
 import NavBar from '../components/NavBar';
 import Classrooms from '../components/Classrooms'; 
-
-const ProfessorHomePage = () => {
+import AddClassroomStudent from '../components/AddClassroomStudent';
+const StudentHomePage = () => {
   const [user, setUser] = useState('');
   const [classrooms, setClassrooms] = useState([]);
 
@@ -48,4 +48,4 @@ const Wrapper = styled.main`
 `
 
 
-export default ProfessorHomePage
+export default StudentHomePage

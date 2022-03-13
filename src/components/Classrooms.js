@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'
 import Classroom from './Classroom';
-import NewClassroom from './NewClassroom';
+import AddClassroomProfessor from './AddClassroomProfessor';
+import AddClassroomStudent from '../components/AddClassroomStudent';
 import NavBar from './NavBar';
 const Classrooms = ({ classrooms, setClassrooms }) => {
     // const addTest = (e) => {
@@ -15,6 +16,7 @@ const Classrooms = ({ classrooms, setClassrooms }) => {
     //     })
     // }
     const [isLogin, setIsLogin] = useState(false);
+    const [isStudent, setIsStudent] = useState(false);
     const handleEnterClass = (id) => {
         console.log("enter into ", id);
     }
@@ -35,12 +37,24 @@ const Classrooms = ({ classrooms, setClassrooms }) => {
        else {
             setIsLogin(true);
        }
+
+       if (localStorage.getItem('type') === 'student') {
+            console.log(localStorage.getItem('type'));
+            setIsStudent(true);
+       }
+       else if (localStorage.getItem('type') === 'professor') {
+           console.log(localStorage.getItem('type'));
+           setIsStudent(false);
+       }
     });
 
     return (
             <React.Fragment>
                 <NavBar props={clearState}/>
-                <ButtonWrapper><NewClassroom/></ButtonWrapper>
+                <ButtonWrapper>
+                    {isLogin && (isStudent && <AddClassroomStudent classrooms={classrooms} setClassrooms={setClassrooms}/>)} ||
+                    {isLogin && (!isStudent && <AddClassroomProfessor/>)}
+                </ButtonWrapper>
                 <Wrapper>
                     <div class="row row-cols-auto row-cols-md-3" style={{margin: '0 auto', floag: 'none'}}>
                         {isLogin && classrooms.map((item, index) => {  
@@ -57,6 +71,7 @@ const Classrooms = ({ classrooms, setClassrooms }) => {
 }
 const ButtonWrapper = styled.main`
   margin: 0 auto;
+//   margin-top:30px;
   height: 10vh;
   width: 100vw;
 `
