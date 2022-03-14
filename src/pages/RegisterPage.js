@@ -27,10 +27,16 @@ const RegisterPage = () => {
     setType(e.target.value)
   }
   const handleCreate = (e) => {
+    var role_id;
+    if (type === "Professor") {
+      role_id = 1;
+    } else {
+      role_id = 2;
+    }
     e.preventDefault()
     fetch('http://localhost:8080/user/createUser', {
       method: 'POST',
-      body: JSON.stringify({ user_name: username, user_password: password, user_email: email, user_type: type }),
+      body: JSON.stringify({ name: username, password: password, email: email, role_id: role_id }),
       headers: { 'Content-Type': 'application/json' },
     })
       .then(res => {

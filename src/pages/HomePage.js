@@ -1,5 +1,4 @@
 import React, { useState, useContext, useReducer, useEffect } from 'react'
-import TestList from '../components/TestList'
 import { Container } from 'bootstrap-4-react';
 import styled from 'styled-components';
 
@@ -28,7 +27,6 @@ const HomePage = () => {
     <Wrapper>
       <Container>
         <h1>home</h1>
-        <TestList test={test} setTest={setTest}  />
       </Container>
     </Wrapper>
   )
