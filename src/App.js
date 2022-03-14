@@ -1,7 +1,5 @@
 import React, {useState} from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import styled from 'styled-components'
-
 
 import { Home, Login, Register, Error, ProfessorHomePage, StudentHomePage } from './pages'
 
