@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import styled from 'styled-components'
 
 
-import { Home, Login, SignIn, Register, Test, Error, ProfessorHomePage, StudentHomePage } from './pages'
+import { Home, Login, Register, Error, ProfessorHomePage, StudentHomePage } from './pages'
 
 function App() {
   // const token = localStorage.getItem('accessToken');
@@ -25,14 +25,8 @@ function App() {
           <Route exact path="/login">
             <Login />
           </Route>
-          <Route exact path="/signin">
-            <SignIn />
-          </Route>
           <Route exact path="/register">
             <Register />
-          </Route>
-          <Route exact path="/test">
-            <Test />
           </Route>
           <Route path="*">
             <Error />
