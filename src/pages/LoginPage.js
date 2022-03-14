@@ -24,6 +24,7 @@ const LoginPage = () => {
 }
 
 const Wrapper = styled.main`
+
     display: flex;
     height: 100vh;
     .thumb_up1{
@@ -33,11 +34,12 @@ const Wrapper = styled.main`
         z-index: -1;
         transform: rotate(20deg);
     }
-    
+
     .left{
         flex:1;
         text-align:center;
         justify-content: center;
+
         margin-top: 15vh;
     }
 
