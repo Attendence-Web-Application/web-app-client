@@ -14,6 +14,7 @@ const ProfessorHomePage = () => {
       const response = await fetch('http://localhost:8080/getAll', {mode:'cors'});
       const data = await response.json();
       setClassrooms(data)
+      console.log(data)
       //use localStorage
     }
     catch (e) {
