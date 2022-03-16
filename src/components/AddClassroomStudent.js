@@ -1,14 +1,11 @@
 import React, {useState} from "react";
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import InvitationForm from './InvitationForm';
 import Dialog from "@material-ui/core/Dialog";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
 import { makeStyles } from '@material-ui/core/styles'
 import '../index.css';
+
 const useStyles = makeStyles(theme => ({
   paper: {
       borderRadius: 15,
@@ -29,6 +26,7 @@ const useStyles = makeStyles(theme => ({
     color: 'white',
   },
 }))
+
 const AddClassroomStudent = ({classrooms, setClassrooms}) => {
     const [isShow, setIsShow] = useState(false);
     console.log(classrooms);
@@ -41,8 +39,6 @@ const AddClassroomStudent = ({classrooms, setClassrooms}) => {
         event.preventDefault();
         const newClassroom = event.target.elements.classroom.value;
         const newCode = event.target.elements.code.value;
-        console.log(event.target.elements.classroom.value);
-        console.log(event.target.elements.code.value);
         //check code 
 
         //if same, add one more classroom in the page and database

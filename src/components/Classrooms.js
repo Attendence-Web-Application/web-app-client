@@ -68,10 +68,10 @@ const Classrooms = ({ classrooms, setClassrooms }) => {
                     {isLogin && (!isStudent && <AddClassroomProfessor classrooms={classrooms} setClassrooms={setClassrooms}/>)}
                 </ButtonWrapper>
                 <Wrapper>
-                    <div class="row row-cols-auto row-cols-md-3" style={{margin: '0 auto', floag: 'none'}}>
+                    <div className="row row-cols-auto row-cols-md-3" style={{margin: '0 auto', floag: 'none'}}>
                         {isLogin && classrooms.map((item, index) => {  
                         return (
-                            <Classroom class="shadow-lg p-3 mb-5 bg-white rounded" key={index} item = {item} handleEnterClass = {handleEnterClass} handleDeleteClass = {handleDeleteClass}/>  
+                            <Classroom className="shadow-lg p-3 mb-5 bg-white rounded" key={index} item = {item} handleEnterClass = {handleEnterClass} handleDeleteClass = {handleDeleteClass}/>  
                         ) 
                     })}
                     </div>

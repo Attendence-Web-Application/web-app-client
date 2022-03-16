@@ -8,6 +8,7 @@ import CreateClassForm from "./CreateClassForm";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogContent from "@material-ui/core/DialogContent";
+
 const useStyles = makeStyles(theme => ({
   paper: {
       borderRadius: 15,
@@ -35,26 +36,34 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#313033',
     color: 'white',
   },
+  alignItemsAndJustifyContentText: {
+    color: 'white',
+    fontSize: 20 + 'px'
+  },
 }))
 
+//define urls connecting to api
 const SEARCH_CLASS_URL = 'http://localhost:8080/class/getClass/';
 const CREATE_CLASS_URL = 'http://localhost:8080/class/createClass';
 const INSERT_ENROLL_URL = 'http://localhost:8080/class_enrolled/createEnroll/';
 const CHECK_ENROLL_URL = 'http://localhost:8080/class_enrolled/getClassEnroll/';
+
 const AddClassroomProfessor = ({classrooms, setClassrooms}) => {
     const [isShow, setIsShow] = useState(false);
     const [isCreated, setIsCreated] = useState(false);
     const [isExist, setIsExist] = useState(false);
-    // const [newClass, setNewClass] = useState({})
     const [existCourse, setExistCourse] = useState('');
     let newClass;
+
     const classes = useStyles();
     const curUserId = parseInt(localStorage.getItem('id'));
 
+    //show the dialog when clicking on creating classroom
     const handleClick = () => {
         setIsShow(true);
     }
 
+    //insert (userId, classId) record into "class_enrolled" table
     const insertEnrollRecord = async (userId, classData) => {
         const response = await fetch(CHECK_ENROLL_URL + userId + "_" + classData.id, {mode: 'cors'});
         
@@ -64,12 +73,13 @@ const AddClassroomProfessor = ({classrooms, setClassrooms}) => {
             setExistCourse(classData.number);
             setIsCreated(true);
         }
-        catch (e) {
+        catch (e) { 
             const params = {
                 method: 'POST',
                 body: JSON.stringify({ id: {classId: classData.id, userId: userId}, attendance_times: 0, attendance_rate: "0"}),
                 headers: { 'Content-Type': 'application/json' },
             }
+
             const createResponse = await fetch(INSERT_ENROLL_URL, params);
             const newData = await createResponse.json();
             console.log(newData);
@@ -77,6 +87,7 @@ const AddClassroomProfessor = ({classrooms, setClassrooms}) => {
         }
     }
 
+    //post new class into "class" table if the class doesn't exist
     const postNewClass = async () => {
         try {
             const params = {
@@ -92,46 +103,41 @@ const AddClassroomProfessor = ({classrooms, setClassrooms}) => {
             console.log(e);
         }
         setIsExist(false);
-        // setNewClass({});
     }
     
+    //professor add one more class
+    //1. check whether the class exist in "class" table
+    //2. check whether professor has already add this class
     const fetchDataByNumber = async () => { 
         try {
             console.log(SEARCH_CLASS_URL + newClass.number);
             const response = await fetch(SEARCH_CLASS_URL + newClass.number, {mode: 'cors'});
             const data = await response.json();
             
-            if (data.length === 0) { //check the course number, if the course doesn't exist, insert a new class
-                setIsExist(true);
-                // const params = {
-                //     method: 'POST',
-                //     body: JSON.stringify({ number: number, title: title, start_date: start, end_date: end}),
-                //     headers: { 'Content-Type': 'application/json' },
-                // }
-                // const createResponse = await fetch(CREATE_CLASS_URL, params);
-                // const newData = await createResponse.json();
-                // classData = newData;
+            if (data.length === 0) { //check the course number, if the course doesn't exist, pop to ask whether insert a new class
+                setIsExist(true); //display the dialog
             }
-            else { //check whether info in db the same as input???
+            else { //check whether info in db the same as input(TODO)
                 //insert into class_enrolled table
                 insertEnrollRecord(curUserId, data[0]);
             } 
         }
-            catch (e) {
-                console.log(e)
+        catch (e) {
+            console.log(e)
         }
     }
+
+    //get the data get from class dialog
     const handleSubmit = (event) => {
         event.preventDefault();
-        // //change status
-        setIsShow(false);
+        //change status
+        setIsShow(false); 
 
         newClass = {"number": event.target.elements.classNumber.value,
                           "title": event.target.elements.classTitle.value,
                           "startDate": event.target.elements.startDate.value,
                           "endDate": event.target.elements.endDate.value,}
-        // setNewClass(newClass);
-        // console.log(newClass);
+       
         // const newClassNumber = event.target.elements.classNumber.value;
         // const newClassTitle = event.target.elements.classTitle.value;
         // const newStartDate = event.target.elements.startDate.value;
@@ -143,27 +149,29 @@ const AddClassroomProfessor = ({classrooms, setClassrooms}) => {
 
     }
 
+    //cancel when adding new class for this professor
     const handleCancel = (event) => {
         event.preventDefault();
         setIsShow(false);
     }
 
+    //cancel when the class has been added
     const handleMessageCancel = () => {
         setIsCreated(false);
         setExistCourse('');
     }
+
     return (
         <>
             <Wrapper>
                 <p style={{color: 'white', marginLeft: '10vw', fontSize: 18 + 'px', marginTop: 20 + 'px', float: "left"}}>Your Classrooms</p>
                 <button type="button" className="btn btn-dark" style={{marginRight: '10vw', marginTop: 20 + 'px', float: "right"}} onClick={handleClick}>Create New Classroom</button>
             </Wrapper>
+
             <DialogWrapper>
                 <Dialog open={isShow} onClose={!isShow} className="dialog_box">
                     <div style={{width: 500, margin: '0 auto'}}>
                         <DialogTitle className={classes.alignItemsAndJustifyContentTitle}>{"Create a New Class"}</DialogTitle>
-                        {/* <DialogContent>
-                        </DialogContent> */}
                         {/* <DialogActions className={classes.alignItemsAndJustifyContentForm} style={{backgroundColor: '#3d3c40', marginBottom: '0px'}}> */}
                             <CreateClassForm className={classes.alignItemsAndJustifyContentForm} handleSubmit={handleSubmit} handleCancel={handleCancel}/>
                         {/* </DialogActions> */}
