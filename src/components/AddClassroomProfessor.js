@@ -88,8 +88,10 @@ const AddClassroomProfessor = ({classrooms, setClassrooms}) => {
     }
 
     //post new class into "class" table if the class doesn't exist
-    const postNewClass = async () => {
+    /*
+    const postNewClass = async (newClass) => {
         try {
+            console.log("number", newClass);
             const params = {
                 method: 'POST',
                 body: JSON.stringify({ number: newClass.number, title: newClass.title, start_date: newClass.startDate, end_date: newClass.endDate}),
@@ -104,18 +106,32 @@ const AddClassroomProfessor = ({classrooms, setClassrooms}) => {
         }
         setIsExist(false);
     }
-    
+    */
+
     //professor add one more class
     //1. check whether the class exist in "class" table
     //2. check whether professor has already add this class
-    const fetchDataByNumber = async () => { 
+    const fetchDataByNumber = async (newClass) => { 
         try {
             console.log(SEARCH_CLASS_URL + newClass.number);
             const response = await fetch(SEARCH_CLASS_URL + newClass.number, {mode: 'cors'});
             const data = await response.json();
             
             if (data.length === 0) { //check the course number, if the course doesn't exist, pop to ask whether insert a new class
-                setIsExist(true); //display the dialog
+                // setIsExist(true); //display the dialog
+                try {
+                    const params = {
+                        method: 'POST',
+                        body: JSON.stringify({ number: newClass.number, title: newClass.title, start_date: newClass.startDate, end_date: newClass.endDate}),
+                        headers: { 'Content-Type': 'application/json' },
+                    }
+                    const createResponse = await fetch(CREATE_CLASS_URL, params);
+                    const newData = await createResponse.json();
+                    insertEnrollRecord(curUserId, newData);
+                }
+                catch (e) {
+                    console.log(e);
+                }
             }
             else { //check whether info in db the same as input(TODO)
                 //insert into class_enrolled table
@@ -133,7 +149,7 @@ const AddClassroomProfessor = ({classrooms, setClassrooms}) => {
         //change status
         setIsShow(false); 
 
-        newClass = {"number": event.target.elements.classNumber.value,
+        const newClass = {"number": event.target.elements.classNumber.value,
                           "title": event.target.elements.classTitle.value,
                           "startDate": event.target.elements.startDate.value,
                           "endDate": event.target.elements.endDate.value,}
@@ -144,7 +160,7 @@ const AddClassroomProfessor = ({classrooms, setClassrooms}) => {
         // const newEndDate = event.target.elements.endDate.value;
         
         // fetchDataByNumber(newClassNumber, newClassTitle, newStartDate, newEndDate);
-        fetchDataByNumber();
+        fetchDataByNumber(newClass);
         
 
     }
@@ -204,7 +220,7 @@ const AddClassroomProfessor = ({classrooms, setClassrooms}) => {
                         <DialogActions style={{backgroundColor:'#3e3d40'}}>
                             <Wrapper>
                                 <div className='del_classroom_button_div'>
-                                    <button className='form-btn left' onClick={postNewClass}>CREATE</button>
+                                    <button className='form-btn left'>CREATE</button>
                                     <button className='form-btn right' onClick={() => {setIsExist(false)}}>CANCEL</button>
                                 </div>
                             </Wrapper>
