@@ -4,18 +4,29 @@ import styled from 'styled-components'
 import NavBar from '../components/NavBar';
 import Classrooms from '../components/Classrooms'; 
 
+const FIND_CLASS_ID_URL = 'http://localhost:8080/class_enrolled/getClassEnroll/user';
+const FIND_CLASS_URL = 'http://localhost:8080/class/getClass/id'
 const ProfessorHomePage = () => {
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState(localStorage.getItem('user'));
   const [classrooms, setClassrooms] = useState([]);
+  const curUserId = parseInt(localStorage.getItem("id"));
 
-  //read all classrooms of this professor (need to change table)
+  const fetchClass = async (classId) => {
+      let classArr = [];
+      for (let id = 0; id < classId.length; id++) {
+          const response = await fetch(FIND_CLASS_URL + classId[id], {mode:'cors'});
+          const data = await response.json();
+          classArr.push(data);
+      }
+      setClassrooms(classArr);
+  }
+
+  //read all classrooms of this professor
   const fetchData = async () => { 
     try {
-      const response = await fetch('http://localhost:8080/getAll', {mode:'cors'});
+      const response = await fetch(FIND_CLASS_ID_URL + curUserId, {mode:'cors'});
       const data = await response.json();
-      setClassrooms(data)
-      console.log(data)
-      //use localStorage
+      fetchClass(data);
     }
     catch (e) {
       console.log(e)
@@ -23,10 +34,7 @@ const ProfessorHomePage = () => {
   }
   useEffect(() => {
        fetchData();
-        const users = localStorage.getItem('user');
-        console.log("user", users);
-        setUser(user);
-    }, []);
+    }, [user]);
 
 
   return (

@@ -3,18 +3,18 @@ import DatePicker from 'react-datepicker';
 import styled from 'styled-components';
 
 import "react-datepicker/dist/react-datepicker.css";
-const CreateClassForm = ({handleSubmit}) => {
-    // const [classNumber, setClassNumber] = useState('');
-    // const [classTitle, setClassTitle] = useState('');
+const CreateClassForm = ({handleSubmit, handleCancel}) => {
+    const [classNumber, setClassNumber] = useState('');
+    const [classTitle, setClassTitle] = useState('');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
 
-    // const handleClassChange = (e) => {
-    //     // setClassNumber(e.target.value);
-    // }
-    // const handleTitleChange = (e) => {
-    //     // setClassTitle(e.target.value);
-    // }
+    const handleClassChange = (e) => {
+        setClassNumber(e.target.value);
+    }
+    const handleTitleChange = (e) => {
+        setClassTitle(e.target.value);
+    }
     const handleStartDate = (e) => {
         setStartDate(e);
     }
@@ -26,10 +26,10 @@ const CreateClassForm = ({handleSubmit}) => {
             <form onSubmit={handleSubmit} className='create_class_box'>
                 <div className='input_class_box'>
                     {/* <label htmlFor="classroom">Class </label> */}
-                    <input id="classNumber" type="text" placeholder="Number, e.g. CSxxxx"></input>
+                    <input id="classNumber" type="text" placeholder="Number, e.g. CSxxxx" onChange={handleClassChange} required></input>
                     <br/>
                     {/* <label htmlFor="code">Code: </label> */}
-                    <input id="classTitle" type="text" placeholder="Title"></input>
+                    <input id="classTitle" type="text" placeholder="Title" onChange={handleTitleChange}></input>
                     <br/>
                     <DatePicker
                         selected={ startDate }
@@ -52,7 +52,7 @@ const CreateClassForm = ({handleSubmit}) => {
                 <div className='class_button_div'>
                     <button type="submit" className='form_btn'>Submit</button>
                     <button type="reset" className='form_btn'>Reset</button>
-                    <button type="cancel" className='form_btn'>Cancel</button>
+                    <button type="cancel" className='form_btn' onClick={handleCancel}>Cancel</button>
                 </div>
             </form>
         </Wrapper>

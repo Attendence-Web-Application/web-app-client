@@ -38,31 +38,33 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Classroom = ({item, enterClass, deleteClass}) => {
+const Classroom = ({item, handleEnterClass, handleDeleteClass}) => {
     const [open, setOpen] = useState(false)
-    const {id, name, age} = item;
+    console.log('item', item)
+    const {id, number, title} = item;
 
     //delete class from page and db when choose delete in pop up dialog
     const handleToDelete = () => {
         setOpen(false)
-        deleteClass(id)
+        handleDeleteClass(id)
     }
     const classes = useStyles();
     return (
-        <section class="card text-white bg-secondary mb-3" style={{width: 18 + 'em', margin: 20 + 'px', borderRadius: '20px 20px 20px 20px'}}>
-            <div class="card-body">
-                <h5 class="card-title">{id}</h5>
-                <h6 class="card-subtitle">{name}</h6>
+        <section className="card text-white bg-secondary mb-3" style={{height: 13 + 'em', width: 18 + 'em', margin: 20 + 'px', borderRadius: '20px 20px 20px 20px'}}>
+            <div className="card-body">
+                <h5 className="card-title">{number}</h5>
+                <h5 className="card-subtitle" style={{paddingBottom:5 + 'px'}}>{title}</h5>
+                {/* <h6 className="card-subtitle">{title}</h6> */}
                 <Container>
-                    <button type="button" onClick={enterClass} className="btn-enter" style={{float:'left', marginLeft:0 + 'px'}}>Enter</button>
-                    <button type="button" onClick={() => {setOpen(true)}} class="btn-delete" style={{float:'right', marginRight:0 + 'px'}}>Delete</button>
+                    <button type="button" onClick={handleEnterClass} className="btn-enter">Enter</button>
+                    <button type="button" onClick={() => {setOpen(true)}} className="btn-delete">Delete</button>
                 </Container>
             </div>
             <Dialog open={open} onClose={!open || handleToDelete}>
                 <DialogTitle className={classes.alignItemsAndJustifyContentTitle}>{"Delete Classroom"}</DialogTitle>
                 <DialogContent className={classes.alignItemsAndJustifyContentTitle}>
                     <DialogContentText className={classes.alignItemsAndJustifyContentText}>
-                        Do you want to delete classroom {name} ?
+                        Do you want to delete classroom {title} ?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions className={classes.alignItemsAndJustifyContentButton}>
@@ -115,11 +117,15 @@ const Wrapper = styled.main`
 //   padding: 10px;
 // `
 const Container = styled.main`
-  margin: auto;
-  width: 80%;
+  margin: 0;
+  width: 100%;
   padding: 10px;
-
+  position: absolute;
+  bottom: 0;
+  left: 0;
   .btn-enter{
+    float: left;
+    margin-left: 30px;
     background-color: #6167f3;
     color:white;
     border-radius: 3px;
@@ -133,6 +139,8 @@ const Container = styled.main`
   }
 
   .btn-delete{
+    float: right;
+    margin-right: 30px;
     background-color: #313033;
     color:white;
     border-radius: 3px;
