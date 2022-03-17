@@ -7,16 +7,7 @@ import NavBar from './NavBar';
 
 const DELETE_CLASS_URL = 'http://localhost:8080/class_enrolled/getClassEnroll/'
 const Classrooms = ({ classrooms, setClassrooms }) => {
-    // const addTest = (e) => {
-    //     e.preventDefault()
-    //     fetch('http://localhost:8081/add1', {
-    //         method: 'POST',
-    //         headers: { "Content-Type": "application/json" },
-    //         body: JSON.stringify({ id: 8, name: "testadd8", age: 120 })
-    //     }).then(() => {
-    //         console.log("new test add");
-    //     })
-    // }
+
     const [isLogin, setIsLogin] = useState(false);
     const [isStudent, setIsStudent] = useState(false);
     const curUserId = localStorage.getItem('id');

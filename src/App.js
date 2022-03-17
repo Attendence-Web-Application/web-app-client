@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
-import { Home, Login, Register, Error, ProfessorHomePage, StudentHomePage } from './pages'
+import { Home, Login, Register, Error, UserHome } from './pages'
 
 function App() {
   // const token = localStorage.getItem('accessToken');
@@ -14,11 +14,8 @@ function App() {
           <Route exact path="/">
             <Home />
           </Route>
-          <Route exact path="/professorhome">
-            <ProfessorHomePage />
-          </Route>
-          <Route exact path="/studenthome">
-            <StudentHomePage />
+          <Route exact path="/homepage">
+            <UserHome />
           </Route>
           <Route exact path="/login">
             <Login />

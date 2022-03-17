@@ -1,12 +1,11 @@
 import React, { useState, useContext, useReducer, useEffect } from 'react'
-import { Container } from 'bootstrap-4-react';
 import styled from 'styled-components'
-import NavBar from '../components/NavBar';
 import Classrooms from '../components/Classrooms'; 
 
 const FIND_CLASS_ID_URL = 'http://localhost:8080/class_enrolled/getClassEnroll/user';
 const FIND_CLASS_URL = 'http://localhost:8080/class/getClass/id'
-const ProfessorHomePage = () => {
+
+const UserHomePage = () => {
   const [user, setUser] = useState(localStorage.getItem('user'));
   const [classrooms, setClassrooms] = useState([]);
   const curUserId = parseInt(localStorage.getItem("id"));
@@ -56,4 +55,4 @@ const Wrapper = styled.main`
 `
 
 
-export default ProfessorHomePage
+export default UserHomePage

@@ -29,7 +29,7 @@ const CreateClassForm = ({handleSubmit, handleCancel}) => {
                     <input id="classNumber" type="text" placeholder="Number, e.g. CSxxxx" onChange={handleClassChange} required></input>
                     <br/>
                     {/* <label htmlFor="code">Code: </label> */}
-                    <input id="classTitle" type="text" placeholder="Title" onChange={handleTitleChange}></input>
+                    <input id="classTitle" type="text" placeholder="Title" onChange={handleTitleChange} required></input>
                     <br/>
                     <DatePicker
                         selected={ startDate }
