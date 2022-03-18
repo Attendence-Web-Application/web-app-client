@@ -3,8 +3,13 @@ import { Container } from 'bootstrap-4-react';
 import styled from 'styled-components'
 import NavBar from '../components/NavBar';
 import Classrooms from '../components/Classrooms'; 
+import { AttendanceContext } from '../context/context';
+import { Route, Redirect } from 'react-router-dom';
 
 const ProfessorHomePage = () => {
+  const { isAuthenticated, token, type } = useContext(AttendanceContext);
+  console.log()
+
   const [user, setUser] = useState('');
   const [classrooms, setClassrooms] = useState([]);
 
@@ -36,7 +41,6 @@ const ProfessorHomePage = () => {
         <Classrooms classrooms = {classrooms} setClassrooms = {setClassrooms} />
       </React.Fragment>
     </Wrapper>
-
   )
 }
 

@@ -6,6 +6,7 @@ import checklist from '../assets/checklist.png'
 import thumb_up1 from '../assets/thumb-up1.png'
 
 const LoginPage = () => {
+    localStorage.clear();
     return <Wrapper>
         <img src={thumb_up1} alt="thumb_up1" className='thumb_up1' />
         <div className='left'>

@@ -1,21 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link, useHistory} from 'react-router-dom';
+import { AttendanceContext } from '../context/context';
 
-async function loginUser(credentials) {
-  return fetch('https://www.mecallapi.com/api/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(credentials)
-  })
+async function loginUser(email, password) {
+    return fetch('http://localhost:8080/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email: email, 
+            password: password
+        })
+    })
     .then(data => data.json())
- }
+}
 
 const LoginComponent = () => {
+    const history = useHistory();
+    const {setIsAuthenticated, setType, setToken } = useContext(AttendanceContext);
+    
+
     const [email, setEmail] = useState('');;
     const [password, setPassword] = useState('');
+    const [isPasswordCorrect, setIsPasswordCorrect] = useState(true);
 
     const emailChange = (e) => {
         setEmail(e.target.value)
@@ -26,9 +35,30 @@ const LoginComponent = () => {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        localStorage.setItem('accessToken', "asd");
-        window.location.href = "/professorhome";
+        
+        const token = await loginUser(email, password);
+        if (token.success === true) {
+            setToken(token.token)
+            setIsAuthenticated(true);
+            setIsPasswordCorrect(true);
+            sessionStorage.setItem('token', token.token);
+            if (token.type === "professor") {
+                setType(token.type);
+                sessionStorage.setItem('type', token.type);
+                history.push('/professorhome');
+            } else if (token.type === "student") {
+                setType(token.type);
+                sessionStorage.setItem('type', token.type);
+                history.push('/studenthome');
+            }
+        } else {
+            setIsAuthenticated(false);
+            setIsPasswordCorrect(false);
+        }
+
     }
+
+    
 
     return (
          <Wrapper className='left'>
@@ -45,9 +75,13 @@ const LoginComponent = () => {
                 <button className='btn-login' type='submit'>Log In</button>
             </form>
             <p>Don't have an account? <Link to="/register" className='register'>Register</Link></p>
+            {isPasswordCorrect ? "":<p>Wrong password</p>}
         </Wrapper>
+        
     );
+    
 }
+
 
 
 
