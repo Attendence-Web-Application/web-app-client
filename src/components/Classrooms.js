@@ -4,25 +4,28 @@ import Classroom from './Classroom';
 import AddClassroomProfessor from './AddClassroomProfessor';
 import AddClassroomStudent from '../components/AddClassroomStudent';
 import NavBar from './NavBar';
+
+const DELETE_CLASS_URL = 'http://localhost:8080/class_enrolled/getClassEnroll/'
 const Classrooms = ({ classrooms, setClassrooms }) => {
-    // const addTest = (e) => {
-    //     e.preventDefault()
-    //     fetch('http://localhost:8081/add1', {
-    //         method: 'POST',
-    //         headers: { "Content-Type": "application/json" },
-    //         body: JSON.stringify({ id: 8, name: "testadd8", age: 120 })
-    //     }).then(() => {
-    //         console.log("new test add");
-    //     })
-    // }
+
     const [isLogin, setIsLogin] = useState(false);
     const [isStudent, setIsStudent] = useState(false);
+    const curUserId = localStorage.getItem('id');
     const handleEnterClass = (id) => {
         console.log("enter into ", id);
     }
 
-    const handleDeleteClass = (id) => {
+    const handleDeleteClass = async (id) => {
         const remainClass = classrooms.filter((p) => id !== p.id);
+        //delete class by id in db
+        try{
+            const response = await fetch(DELETE_CLASS_URL + curUserId + "_" + id, {method: 'DELETE'});
+            const data = await response.json();
+        }
+        catch (e){
+            console.log(e);
+        }
+        
         setClassrooms(remainClass);
     }
 
@@ -46,20 +49,20 @@ const Classrooms = ({ classrooms, setClassrooms }) => {
            console.log(localStorage.getItem('type'));
            setIsStudent(false);
        }
-    });
+    }, [localStorage.getItem('user')]);
 
     return (
             <React.Fragment>
                 <NavBar props={clearState}/>
                 <ButtonWrapper>
                     {isLogin && (isStudent && <AddClassroomStudent classrooms={classrooms} setClassrooms={setClassrooms}/>)} ||
-                    {isLogin && (!isStudent && <AddClassroomProfessor/>)}
+                    {isLogin && (!isStudent && <AddClassroomProfessor classrooms={classrooms} setClassrooms={setClassrooms}/>)}
                 </ButtonWrapper>
                 <Wrapper>
-                    <div class="row row-cols-auto row-cols-md-3" style={{margin: '0 auto', floag: 'none'}}>
+                    <div className="row row-cols-auto row-cols-md-3" style={{margin: '0 auto', floag: 'none'}}>
                         {isLogin && classrooms.map((item, index) => {  
                         return (
-                            <Classroom class="shadow-lg p-3 mb-5 bg-white rounded" key={index} item = {item} enterClass = {handleEnterClass} deleteClass = {handleDeleteClass}/>  
+                            <Classroom className="shadow-lg p-3 mb-5 bg-white rounded" key={index} item = {item} handleEnterClass = {handleEnterClass} handleDeleteClass = {handleDeleteClass}/>  
                         ) 
                     })}
                     </div>

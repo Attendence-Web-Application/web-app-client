@@ -45,11 +45,11 @@ const LoginComponent = () => {
             if (token.type === "professor") {
                 setType(token.type);
                 sessionStorage.setItem('type', token.type);
-                history.push('/professorhome');
+                history.push('/homepage');
             } else if (token.type === "student") {
                 setType(token.type);
                 sessionStorage.setItem('type', token.type);
-                history.push('/studenthome');
+                history.push('/homepage');
             }
         } else {
             setIsAuthenticated(false);

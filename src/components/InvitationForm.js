@@ -17,7 +17,7 @@ const InvitationForm = ({handleSubmit}) => {
                     <input id="classroom" type="text" placeholder="Classroom" onChange={handleClassChange}></input>
                     <br/>
                     {/* <label htmlFor="code">Code: </label> */}
-                    <input id="code" type="text" placeholder="Invitation code" onChange={handleCodeChange}></input>
+                    <input id="code" type="text" placeholder="Invitation code"onChange={handleCodeChange} ></input>
                 </div>
                 <div className='button_div'>
                     <button type="submit" className='form_btn submit'>Submit</button>

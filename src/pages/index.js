@@ -1,11 +1,9 @@
 import Home from './HomePage';
-import ProfessorHomePage from './ProfessorHomePage';
-import StudentHomePage from './StudentHomePage';
+import UserHome from './UserHomePage';
 import Error from './ErrorPage';
 import Register from './RegisterPage'
 import Login from "./LoginPage"
-import ProfessorPrivateRoute from "./ProfessorPrivateRoute";
-import StudentPrivateRoute from "./StudentPrivateRoute";
+import UserHomePrivateRoute from './UserHomePrivateRoute'
 
 
-export { Home, Error, Register, Login, ProfessorHomePage, StudentHomePage, ProfessorPrivateRoute, StudentPrivateRoute };
+export { Home, Error, Register, Login, UserHome, UserHomePrivateRoute };

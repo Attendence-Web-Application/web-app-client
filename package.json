@@ -15,6 +15,7 @@
     "dotenv": "^8.2.0",
     "focus-trap-react": "^8.9.2",
     "react": "^17.0.1",
+    "react-datepicker": "^4.7.0",
     "react-dom": "^17.0.1",
     "react-icons": "^3.11.0",
     "react-router-dom": "^5.2.0",
