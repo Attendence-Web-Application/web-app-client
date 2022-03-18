@@ -19,7 +19,7 @@ async function loginUser(email, password) {
 
 const LoginComponent = () => {
     const history = useHistory();
-    const {setIsAuthenticated, setType, setToken } = useContext(AttendanceContext);
+    const {setIsAuthenticated, setType, setToken, setUserId, setName } = useContext(AttendanceContext);
     
 
     const [email, setEmail] = useState('');;
@@ -41,7 +41,11 @@ const LoginComponent = () => {
             setToken(token.token)
             setIsAuthenticated(true);
             setIsPasswordCorrect(true);
+            setUserId(token.id);
+            setName(token.name);
             sessionStorage.setItem('token', token.token);
+            sessionStorage.setItem('id', token.id);
+            sessionStorage.setItem('name', token.name);
             if (token.type === "professor") {
                 setType(token.type);
                 sessionStorage.setItem('type', token.type);

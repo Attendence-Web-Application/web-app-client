@@ -8,9 +8,12 @@ import NavBar from './NavBar';
 const DELETE_CLASS_URL = 'http://localhost:8080/class_enrolled/getClassEnroll/'
 const Classrooms = ({ classrooms, setClassrooms }) => {
 
-    const [isLogin, setIsLogin] = useState(false);
-    const [isStudent, setIsStudent] = useState(false);
-    const curUserId = localStorage.getItem('id');
+    const token = sessionStorage.getItem('token');
+    const type = sessionStorage.getItem('type');
+    const [isLogin, setIsLogin] = useState(token);
+    const [isStudent, setIsStudent] = useState(type === "student");
+    const curUserId = sessionStorage.getItem('id');
+
     const handleEnterClass = (id) => {
         console.log("enter into ", id);
     }
@@ -33,23 +36,23 @@ const Classrooms = ({ classrooms, setClassrooms }) => {
         setIsLogin(false)
     }
     useEffect(() => {
-        console.log(localStorage.getItem('user'))
-       if (localStorage.getItem('user') == null) {
+        console.log(sessionStorage.getItem('id'))
+       if (sessionStorage.getItem('id') == null) {
             setIsLogin(false);
        }
        else {
             setIsLogin(true);
        }
 
-       if (localStorage.getItem('type') === 'student') {
-            console.log(localStorage.getItem('type'));
-            setIsStudent(true);
-       }
-       else if (localStorage.getItem('type') === 'professor') {
-           console.log(localStorage.getItem('type'));
-           setIsStudent(false);
-       }
-    }, [localStorage.getItem('user')]);
+    //    if (sessionStorage.getItem('type') === 'student') {
+    //         console.log(localStorage.getItem('type'));
+    //         setIsStudent(true);
+    //    }
+    //    else if (localStorage.getItem('type') === 'professor') {
+    //        console.log(localStorage.getItem('type'));
+    //        setIsStudent(false);
+    //    }
+    }, [sessionStorage.getItem('id')]);
 
     return (
             <React.Fragment>

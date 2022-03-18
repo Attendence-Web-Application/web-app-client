@@ -38,7 +38,7 @@ const AddClassroomStudent = ({classrooms, setClassrooms}) => {
     const [isShowNotExist, setIsShowNotExist] = useState(false);
     const [isCreated, setIsCreated] = useState(false);
     const [existCourse, setExistCourse] = useState('');
-    const curUserId = parseInt(localStorage.getItem('id'));
+    const curUserId = parseInt(sessionStorage.getItem('id'));
     console.log(classrooms);
     const handleClick = () => {
         setIsShowForm(true);

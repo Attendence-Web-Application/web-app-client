@@ -56,7 +56,7 @@ const AddClassroomProfessor = ({classrooms, setClassrooms}) => {
     let newClass;
 
     const classes = useStyles();
-    const curUserId = parseInt(localStorage.getItem('id'));
+    const curUserId = parseInt(sessionStorage.getItem('id'));
 
     //show the dialog when clicking on creating classroom
     const handleClick = () => {
