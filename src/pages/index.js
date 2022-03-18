@@ -1,8 +1,9 @@
 import Home from './HomePage';
-import Test from './TestPage';
+import UserHome from './UserHomePage';
 import Error from './ErrorPage';
 import Register from './RegisterPage'
-import SignIn from './SignInPage'
+import Login from "./LoginPage"
+import UserHomePrivateRoute from './UserHomePrivateRoute'
 
 
-export { Home, Test, Error, Register, SignIn };
+export { Home, Error, Register, Login, UserHome, UserHomePrivateRoute };

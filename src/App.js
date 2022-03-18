@@ -1,31 +1,30 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import styled from 'styled-components'
 
-import { Home, SignIn, Register, Test, Error } from './pages'
-
+import { Home, Login, Register, Error, UserHome, UserHomePrivateRoute } from './pages'
 
 
 function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/">
-          <Home />
+        <Route path="/" exact={true}>
+           <Home />
         </Route>
-        <Route exact path="/signin">
-          <SignIn />
+        <UserHomePrivateRoute path="/homepage" exact={true}>
+          <UserHome />
+        </UserHomePrivateRoute>
+        <Route path="/login">
+          <Login />
         </Route>
-        <Route exact path="/register">
+        <Route path="/register">
           <Register />
-        </Route>
-        <Route exact path="/test">
-          <Test />
         </Route>
         <Route path="*">
           <Error />
         </Route>
       </Switch>
+
     </Router>
   );
 }
