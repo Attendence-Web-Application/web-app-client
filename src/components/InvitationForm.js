@@ -1,20 +1,44 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components'
+
+const GET_ALL_CLASS = 'http://localhost:8080/class/getAll'
+
 const InvitationForm = ({handleSubmit}) => {
+    const [classroomList, setClassroomList] = useState([]);
     const [classroom, setClassroom] = useState('');
     const [code, setCode] = useState('');
-    const handleClassChange = (e) => {
-        setClassroom(e.target.value);
-    }
     const handleCodeChange = (e) => {
         setCode(e.target.value);
     }
+    const classroomChange = (e) => {
+        setClassroom(e.target.value)
+    }
+
+    const fetchData = async () => {
+        try {
+            const response = await fetch(GET_ALL_CLASS, {mode:'cors'});
+            const data = await response.json();
+            setClassroomList(data)
+            setClassroom(data[0].title)
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }
+    useEffect(() => {
+        fetchData();
+    }, [])
+
     return (
         <Wrapper>
             <form onSubmit={handleSubmit} className='add_box'>
                 <div className='user_box'>
                     {/* <label htmlFor="classroom">Class </label> */}
-                    <input id="classroom" type="text" placeholder="Classroom" onChange={handleClassChange}></input>
+                    <select value={classroom} onChange={classroomChange}>
+                        {classroomList.map((classroomItem) => {
+                            return <option value={classroomItem.title} key={classroomItem.id}>{classroomItem.title}</option>
+                        })}
+                    </select>
                     <br/>
                     {/* <label htmlFor="code">Code: </label> */}
                     <input id="code" type="text" placeholder="Invitation code"onChange={handleCodeChange} ></input>
@@ -39,7 +63,7 @@ const Wrapper = styled.main`
     position: relative;
     margin: 0 auto;
   }
-  .user_box input{
+  .user_box input, select{
     font-size: 20px;
     color: #fff;
     margin: 20px;
@@ -51,7 +75,7 @@ const Wrapper = styled.main`
     height: 50px;
     text-indent: 10px;
   }
-  .user_box input:focus{
+  .user_box input:focus, select:focus{
       border: 1px solid #6167f3;
       border-radius: 8px;
       background: #313033;

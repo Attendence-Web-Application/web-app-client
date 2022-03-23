@@ -63,7 +63,7 @@ const UserHomePage = () => {
         <React.Fragment> 
           {/* <NavBar/>
           <NewClassroom/> */}
-            <h1 className='title' style={{color: "white"}}>student</h1>
+            {/* <h1 className='title' style={{color: "white"}}>student</h1> */}
             <Classrooms classrooms={classrooms} setClassrooms={setClassrooms} />
         </React.Fragment>
       </Wrapper>)
