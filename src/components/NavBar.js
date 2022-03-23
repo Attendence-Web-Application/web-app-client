@@ -6,13 +6,13 @@ const NavBar = ({props}) => { //or destruct the props: {total}
     const [isLogin, setLogin] = useState(false);
 
     const logout = () => {
-        localStorage.clear();
+        sessionStorage.clear();
         setUser('')
         setLogin(false);
         props();
     }
     useEffect(() => {
-        const users = localStorage.getItem('user');
+        const users = sessionStorage.getItem('name');
         if (users !== null) {
             setUser(users);
             setLogin(true);

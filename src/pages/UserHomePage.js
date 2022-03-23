@@ -14,9 +14,9 @@ const UserHomePage = () => {
   const isProfessor = token && type === "professor";
   const isStudent = token && type === "student"
 
-  const [user, setUser] = useState(localStorage.getItem('user'));
+  // const [user, setUser] = useState(sessionStorage.getItem('user'));
   const [classrooms, setClassrooms] = useState([]);
-  const curUserId = parseInt(localStorage.getItem("id"));
+  const curUserId = parseInt(sessionStorage.getItem("id"));
 
   const fetchClass = async (classId) => {
       let classArr = [];
@@ -41,7 +41,7 @@ const UserHomePage = () => {
   }
   useEffect(() => {
        fetchData();
-    }, [user]);
+    }, [curUserId]);
 
 
   return (
@@ -52,7 +52,7 @@ const UserHomePage = () => {
         <React.Fragment>
           {/* <NavBar/>
           <NewClassroom/> */}
-            <h1 className='title'>professor</h1>
+            <h1 className='title' style={{color: "white"}}>professor</h1>
             <Classrooms classrooms={classrooms} setClassrooms={setClassrooms} />
         </React.Fragment>
         </Wrapper>)
@@ -63,7 +63,7 @@ const UserHomePage = () => {
         <React.Fragment> 
           {/* <NavBar/>
           <NewClassroom/> */}
-            <h1 className='title'>student</h1>
+            <h1 className='title' style={{color: "white"}}>student</h1>
             <Classrooms classrooms={classrooms} setClassrooms={setClassrooms} />
         </React.Fragment>
       </Wrapper>)
@@ -78,7 +78,7 @@ const UserHomePage = () => {
 const Wrapper = styled.main`
   background-color: #1f2125;
   backgroundSize: 'cover',
-  .title{
+  h1{
     color:white;
   }
 }

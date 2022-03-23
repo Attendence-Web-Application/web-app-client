@@ -7,8 +7,10 @@ const AttendanceProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [type, setType] = useState();
     const [token, setToken] = useState();
+    const [id, setUserId] = useState();
+    const [name, setName] = useState();
 
-    return <AttendanceContext.Provider value={{isAuthenticated, setIsAuthenticated, type, setType, token, setToken}}>
+    return <AttendanceContext.Provider value={{isAuthenticated, setIsAuthenticated, type, setType, token, setToken, id, setUserId, name, setName}}>
         {children}
     </AttendanceContext.Provider>
 }
