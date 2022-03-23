@@ -6,12 +6,28 @@ import { VscLock } from "react-icons/vsc";
 import Loading from '../components/Loading';
 import { Link } from 'react-router-dom'
 
+async function checkInfoValid(email, name) {
+    return fetch('http://localhost:8080/user/checkInfoValid', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email: email, 
+            name: name
+        })
+    })
+    .then(data => data.json())
+}
+
 const RegisterPage = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [type, setType] = useState('professor');
   const [loading, setLoading] = useState(false);
+  const [usernameValid, setUsernameValid] = useState(true);
+  const [emailValid, setEmailValid] = useState(true);
 
 
   const usernameChange = (e) => {
@@ -26,7 +42,7 @@ const RegisterPage = () => {
   const typeChange = (e) => {
     setType(e.target.value)
   }
-  const handleCreate = (e) => {
+  const handleCreate = async e => {
     var role_id;
     if (type === "Professor") {
       role_id = 1;
@@ -34,19 +50,35 @@ const RegisterPage = () => {
       role_id = 2;
     }
     e.preventDefault()
-    fetch('http://localhost:8080/user/createUser', {
-      method: 'POST',
-      body: JSON.stringify({ name: username, password: password, email: email, role_id: role_id }),
-      headers: { 'Content-Type': 'application/json' },
-    })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(res.statusText)
-        }
-        setLoading(true);
-        return res.json()
+
+    const status = await checkInfoValid(email, username);
+    console.log("Status", status.email, status.name);
+    if (status.email && status.name) {
+      fetch('http://localhost:8080/user/createUser', {
+        method: 'POST',
+        body: JSON.stringify({ name: username, password: password, email: email, role_id: role_id }),
+        headers: { 'Content-Type': 'application/json' },
       })
-      .catch(err => {console.log(err);})
+        .then(res => {
+          if (!res.ok) {
+            throw new Error(res.statusText)
+          }
+          setLoading(true);
+          return res.json()
+        })
+        .catch(err => {console.log(err);})
+    } else if (!status.email && !status.name) {
+      setUsernameValid(false);
+      setEmailValid(false);
+    } else if (!status.email) {
+      setUsernameValid(true);
+      setEmailValid(false);
+    }else if (!status.name) {
+      setUsernameValid(false);
+      setEmailValid(true);
+    }
+
+    
   }
   if (loading) {
     return <Loading setLoading={setLoading} />;
@@ -67,7 +99,9 @@ const RegisterPage = () => {
             <p>Already A Member? <Link to="/login" className='login'>Log In</Link></p>
             <form className='input_section'>
               <input type="text" placeholder='Username' onChange={usernameChange} value={username} required />
+              {!usernameValid && <p className='error-msg'>Username is already in use.</p>}
               <input type="email" placeholder='Email' onChange={emailChange} value={email} required />
+              {!emailValid && <p className='error-msg'>Email address is already in use.</p>}
               <input type="password" placeholder='Password' onChange={passwordChange} value={password} required />
               <select value={type} onChange={typeChange}>
                 <option value="professor" selected>Professor</option>
@@ -108,12 +142,19 @@ const Wrapper = styled.main`
     text-decoration:none;
     transition: 0.3s;
   }
-  
+  form{
+    margin: 0 auto;
+    width: 280px;
+  }
+  .error-msg{
+    float:left;
+    color: red;
+  }
   input, select {
     display: block;
     background-color: #2c3038;
     margin: 0 auto;
-    margin-bottom: 1.20em;
+    
     margin-top: 30px;
     width: 280px;
     border: none; 
@@ -140,7 +181,7 @@ const Wrapper = styled.main`
     width: 280px;
     height: 40px;
     border-radius: 5px;
-    margin-top: 10px;
+    margin-top: 40px;
     color: white;
     font-weight: bold;
     cursor: pointer;

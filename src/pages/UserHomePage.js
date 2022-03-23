@@ -60,7 +60,7 @@ const UserHomePage = () => {
       (isStudent
         &&
       <Wrapper>
-        <React.Fragment>
+        <React.Fragment> 
           {/* <NavBar/>
           <NewClassroom/> */}
             <h1 className='title'>student</h1>
