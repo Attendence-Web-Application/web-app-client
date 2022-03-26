@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
-import { Home, Login, Register, Error, UserHome, UserHomePrivateRoute } from './pages'
+import { Home, Login, Register, Error, UserHome, UserHomePrivateRoute, ProfessorClassroom } from './pages'
 
 
 function App() {
@@ -19,6 +19,9 @@ function App() {
         </Route>
         <Route path="/register">
           <Register />
+        </Route>
+        <Route path="/professorClassroom">
+          <ProfessorClassroom/>
         </Route>
         <Route path="*">
           <Error />

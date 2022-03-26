@@ -1,7 +1,7 @@
 import React, { Component, useState, useContext, useReducer, useEffect } from 'react';
 import lockerImage from '../assets/locker.png'
 import { Link } from 'react-router-dom'
-const NavBar = ({props}) => { //or destruct the props: {total}
+const NavBar = () => { //or destruct the props: {total}
     const [user, setUser] = useState('');
     const [isLogin, setLogin] = useState(false);
 
@@ -9,7 +9,6 @@ const NavBar = ({props}) => { //or destruct the props: {total}
         sessionStorage.clear();
         setUser('')
         setLogin(false);
-        props();
     }
     useEffect(() => {
         const users = sessionStorage.getItem('name');

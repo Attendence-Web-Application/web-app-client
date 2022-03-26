@@ -56,7 +56,7 @@ const Classrooms = ({ classrooms, setClassrooms }) => {
 
     return (
             <React.Fragment>
-                <NavBar props={clearState}/>
+                <NavBar/>
                 <ButtonWrapper>
                     {isLogin && (isStudent && <AddClassroomStudent classrooms={classrooms} setClassrooms={setClassrooms}/>)} ||
                     {isLogin && (!isStudent && <AddClassroomProfessor classrooms={classrooms} setClassrooms={setClassrooms}/>)}
