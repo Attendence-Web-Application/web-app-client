@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import styled from 'styled-components'
 import Tab from "./Tab";
 import AttendenceRecordTable from "./AttendenceRecordTable";
+import StudentAttendanceTable from "./StudentAttedanceTable";
 
 const Tabs = ({classNumber, classId, tabContent}) => {
     const tabValues = ['Attendence Records', 'Student Attendence Rate'];
@@ -27,7 +28,8 @@ const Tabs = ({classNumber, classId, tabContent}) => {
                     else return undefined;
                 })} */}
                 {
-                    activeTab === 0 ? <AttendenceRecordTable classNumber={classNumber} classId={classId}/> : tabContent[0]
+                    activeTab === 0 ? <AttendenceRecordTable classNumber={classNumber} classId={classId}/> : 
+                    <StudentAttendanceTable classNumber={classNumber} classId={classId}/>
                 }
             </div>
         </Wrapper>

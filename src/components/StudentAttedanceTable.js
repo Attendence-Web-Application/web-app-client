@@ -1,33 +1,94 @@
 import React, {useEffect, useState} from "react";
-import { Paper, TableCell, TableContainer, TableHead, TableRow, Table, TableBody, TablePagination } from "@material-ui/core";
+import { Paper, TableCell, TableContainer, TableHead, TableRow, Table, TableBody, TablePagination, useEventCallback } from "@material-ui/core";
 import { useLocation } from "react-router";
 import styled from 'styled-components';
 import { Link } from 'react-router-dom'
-import AttendanceDetailPage from "./AttendanceDetailPage";
 
-
-const FIND_STUDENT_ID_URL = 'http://localhost:8080/class_enrolled/getClassEnroll/user';
 const FIND_ROLL_CALL_ID_URL = 'http://localhost:8080/attendanceRecord/user/';
 const FIND_ROLL_CALL_URL = 'http://localhost:8080/rollCall/';
 const FIND_ALL_USER_BY_ROLLCALL_ID = "http://localhost:8080/attendanceRecord/rollCall/";
 const FIND_STUDENT = "http://localhost:8080/user/";
-//get all ROLL_CALL_ID from "attendence_record" table, using  ROLL_CALL_ID to search in "roll_call" table, find the correpsonding class_id
-const AttendenceRecordTable = ({classNumber, classId}) => {
+const FIND_STUDENT_RATE = "http://localhost:8080/class_enrolled/getClassEnroll/"
+//read all students according to class
+const StudentAttendanceTable = ({classNumber, classId}) => {
     const curUserId = parseInt(sessionStorage.getItem("id"));
     const [record, setRecord] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(2);
-    const [isShow, setIsShow] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
     const [popup, setPopup] = useState(null);
-    var enterId = -1;
+
+    let oneRollCallId = -1;
     const columns = [
-        {id: 'Expire Time', label: 'Expire Time', minWidth: 50},
-        {id: 'Count', label: 'Count', minWidth: 50},
-        {id: 'Rate', label: 'Attendance Rate', minWidht:50},
-        {id: 'Detail', label: 'Detail', minWidth: 50},
+        {id: 'ID', label: 'ID'},
+        {id: 'Name', label: 'Name'},
+        {id: 'Rate', label: 'Attendance Rate'},
+        {id: "Times", label: 'Attendance_Times'},
+        {id: 'Detail', label: 'Detail'},
     ];
-    // console.log('record', record);
+
+    const handleChangePage = (e, newPage) => {
+        setPage(newPage);
+    }
+
+    const handleChangeRowsPerPage = (e) => {
+        setRowsPerPage(e.target.value);
+        setPage(0);
+    }
+
+    const handleEnterDetail = (id) => {
+        
+    }
+
+    const fetchAttendanceRate = async (index, classId, userId) => {
+        try {
+            console.log(FIND_STUDENT_RATE + userId + "_" + classId);
+            const response = await fetch(FIND_STUDENT_RATE + userId + "_" + classId, {mode:'cors'});
+            const data = await response.json();
+            console.log('class_enrolled', data);
+            const newRecord = [...record];
+            newRecord[index].student_attendance_rate = data.attendance_rate;
+            newRecord[index].student_attendance_time = data.attendance_times;
+            setRecord(newRecord);
+        }
+        catch(e) {
+            console.log(e);
+        }
+        
+    }
+    const fetchAllStudent = async (data) => {
+        try{
+            let counter = 0;
+            for (let i = 0; i < data.length; i++) {
+                const response = await fetch(FIND_STUDENT + data[i].id.userId, {mode:'cors'});
+                const user = await response.json();
+                if (user.role_id === 2) {
+                    // setStudent(prev => [...prev, user]);
+                    data[i].name = user.name;
+                    data[i].uid = user.id;
+                    setRecord(prev => [...prev, data[i]]);
+                    fetchAttendanceRate(counter, classId, user.id);
+                    counter++;
+                    // console.log("record", record);
+                }
+            }
+        }
+        catch(e) {
+            console.log(e);
+        } 
+    }
+    const fetchAllUser = async (rollCallId) => {
+        try{
+            const response = await fetch(FIND_ALL_USER_BY_ROLLCALL_ID + rollCallId, {mode:'cors'});
+            const data = await response.json();
+            console.log("data_", data);
+            fetchAllStudent(data);
+        }
+        catch(e) {
+            console.log(e);
+        }
+    }
+
+    //find all rollcall of current class
     const fetchRollCallByClass = async (classId, IdArr) => {
         try{
             for (let i = 0; i < IdArr.length; i++) {
@@ -35,21 +96,36 @@ const AttendenceRecordTable = ({classNumber, classId}) => {
                 const data = await response.json();
                 
                 if (data.class_id === classId) {
-                    setRecord((prev) => [...prev, data]);
+                    oneRollCallId = 3; //change a roll call id
+                    break;
+                    // setRecord((prev) => [...prev, data]);
+                    // hasRecord = true;
                 }
             }
-            setIsLoading(false);
-            console.log('data', record);
+            while (oneRollCallId == -1) {
+                console.log("waiting");
+            }
+            fetchAllUser(oneRollCallId);
+
+            // console.log("id", oneRollCallId);
+            // if (oneRollCallId != -1) {
+            //     console.log("come in");
+            //     fetchAllUser(oneRollCallId);
+            // }
+            
         }
         catch(e) {
             console.log(e);
         }
     }
+    //find all rollcall of current professor
     const fetchAllRollCallByUser = async (curUserId) => {
         try {
             const response = await fetch(FIND_ROLL_CALL_ID_URL + curUserId, {mode:'cors'});
             const data = await response.json(); //get the list of roll_call_id of current user
-            // console.log("all rollcall:", data[0])
+            console.log("all rollcall:", data[0])
+            // const myPromise = new Promise(fetchRollCallByClass(classId, data));
+            // myPromise.then(fetchAllUser(oneRollCallId));
             fetchRollCallByClass(classId, data);
         }
         catch (e) {
@@ -57,22 +133,12 @@ const AttendenceRecordTable = ({classNumber, classId}) => {
         }
     }
 
-    const handleEnterDetail = (rollcallId) => {
-        setPopup(<AttendanceDetailPage setPopup = {setPopup} rollCallId={rollcallId}/>)
-    }
-    const handleChangePage = (e, newPage) => {
-        setPage(newPage);
-    }
-    
-    const handleChangeRowsPerPage = (e) => {
-        setRowsPerPage(e.target.value);
-        setPage(0);
-    }
     useEffect(() => {
         setRecord([]);
-       fetchAllRollCallByUser(curUserId);
+        fetchAllRollCallByUser(curUserId);
     }, [curUserId]);
 
+    console.log("record", record);
     return (
         <Wrapper>
             <TableContainer className="table_container">
@@ -81,7 +147,7 @@ const AttendenceRecordTable = ({classNumber, classId}) => {
                         <TableRow>
                             {
                               columns.map((column) => (
-                                <TableCell className="table_cell" key={column.id} align={column.align} >
+                                <TableCell className="table_cell" key={column.id}>
                                     {column.label}
                                 </TableCell>
                               ))  
@@ -89,7 +155,7 @@ const AttendenceRecordTable = ({classNumber, classId}) => {
                         </TableRow>
                     </TableHead>
                     {
-                        !isLoading && <TableBody className="table_body">
+                        <TableBody className="table_body">
                         {
                              record.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                                 console.log("row", row);
@@ -98,9 +164,10 @@ const AttendenceRecordTable = ({classNumber, classId}) => {
                                     <TableRow className="body_row" key={row.id}>
                                         {columns.map((column) => {
                                             const value = column;
-                                            if (value.id == 'Expire Time') return (<TableCell className="table_cell">{row.expired_times}</TableCell>);
-                                            else if (value.id == 'Count') return (<TableCell className="table_cell">{row.attendance_count}</TableCell>);
-                                            else if (value.id == 'Rate') return (<TableCell className="table_cell">{row.attendance_rate}</TableCell>);
+                                            if (value.id == 'ID') return (<TableCell className="table_cell">{row.uid}</TableCell>);
+                                            else if (value.id == 'Name') return (<TableCell className="table_cell">{row.name}</TableCell>);
+                                            else if (value.id == 'Rate') return (<TableCell className="table_cell">{row.student_attendance_rate}</TableCell>);
+                                            else if (value.id == 'Times') return (<TableCell className="table_cell">{row.student_attendance_time}</TableCell>);
                                             else return (<TableCell className="table_cell"><button className='table_btn' onClick={() => handleEnterDetail(row.id)}>Enter</button></TableCell>);
                                         })}
                                     </TableRow>
@@ -118,7 +185,8 @@ const AttendenceRecordTable = ({classNumber, classId}) => {
             <TablePagination className="table_pagination" rowsPerPageOptions={[2, 25, 100]} count={record.length} component="div" rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage }/>
             
         </Wrapper>
-    )
+    );
+
 }
 
 const Wrapper = styled.main`
@@ -163,4 +231,4 @@ const Wrapper = styled.main`
        background-color: #353a3f;
     }
 `
-export default AttendenceRecordTable;
+export default StudentAttendanceTable;

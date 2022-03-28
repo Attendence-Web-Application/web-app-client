@@ -5,7 +5,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import CloseIcon from '@material-ui/icons/Close';
 import { IconButton } from '@material-ui/core';
-import { Paper, TableCell, TableContainer, TableHead, TableRow, Table, TableBody, TablePagination } from "@material-ui/core";
+import { Paper, TableCell, TableContainer, TableHead, TableRow, Table, TableBody, TablePagination, TableSortLabel } from "@material-ui/core";
 //display all students of the class in a specific roll call according to roll_call_id, attend or not
 
 const FIND_ALL_USER_BY_ROLLCALL_ID = "http://localhost:8080/attendanceRecord/rollCall/";
@@ -40,13 +40,17 @@ const useStyles = makeStyles(theme => ({
 
 const columns = [
     {id: 'Name', label: 'Name'},
-    {id: 'Attend', label: 'Attend'}
+    {id: 'Attend', label: 'Attend'},
+    {id: 'CheckTime', label: "CheckTime"}
 ];
 
-const StudentTable = ({student, record}) => {
+
+const StudentTable = ({record}) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(2);
-
+    const [order, setOrder] = useState('asc');
+    const [orderBy, setOrderBy] = useState('Name');
+    // var records = record;
     const handleChangePage = (e, newPage) => {
         setPage(newPage);
     }
@@ -55,6 +59,35 @@ const StudentTable = ({student, record}) => {
         setRowsPerPage(e.target.value);
         setPage(0);
     }
+
+    const createSortHandler = (property)=> {
+        console.log("property", property);
+        const isAsc = orderBy === property && order === 'asc';
+        setOrder(isAsc ? 'desc' : 'asc');
+        setOrderBy(property);
+    };
+
+    const customSort = (array) => {
+        const keyValuePair = array.map((value, index) => [value, index]);
+        keyValuePair.sort((a, b) => {
+            let res;
+            if (orderBy === 'Name') {
+                res = a[0].name < b[0].name ? -1 : a[0].name > b[0].name ? 1 : 0;
+            }
+            else if (orderBy === 'Attend') {
+                res = a[0].check_status < b[0].check_status ? -1 : a[0].check_status > b[0].check_status ? 1 : 0;
+            }
+            else {
+                res = a[0].check_time < b[0].check_time ? -1 : a[0].check_time > b[0].check_time ? 1 : 0;
+            }
+            if (order === 'desc') {
+                res = -res; 
+            }
+            return res;
+        });
+        return keyValuePair.map((index) => index[0]);
+    }
+
     return (
         <Wrapper>
             <TableContainer className="table_container">
@@ -63,8 +96,10 @@ const StudentTable = ({student, record}) => {
                         <TableRow>
                             {
                               columns.map((column) => (
-                                <TableCell className="table_cell large_font" key={column.id} >
-                                    {column.label}
+                                <TableCell className="table_cell large_font" key={column.id} sortDirection={orderBy === column.id ? order : false}>
+                                    <TableSortLabel className="table_cell large_font" onClick={() => createSortHandler(column.id)} active={orderBy === column.id} direction={orderBy === column.id ? order : 'asc'}>
+                                        {column.label}
+                                    </TableSortLabel>
                                 </TableCell>
                               ))  
                             }
@@ -72,16 +107,24 @@ const StudentTable = ({student, record}) => {
                     </TableHead>
                     <TableBody className="table_body">
                         {
-                            record.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+                            customSort(record)
+                            // record
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((row, index) => {
                                 return (
                                     <TableRow className="body_row" key={row.id}>
                                         {columns.map((column) => {
                                             const value = column;
                                             let attend = (row.check_status == false) ? "No": "Yes";
+                                            let checkTime = row.check_time == null ? "Not recorded" : row.check_time;
                                             //compare check_time and expire_time
                                             console.log("index", attend);
-                                            if (value.id == 'Name') return (<TableCell className="table_cell" key={index}>{student[index].name}</TableCell>);
-                                            else if (value.id == "Attend") return (<TableCell className="table_cell" key={index}>{attend}</TableCell>);
+                                            if (value.id == 'Name') {
+                                                return (<TableCell className="table_cell" key={index + "_" + value.id}>{row.name}</TableCell>);
+                                            }
+                                            
+                                            else if (value.id == "Attend") return (<TableCell className="table_cell" key={index + "_" + value.id}>{attend}</TableCell>);
+                                            else if (value.id == "CheckTime") return (<TableCell className="table_cell" key={index + "_" + value.id}>{checkTime}</TableCell>);
                                         })}
                                     </TableRow>
                                 )
@@ -96,23 +139,24 @@ const StudentTable = ({student, record}) => {
     );
 }
 
-const AttendanceDetailPage = ({isShow, setIsShow, rollCallId}) => {
-    const [student, setStudent] = useState([]);
+const AttendanceDetailPage = ({setPopup, rollCallId}) => {
+    // const [student, setStudent] = useState([]);
     const [record, setRecord] = useState([]);
-    
-
+    const [isShow, setIsShow] = useState(true);
+    console.log("rollCallId_", rollCallId);
     const handleClose = () => {
         setIsShow(false);
+        setPopup(null);
     }
     
     const fetchAllStudent = async (data) => {
         try{
             for (let i = 0; i < data.length; i++) {
-                console.log('dataid', data[i].id.userId)
                 const response = await fetch(FIND_STUDENT + data[i].id.userId, {mode:'cors'});
                 const user = await response.json();
                 if (user.role_id === 2) {
-                    setStudent(prev => [...prev, user]);
+                    // setStudent(prev => [...prev, user]);
+                    data[i].name = user.name;
                     setRecord(prev => [...prev, data[i]]);
                 }
             }
@@ -125,7 +169,7 @@ const AttendanceDetailPage = ({isShow, setIsShow, rollCallId}) => {
         try{
             const response = await fetch(FIND_ALL_USER_BY_ROLLCALL_ID + rollCallId, {mode:'cors'});
             const data = await response.json();
-            console.log("data", data);
+            // console.log("data", data);
             fetchAllStudent(data);
         }
         catch(e) {
@@ -135,13 +179,14 @@ const AttendanceDetailPage = ({isShow, setIsShow, rollCallId}) => {
 
     const classes = useStyles();
     useEffect(() => {
-        setStudent([]);
         setRecord([]);
         fetchAllUser(rollCallId);
+        // setIsLoading(false);
     }, [rollCallId]);
-    console.log("record", record);
+
+    // console.log("record", record);
     return (
-        isShow && <DialogWrapper>
+        <DialogWrapper>
             <Dialog open={isShow} onClose={!isShow} className="dialog_box">
                 <IconButton className={classes.closeBtn} onClick={handleClose}>
                     <CloseIcon/>
@@ -151,7 +196,7 @@ const AttendanceDetailPage = ({isShow, setIsShow, rollCallId}) => {
                     <DialogTitle className={classes.alignItemsAndJustifyContentTitle}>{"Attendance Details"}</DialogTitle>
                     {/* <DialogActions className={classes.alignItemsAndJustifyContentForm} style={{backgroundColor: '#3d3c40', marginBottom: '0px'}}> */}
                         {/* <CreateClassForm className={classes.alignItemsAndJustifyContentForm} handleSubmit={handleSubmit} handleCancel={handleCancel}/> */}
-                        <StudentTable student={student} record={record}/>
+                        {record.length > 0 ? <StudentTable record={record}/> : <div>No record</div>}
                         <div></div>
                     {/* </DialogActions> */}
                 </div>
@@ -188,6 +233,7 @@ const Wrapper = styled.main`
     .large_font{
         font-size: 15px;
         font-weight: bold;
+        border-width: 0px 0px 0px 0px;
     }
     .table_btn{
         background-color: #6167f3;
