@@ -3,7 +3,7 @@ import { Paper, TableCell, TableContainer, TableHead, TableRow, Table, TableBody
 import { useLocation } from "react-router";
 import styled from 'styled-components';
 import { Link } from 'react-router-dom'
-import AttendanceDetailPage from "./AttendanceDetailPage";
+import AttendanceDetailBySession from "./AttendanceDetailBySession";
 
 
 const FIND_STUDENT_ID_URL = 'http://localhost:8080/class_enrolled/getClassEnroll/user';
@@ -12,13 +12,13 @@ const FIND_ROLL_CALL_URL = 'http://localhost:8080/rollCall/';
 const FIND_ALL_USER_BY_ROLLCALL_ID = "http://localhost:8080/attendanceRecord/rollCall/";
 const FIND_STUDENT = "http://localhost:8080/user/";
 //get all ROLL_CALL_ID from "attendence_record" table, using  ROLL_CALL_ID to search in "roll_call" table, find the correpsonding class_id
-const AttendenceRecordTable = ({classNumber, classId}) => {
+const AttendenceRecordTable = ({classNumber, classId, record}) => {
     const curUserId = parseInt(sessionStorage.getItem("id"));
-    const [record, setRecord] = useState([]);
+    // const [record, setRecord] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(2);
     const [isShow, setIsShow] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
+    // const [isLoading, setIsLoading] = useState(true);
     const [popup, setPopup] = useState(null);
     var enterId = -1;
     const columns = [
@@ -27,38 +27,9 @@ const AttendenceRecordTable = ({classNumber, classId}) => {
         {id: 'Rate', label: 'Attendance Rate', minWidht:50},
         {id: 'Detail', label: 'Detail', minWidth: 50},
     ];
-    // console.log('record', record);
-    const fetchRollCallByClass = async (classId, IdArr) => {
-        try{
-            for (let i = 0; i < IdArr.length; i++) {
-                const response = await fetch(FIND_ROLL_CALL_URL + IdArr[i], {mode:'cors'});
-                const data = await response.json();
-                
-                if (data.class_id === classId) {
-                    setRecord((prev) => [...prev, data]);
-                }
-            }
-            setIsLoading(false);
-            console.log('data', record);
-        }
-        catch(e) {
-            console.log(e);
-        }
-    }
-    const fetchAllRollCallByUser = async (curUserId) => {
-        try {
-            const response = await fetch(FIND_ROLL_CALL_ID_URL + curUserId, {mode:'cors'});
-            const data = await response.json(); //get the list of roll_call_id of current user
-            // console.log("all rollcall:", data[0])
-            fetchRollCallByClass(classId, data);
-        }
-        catch (e) {
-            console.log(e)
-        }
-    }
 
     const handleEnterDetail = (rollcallId) => {
-        setPopup(<AttendanceDetailPage setPopup = {setPopup} rollCallId={rollcallId}/>)
+        setPopup(<AttendanceDetailBySession setPopup = {setPopup} rollCallId={rollcallId}/>)
     }
     const handleChangePage = (e, newPage) => {
         setPage(newPage);
@@ -68,10 +39,10 @@ const AttendenceRecordTable = ({classNumber, classId}) => {
         setRowsPerPage(e.target.value);
         setPage(0);
     }
-    useEffect(() => {
-        setRecord([]);
-       fetchAllRollCallByUser(curUserId);
-    }, [curUserId]);
+    // useEffect(() => {
+    //     setRecord([]);
+    //    fetchAllRollCallByUser(curUserId);
+    // }, [curUserId]);
 
     return (
         <Wrapper>
@@ -81,7 +52,7 @@ const AttendenceRecordTable = ({classNumber, classId}) => {
                         <TableRow>
                             {
                               columns.map((column) => (
-                                <TableCell className="table_cell" key={column.id} align={column.align} >
+                                <TableCell className="table_cell" key={column.id} >
                                     {column.label}
                                 </TableCell>
                               ))  
@@ -89,7 +60,7 @@ const AttendenceRecordTable = ({classNumber, classId}) => {
                         </TableRow>
                     </TableHead>
                     {
-                        !isLoading && <TableBody className="table_body">
+                        <TableBody className="table_body">
                         {
                              record.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                                 console.log("row", row);

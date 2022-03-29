@@ -1,17 +1,61 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import styled from 'styled-components'
 import Tab from "./Tab";
 import AttendenceRecordTable from "./AttendenceRecordTable";
 import StudentAttendanceTable from "./StudentAttedanceTable";
 
+
+const FIND_ROLL_CALL_ID_URL = 'http://localhost:8080/attendanceRecord/user/';
+const FIND_ROLL_CALL_URL = 'http://localhost:8080/rollCall/';
 const Tabs = ({classNumber, classId, tabContent}) => {
+    const curUserId = parseInt(sessionStorage.getItem("id"));
     const tabValues = ['Attendence Records', 'Student Attendence Rate'];
     const [activeTab, setActiveTab] = useState(0);
+    const [record, setRecord] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     console.log(tabContent);
     const handleOnClickTab = (tab) => {
         setActiveTab(tab);
     }
+
+    //get all roll call record of this class
+    const fetchRollCallByClass = async (classId, IdArr) => {
+        try{
+            for (let i = 0; i < IdArr.length; i++) {
+                const response = await fetch(FIND_ROLL_CALL_URL + IdArr[i].id.rollCallId, {mode:'cors'});
+                const data = await response.json();
+                if (data.class_id === classId) {
+                    setRecord((prev) => [...prev, data]);
+                }
+            }
+            setIsLoading(false);
+            console.log('data', record);
+        }
+        catch(e) {
+            console.log(e);
+        }
+    }
+
+    //get all roll call of this professor
+    const fetchAllRollCallByUser = async (curUserId) => {
+        try {
+            const response = await fetch(FIND_ROLL_CALL_ID_URL + curUserId, {mode:'cors'});
+            const data = await response.json(); //get the list of roll_call_id of current user
+            // console.log("all rollcall:", data[0])
+            fetchRollCallByClass(classId, data);
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }
+
+    useEffect(() => {
+        setRecord([]);
+       fetchAllRollCallByUser(curUserId);
+    }, [curUserId]);
+
     return (
+        !isLoading && 
         <Wrapper>
             <div className="tab_list_div">
                 <ul className="tab_list">
@@ -28,13 +72,11 @@ const Tabs = ({classNumber, classId, tabContent}) => {
                     else return undefined;
                 })} */}
                 {
-                    activeTab === 0 ? <AttendenceRecordTable classNumber={classNumber} classId={classId}/> : 
-                    <StudentAttendanceTable classNumber={classNumber} classId={classId}/>
+                    activeTab === 0 ? <AttendenceRecordTable classNumber={classNumber} classId={classId} record = {record}/> : 
+                    <StudentAttendanceTable classNumber={classNumber} classId={classId} record = {record}/>
                 }
             </div>
-        </Wrapper>
-        
-            
+        </Wrapper> 
     );
 }
 

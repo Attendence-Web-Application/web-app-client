@@ -1,50 +1,12 @@
-import React, {useEffect, useState} from "react";
-import { makeStyles } from '@material-ui/core/styles';
+import React, {useState} from "react";
+import {Paper, TableCell, TableContainer, TableHead, TableRow, Table, TableBody, TablePagination, TableSortLabel } from "@material-ui/core";
 import styled from 'styled-components';
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import CloseIcon from '@material-ui/icons/Close';
-import { IconButton } from '@material-ui/core';
-import { Paper, TableCell, TableContainer, TableHead, TableRow, Table, TableBody, TablePagination, TableSortLabel } from "@material-ui/core";
-//display all students of the class in a specific roll call according to roll_call_id, attend or not
-
-const FIND_ALL_USER_BY_ROLLCALL_ID = "http://localhost:8080/attendanceRecord/rollCall/";
-const FIND_STUDENT = "http://localhost:8080/user/";
-const useStyles = makeStyles(theme => ({
-  paper: {
-    overflowY: 'unset',
-  },
-  closeBtn: {
-    position: 'absolute',
-    left: '90%',
-    top: '0%',
-    backgroundColor: '#3d3c40',
-    color: 'white',
-  },
-  alignItemsAndJustifyContentTitle: {
-    width: 500 + 'px',
-    display: 'flex',
-    justifyContent: 'left',   
-    backgroundColor: '#3d3c40',
-    color: 'white',
-  },
-  alignItemsAndJustifyContentForm: {
-    width: 500 + 'px',
-    display: 'flex',
-    alignItems: 'left',
-    justifyContent: 'center',
-    backgroundColor: '#3d3c40',
-    color: 'white',
-  },
-}))
 
 const columns = [
     {id: 'Name', label: 'Name'},
     {id: 'Attend', label: 'Attend'},
     {id: 'CheckTime', label: "CheckTime"}
 ];
-
-
 const StudentTable = ({record}) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(2);
@@ -114,17 +76,15 @@ const StudentTable = ({record}) => {
                                 return (
                                     <TableRow className="body_row" key={row.id}>
                                         {columns.map((column) => {
-                                            const value = column;
                                             let attend = (row.check_status == false) ? "No": "Yes";
                                             let checkTime = row.check_time == null ? "Not recorded" : row.check_time;
                                             //compare check_time and expire_time
                                             console.log("index", attend);
-                                            if (value.id == 'Name') {
-                                                return (<TableCell className="table_cell" key={index + "_" + value.id}>{row.name}</TableCell>);
+                                            if (column.id == 'Name') {
+                                                return (<TableCell className="table_cell" key={index + "_" + column.id}>{row.name}</TableCell>);
                                             }
-                                            
-                                            else if (value.id == "Attend") return (<TableCell className="table_cell" key={index + "_" + value.id}>{attend}</TableCell>);
-                                            else if (value.id == "CheckTime") return (<TableCell className="table_cell" key={index + "_" + value.id}>{checkTime}</TableCell>);
+                                            else if (column.id == "Attend") return (<TableCell className="table_cell" key={index + "_" + column.id}>{attend}</TableCell>);
+                                            else if (column.id == "CheckTime") return (<TableCell className="table_cell" key={index + "_" + column.id}>{checkTime}</TableCell>);
                                         })}
                                     </TableRow>
                                 )
@@ -137,73 +97,6 @@ const StudentTable = ({record}) => {
             <TablePagination className="table_pagination" rowsPerPageOptions={[2, 25, 100]} count={record.length} component="div" rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage }/>
         </Wrapper>
     );
-}
-
-const AttendanceDetailPage = ({setPopup, rollCallId}) => {
-    // const [student, setStudent] = useState([]);
-    const [record, setRecord] = useState([]);
-    const [isShow, setIsShow] = useState(true);
-    console.log("rollCallId_", rollCallId);
-    const handleClose = () => {
-        setIsShow(false);
-        setPopup(null);
-    }
-    
-    const fetchAllStudent = async (data) => {
-        try{
-            for (let i = 0; i < data.length; i++) {
-                const response = await fetch(FIND_STUDENT + data[i].id.userId, {mode:'cors'});
-                const user = await response.json();
-                if (user.role_id === 2) {
-                    // setStudent(prev => [...prev, user]);
-                    data[i].name = user.name;
-                    setRecord(prev => [...prev, data[i]]);
-                }
-            }
-        }
-        catch(e) {
-            console.log(e);
-        } 
-    }
-    const fetchAllUser = async (rollCallId) => {
-        try{
-            const response = await fetch(FIND_ALL_USER_BY_ROLLCALL_ID + rollCallId, {mode:'cors'});
-            const data = await response.json();
-            // console.log("data", data);
-            fetchAllStudent(data);
-        }
-        catch(e) {
-            console.log(e);
-        }
-    }
-
-    const classes = useStyles();
-    useEffect(() => {
-        setRecord([]);
-        fetchAllUser(rollCallId);
-        // setIsLoading(false);
-    }, [rollCallId]);
-
-    // console.log("record", record);
-    return (
-        <DialogWrapper>
-            <Dialog open={isShow} onClose={!isShow} className="dialog_box">
-                <IconButton className={classes.closeBtn} onClick={handleClose}>
-                    <CloseIcon/>
-                </IconButton>
-                
-                <div style={{width: 500, margin: '0 auto'}}>
-                    <DialogTitle className={classes.alignItemsAndJustifyContentTitle}>{"Attendance Details"}</DialogTitle>
-                    {/* <DialogActions className={classes.alignItemsAndJustifyContentForm} style={{backgroundColor: '#3d3c40', marginBottom: '0px'}}> */}
-                        {/* <CreateClassForm className={classes.alignItemsAndJustifyContentForm} handleSubmit={handleSubmit} handleCancel={handleCancel}/> */}
-                        {record.length > 0 ? <StudentTable record={record}/> : <div>No record</div>}
-                        <div></div>
-                    {/* </DialogActions> */}
-                </div>
-            </Dialog>
-        </DialogWrapper>
-    );
-    
 }
 
 const Wrapper = styled.main`
@@ -276,4 +169,4 @@ justify-content: center;
     background-color: #6167f3
 }
 `
-export default AttendanceDetailPage;
+export default StudentTable;

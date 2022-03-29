@@ -2,10 +2,14 @@ import React from "react";
 import styled from 'styled-components';
 
 const RollCall = () => {
+    //insert a record into 
+    const handleClick = () => {
+
+    }
     return (
         <Wrapper>
             <p className="label">Your Classrooms</p>
-            <button type="button" className="btn btn-dark" id='btn-render' >Start Roll Call</button>
+            <button type="button" className="btn btn-dark" id='btn-render' onClick={handleClick}>Start Roll Call</button>
         </Wrapper>
     );
 }
