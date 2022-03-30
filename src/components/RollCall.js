@@ -1,10 +1,24 @@
 import React from "react";
 import styled from 'styled-components';
 
-const RollCall = () => {
+const FIND_ALL_STUDENTS = "http://localhost:8080/"
+const FIND_ALL_ENROLL_RECORD = "http://localhost:8080/class_enrolled/getClassEnroll/class"
+
+const RollCall = ({classId}) => {
+
+    const getAllEnrollRecord = async () => {
+        try {
+            const response = await fetch(FIND_ALL_ENROLL_RECORD + classId, {mode: "cors"});
+            const data = await response.json();
+            console.log("enroll", data);
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
     //insert a record into 
     const handleClick = () => {
-
+        getAllEnrollRecord();
     }
     return (
         <Wrapper>

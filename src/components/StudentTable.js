@@ -7,6 +7,7 @@ const columns = [
     {id: 'Attend', label: 'Attend'},
     {id: 'CheckTime', label: "CheckTime"}
 ];
+
 const StudentTable = ({record}) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(2);
@@ -68,29 +69,26 @@ const StudentTable = ({record}) => {
                         </TableRow>
                     </TableHead>
                     <TableBody className="table_body">
-                        {
-                            customSort(record)
-                            // record
-                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((row, index) => {
-                                return (
-                                    <TableRow className="body_row" key={row.id}>
-                                        {columns.map((column) => {
-                                            let attend = (row.check_status == false) ? "No": "Yes";
-                                            let checkTime = row.check_time == null ? "Not recorded" : row.check_time;
-                                            //compare check_time and expire_time
-                                            console.log("index", attend);
-                                            if (column.id == 'Name') {
-                                                return (<TableCell className="table_cell" key={index + "_" + column.id}>{row.name}</TableCell>);
-                                            }
-                                            else if (column.id == "Attend") return (<TableCell className="table_cell" key={index + "_" + column.id}>{attend}</TableCell>);
-                                            else if (column.id == "CheckTime") return (<TableCell className="table_cell" key={index + "_" + column.id}>{checkTime}</TableCell>);
-                                        })}
-                                    </TableRow>
-                                )
-                            }
-                        )
+                        {customSort(record)
+                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        .map((row, index) => {
+                            return (
+                                <TableRow className="body_row" key={row.id}>
+                                    {columns.map((column) => {
+                                        let attend = (row.check_status == false) ? "No": "Yes";
+                                        let checkTime = row.check_time == null ? "Not recorded" : row.check_time;
+                                        //compare check_time and expire_time
+                                        console.log("index", attend);
+                                        if (column.id == 'Name') {
+                                            return (<TableCell className="table_cell" key={index + "_" + column.id}>{row.name}</TableCell>);
+                                        }
+                                        else if (column.id == "Attend") return (<TableCell className="table_cell" key={index + "_" + column.id}>{attend}</TableCell>);
+                                        else if (column.id == "CheckTime") return (<TableCell className="table_cell" key={index + "_" + column.id}>{checkTime}</TableCell>);
+                                    })}
+                                </TableRow>
+                            )
                         }
+                    )}
                     </TableBody>
                 </Table>
             </TableContainer>
@@ -149,24 +147,24 @@ const Wrapper = styled.main`
     }
 `
 const DialogWrapper = styled.main`
-width: 500px;
-.login{
-text-decoration:none;
-transition: 0.3s;
-color: white;
-}
-.custom-flex-justify-center{
-display: flex;
-align-items: center;
-justify-content: center;
-// text-align:center;
-}
-.close_btn{
-    position: absolute;
-    left: 95%;
-    top: -9%;
+    width: 500px;
+    .login{
+    text-decoration:none;
+    transition: 0.3s;
     color: white;
-    background-color: #6167f3
-}
+    }
+    .custom-flex-justify-center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // text-align:center;
+    }
+    .close_btn{
+        position: absolute;
+        left: 95%;
+        top: -9%;
+        color: white;
+        background-color: #6167f3
+    }
 `
 export default StudentTable;

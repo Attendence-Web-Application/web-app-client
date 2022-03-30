@@ -4,16 +4,16 @@ import Tab from "./Tab";
 import AttendenceRecordTable from "./AttendenceRecordTable";
 import StudentAttendanceTable from "./StudentAttedanceTable";
 
-
 const FIND_ROLL_CALL_ID_URL = 'http://localhost:8080/attendanceRecord/user/';
 const FIND_ROLL_CALL_URL = 'http://localhost:8080/rollCall/';
+
 const Tabs = ({classNumber, classId, tabContent}) => {
     const curUserId = parseInt(sessionStorage.getItem("id"));
     const tabValues = ['Attendence Records', 'Student Attendence Rate'];
     const [activeTab, setActiveTab] = useState(0);
     const [record, setRecord] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    console.log(tabContent);
+
     const handleOnClickTab = (tab) => {
         setActiveTab(tab);
     }
@@ -41,7 +41,6 @@ const Tabs = ({classNumber, classId, tabContent}) => {
         try {
             const response = await fetch(FIND_ROLL_CALL_ID_URL + curUserId, {mode:'cors'});
             const data = await response.json(); //get the list of roll_call_id of current user
-            // console.log("all rollcall:", data[0])
             fetchRollCallByClass(classId, data);
         }
         catch (e) {
@@ -67,14 +66,8 @@ const Tabs = ({classNumber, classId, tabContent}) => {
                 </ul>
             </div>
             <div className="tab_content">
-                {/* {tabContent.map((tab, index) => {
-                    if (index === activeTab) return tab;
-                    else return undefined;
-                })} */}
-                {
-                    activeTab === 0 ? <AttendenceRecordTable classNumber={classNumber} classId={classId} record = {record}/> : 
-                    <StudentAttendanceTable classNumber={classNumber} classId={classId} record = {record}/>
-                }
+                {activeTab === 0 ? <AttendenceRecordTable classNumber={classNumber} classId={classId} record = {record}/> : 
+                    <StudentAttendanceTable classNumber={classNumber} classId={classId} record = {record}/>}
             </div>
         </Wrapper> 
     );
@@ -87,7 +80,6 @@ const Wrapper = styled.main`
     width: 80%;
     height: 30px;
   }
-
   .tab_content{
       margin: auto;
       width: 80%;

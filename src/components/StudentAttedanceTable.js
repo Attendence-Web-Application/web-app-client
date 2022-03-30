@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import { Paper, TableCell, TableContainer, TableHead, TableRow, Table, TableBody, TablePagination, useEventCallback } from "@material-ui/core";
 import { useLocation } from "react-router";
 import styled from 'styled-components';
-import { Link } from 'react-router-dom'
 import AttendanceDetailByUser from "./AttendanceDetailByUser";
 
 const FIND_ROLL_CALL_ID_URL = 'http://localhost:8080/attendanceRecord/user/';
@@ -10,16 +9,17 @@ const FIND_ROLL_CALL_URL = 'http://localhost:8080/rollCall/';
 const FIND_ALL_USER_BY_ROLLCALL_ID = "http://localhost:8080/attendanceRecord/rollCall/";
 const FIND_STUDENT = "http://localhost:8080/user/";
 const FIND_STUDENT_RATE = "http://localhost:8080/class_enrolled/getClassEnroll/"
+
 //read all students according to class
 const StudentAttendanceTable = ({classNumber, classId, record}) => {
     const curUserId = parseInt(sessionStorage.getItem("id"));
-    
     const [studentRecord, setStudentRecord] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(2);
     const [popup, setPopup] = useState(null);
 
     let oneRollCallId = -1;
+    //HARDCODE!!!
     if (record.length > 0) oneRollCallId = 3; //change to first roll call id
 
     const columns = [
@@ -66,13 +66,10 @@ const StudentAttendanceTable = ({classNumber, classId, record}) => {
                 const response = await fetch(FIND_STUDENT + data[i].id.userId, {mode:'cors'});
                 const user = await response.json();
                 if (user.role_id === 2) {
-                    // setStudent(prev => [...prev, user]);
                     data[i].name = user.name;
                     data[i].uid = user.id;
-                    // setRecord(prev => [...prev, data[i]]);
                     fetchAttendanceRate(counter, classId, data[i]);
                     counter++;
-                    // console.log("record", record);
                 }
             }
         }
@@ -96,13 +93,10 @@ const StudentAttendanceTable = ({classNumber, classId, record}) => {
 
 
     useEffect(() => {
-        // setRecord([]);
-        // fetchAllRollCallByUser(curUserId);
         setStudentRecord([]);
         if (oneRollCallId != -1) fetchAllUser(oneRollCallId);
     }, [curUserId]);
 
-    console.log("record", studentRecord);
     return (
         <Wrapper>
             <TableContainer className="table_container">
@@ -118,31 +112,24 @@ const StudentAttendanceTable = ({classNumber, classId, record}) => {
                             }
                         </TableRow>
                     </TableHead>
-                    {
-                        <TableBody className="table_body">
-                        {
-                             studentRecord.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                                console.log("row", row);
-                                return (
-                                    <>
-                                    <TableRow className="body_row" key={row.id}>
-                                        {columns.map((column) => {
-                                            const value = column;
-                                            if (value.id == 'ID') return (<TableCell className="table_cell">{row.uid}</TableCell>);
-                                            else if (value.id == 'Name') return (<TableCell className="table_cell">{row.name}</TableCell>);
-                                            else if (value.id == 'Rate') return (<TableCell className="table_cell">{row.student_attendance_rate}</TableCell>);
-                                            else if (value.id == 'Times') return (<TableCell className="table_cell">{row.student_attendance_time}</TableCell>);
-                                            else return (<TableCell className="table_cell"><button className='table_btn' onClick={() => handleEnterDetail(row.uid, row.name)}>Enter</button></TableCell>);
-                                        })}
-                                    </TableRow>
-                                    
-                                    </>
-                                )
+                    {<TableBody className="table_body">
+                        {studentRecord.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                            return (
+                                <>
+                                <TableRow className="body_row" key={row.id}>
+                                    {columns.map((column) => {
+                                        const value = column;
+                                        if (value.id == 'ID') return (<TableCell className="table_cell">{row.uid}</TableCell>);
+                                        else if (value.id == 'Name') return (<TableCell className="table_cell">{row.name}</TableCell>);
+                                        else if (value.id == 'Rate') return (<TableCell className="table_cell">{row.student_attendance_rate}</TableCell>);
+                                        else if (value.id == 'Times') return (<TableCell className="table_cell">{row.student_attendance_time}</TableCell>);
+                                        else return (<TableCell className="table_cell"><button className='table_btn' onClick={() => handleEnterDetail(row.uid, row.name)}>Enter</button></TableCell>);
+                                    })}
+                                </TableRow>
+                                </>)
                             }
-                        )
-                        }
-                    </TableBody>
-                    }
+                        )}
+                    </TableBody>}
                     {popup}
                 </Table>
             </TableContainer>

@@ -6,7 +6,6 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import Button from "@material-ui/core/Button";
 import '../index.css'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -110,13 +109,6 @@ const Wrapper = styled.main`
       margin-left: 10px;
   }
 `
-// const Container = styled.div.attrs({
-//     className: 'container',
-// })`
-//   margin: auto;
-//   width: 80%;
-//   padding: 10px;
-// `
 const Container = styled.main`
   margin: 0;
   width: 100%;

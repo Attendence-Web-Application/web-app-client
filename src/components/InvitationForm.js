@@ -3,12 +3,15 @@ import styled from 'styled-components'
 const InvitationForm = ({handleSubmit}) => {
     const [classroom, setClassroom] = useState('');
     const [code, setCode] = useState('');
+
     const handleClassChange = (e) => {
         setClassroom(e.target.value);
     }
+
     const handleCodeChange = (e) => {
         setCode(e.target.value);
     }
+    
     return (
         <Wrapper>
             <form onSubmit={handleSubmit} className='add_box'>

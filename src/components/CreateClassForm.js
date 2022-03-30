@@ -21,6 +21,7 @@ const CreateClassForm = ({handleSubmit, handleCancel}) => {
     const handleEndDate = (e) => {
         setEndDate(e);
     }
+    
     return (
         <Wrapper>
             <form onSubmit={handleSubmit} className='create_class_box'>

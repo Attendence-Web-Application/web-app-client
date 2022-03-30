@@ -11,6 +11,7 @@ import StudentTable from "./StudentTable";
 
 const FIND_ALL_USER_BY_ROLLCALL_ID = "http://localhost:8080/attendanceRecord/rollCall/";
 const FIND_STUDENT = "http://localhost:8080/user/";
+
 const useStyles = makeStyles(theme => ({
   paper: {
     overflowY: 'unset',
@@ -40,7 +41,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const AttendanceDetailBySession = ({setPopup, rollCallId}) => {
-    // const [student, setStudent] = useState([]);
+
     const [record, setRecord] = useState([]);
     const [isShow, setIsShow] = useState(true);
 
@@ -55,7 +56,6 @@ const AttendanceDetailBySession = ({setPopup, rollCallId}) => {
                 const response = await fetch(FIND_STUDENT + data[i].id.userId, {mode:'cors'});
                 const user = await response.json();
                 if (user.role_id === 2) {
-                    // setStudent(prev => [...prev, user]);
                     data[i].name = user.name;
                     setRecord(prev => [...prev, data[i]]);
                 }
@@ -81,7 +81,6 @@ const AttendanceDetailBySession = ({setPopup, rollCallId}) => {
     useEffect(() => {
         setRecord([]);
         fetchAllUser(rollCallId);
-        // setIsLoading(false);
     }, [rollCallId]);
 
     return (

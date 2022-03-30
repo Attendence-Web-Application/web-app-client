@@ -55,29 +55,27 @@ const Classrooms = ({ classrooms, setClassrooms }) => {
     }, [sessionStorage.getItem('id')]);
 
     return (
-            <React.Fragment>
-                <NavBar/>
-                <ButtonWrapper>
-                    {isLogin && (isStudent && <AddClassroomStudent classrooms={classrooms} setClassrooms={setClassrooms}/>)} ||
-                    {isLogin && (!isStudent && <AddClassroomProfessor classrooms={classrooms} setClassrooms={setClassrooms}/>)}
-                </ButtonWrapper>
-                <Wrapper>
-                    <div className="row row-cols-auto row-cols-md-3" style={{margin: '0 auto', floag: 'none'}}>
-                        {isLogin && classrooms.map((item, index) => {  
-                        return (
-                            <Classroom className="shadow-lg p-3 mb-5 bg-white rounded" key={index} item = {item} handleEnterClass = {handleEnterClass} handleDeleteClass = {handleDeleteClass}/>  
-                        ) 
-                    })}
-                    </div>
-                </Wrapper>
-                
-            </React.Fragment>
-      
+        <React.Fragment>
+            <NavBar/>
+            <ButtonWrapper>
+                {isLogin && (isStudent && <AddClassroomStudent classrooms={classrooms} setClassrooms={setClassrooms}/>)} ||
+                {isLogin && (!isStudent && <AddClassroomProfessor classrooms={classrooms} setClassrooms={setClassrooms}/>)}
+            </ButtonWrapper>
+            <Wrapper>
+                <div className="row row-cols-auto row-cols-md-3" style={{margin: '0 auto', floag: 'none'}}>
+                    {isLogin && classrooms.map((item, index) => {  
+                    return (
+                        <Classroom className="shadow-lg p-3 mb-5 bg-white rounded" key={index} item = {item} handleEnterClass = {handleEnterClass} handleDeleteClass = {handleDeleteClass}/>  
+                    ) 
+                })}
+                </div>
+            </Wrapper>
+            
+        </React.Fragment>
     );
 }
 const ButtonWrapper = styled.main`
   margin: 0 auto;
-//   margin-top:30px;
   height: 10vh;
   width: 100vw;
 `

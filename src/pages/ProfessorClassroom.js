@@ -4,7 +4,7 @@ import NavBar from "../components/NavBar";
 import styled from 'styled-components'
 import RollCall from "../components/RollCall";
 import Tabs from "../components/Tabs";
-import AttendenceRecordTable from "../components/AttendenceRecordTable";
+
 const ProfessorClassroom = () => {
     const token = sessionStorage.getItem('token');
     const type = sessionStorage.getItem('type');
@@ -19,10 +19,9 @@ const ProfessorClassroom = () => {
         <Wrapper>
             <h1 className='title' style={{color: "white"}}>professor</h1>
             <NavBar/>
-            <RollCall/>
+            <RollCall classId = {classId}/>
             <Tabs classNumber={classNumber} classId={classId} tabContent={tabContent}>
             </Tabs>
-            {/* <AttendenceRecordTable classNumber={classNumber} classId={classId}/> */}
         </Wrapper>
         
     );

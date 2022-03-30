@@ -47,6 +47,7 @@ const AttendanceDetailByUser = ({setPopup, record, uid, name}) => {
     }
     const fetchRecordByComposeId = async () => {
         try {
+            //HARDCODE!!!
             // for (let i = ; i < record.length; i++) {
             for (let i = 1; i < 2; i++) {
                 const response = await fetch(FIND_ATTENDANCE_STATUS + uid + "/rollcall/" + record[i].id, {mode:'cors'});

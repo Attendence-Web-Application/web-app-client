@@ -14,14 +14,14 @@ const FIND_STUDENT = "http://localhost:8080/user/";
 //get all ROLL_CALL_ID from "attendence_record" table, using  ROLL_CALL_ID to search in "roll_call" table, find the correpsonding class_id
 const AttendenceRecordTable = ({classNumber, classId, record}) => {
     const curUserId = parseInt(sessionStorage.getItem("id"));
-    // const [record, setRecord] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(2);
     const [isShow, setIsShow] = useState(false);
-    // const [isLoading, setIsLoading] = useState(true);
     const [popup, setPopup] = useState(null);
+
     var enterId = -1;
     const columns = [
+        {id: 'ID', label: 'ID'},
         {id: 'Expire Time', label: 'Expire Time', minWidth: 50},
         {id: 'Count', label: 'Count', minWidth: 50},
         {id: 'Rate', label: 'Attendance Rate', minWidht:50},
@@ -69,13 +69,13 @@ const AttendenceRecordTable = ({classNumber, classId, record}) => {
                                     <TableRow className="body_row" key={row.id}>
                                         {columns.map((column) => {
                                             const value = column;
-                                            if (value.id == 'Expire Time') return (<TableCell className="table_cell">{row.expired_times}</TableCell>);
+                                            if (value.id == 'ID') return (<TableCell className="table_cell">{row.id}</TableCell>);
+                                            else if (value.id == 'Expire Time') return (<TableCell className="table_cell">{row.expired_times}</TableCell>);
                                             else if (value.id == 'Count') return (<TableCell className="table_cell">{row.attendance_count}</TableCell>);
                                             else if (value.id == 'Rate') return (<TableCell className="table_cell">{row.attendance_rate}</TableCell>);
                                             else return (<TableCell className="table_cell"><button className='table_btn' onClick={() => handleEnterDetail(row.id)}>Enter</button></TableCell>);
                                         })}
                                     </TableRow>
-                                    
                                     </>
                                 )
                             }
