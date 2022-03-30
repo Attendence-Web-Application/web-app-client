@@ -4,6 +4,7 @@ import Classroom from './Classroom';
 import AddClassroomProfessor from './AddClassroomProfessor';
 import AddClassroomStudent from '../components/AddClassroomStudent';
 import NavBar from './NavBar';
+import { Container } from 'bootstrap-4-react';
 
 const DELETE_CLASS_URL = 'http://localhost:8080/class_enrolled/getClassEnroll/'
 const Classrooms = ({ classrooms, setClassrooms }) => {
@@ -56,22 +57,23 @@ const Classrooms = ({ classrooms, setClassrooms }) => {
 
     return (
         <React.Fragment>
-            <NavBar/>
+            <NavBar props={clearState} />
             <ButtonWrapper>
                 {isLogin && (isStudent && <AddClassroomStudent classrooms={classrooms} setClassrooms={setClassrooms}/>)} ||
                 {isLogin && (!isStudent && <AddClassroomProfessor classrooms={classrooms} setClassrooms={setClassrooms}/>)}
             </ButtonWrapper>
             <Wrapper>
-                <div className="row row-cols-auto row-cols-md-3" style={{margin: '0 auto', floag: 'none'}}>
+                <div className="row row-cols-auto row-cols-md-3" style={{margin: '0 auto', float: 'none'}}>
                     {isLogin && classrooms.map((item, index) => {  
                     return (
                         <Classroom className="shadow-lg p-3 mb-5 bg-white rounded" key={index} item = {item} handleEnterClass = {handleEnterClass} handleDeleteClass = {handleDeleteClass}/>  
                     ) 
                 })}
                 </div>
-            </Wrapper>
-            
+            </Wrapper> 
         </React.Fragment>
+      
+
     );
 }
 const ButtonWrapper = styled.main`
