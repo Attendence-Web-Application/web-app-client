@@ -1,70 +1,32 @@
-# Getting Started with Create React App
+# Attendance Web Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Demo link: `In-progress`
 
-## Available Scripts
+# Introduction
+Create a cloud-based academic attendance system to track the attendance of the students. The whole attendance system will be based on `AWS` cloud. The server and the database are located on the cloud for a better user experience and easier access. Professors are allowed to create a classroom to gather all the students, so it is more convenient to call and roll many times during the semester. Features are well designed to make the attendance roll call more precise. The analysis such as attendance rate is provided for professors to learn the overall attendance condition of the whole class or a specific student.
 
-In the project directory, you can run:
+# Screenshots 📷
 
-### `npm start`
+# Technologies Used: ⚛️
+- HTML/CSS
+- React.js
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+# Deployment
+[AWS](https://aws.amazon.com/free/?trk=fce796e8-4ceb-48e0-9767-89f7873fac3d&sc_channel=ps&sc_campaign=acquisition&sc_medium=ACQ-P|PS-GO|Brand|Desktop|SU|Core-Main|Core|US|EN|Text&s_kwcid=AL!4422!3!432339156150!e!!g!!aws&ef_id=Cj0KCQjw_4-SBhCgARIsAAlegrUfMKH47Vg4PfN9X9mbHmC4pYCwCSeyS61D7I7I1l3mF0fXQMQ42v8aAuHZEALw_wcB:G:s&s_kwcid=AL!4422!3!432339156150!e!!g!!aws&all-free-tier.sort-by=item.additionalFields.SortRank&all-free-tier.sort-order=asc&awsf.Free%20Tier%20Types=*all&awsf.Free%20Tier%20Categories=*all)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+# Installation and Setup Instructions
 
-### `npm test`
+Clone down [Backend Repository](https://github.com/Attendence-Web-Application/web-app-server). Follow the `README.md` instruction to start server.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Clone down this repository. You will need `node` and `npm` installed globally on your machine. 
 
-### `npm run build`
+Installation and Run:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+`npm install && npm start`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+To Visit App:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`http://localhost:3000/login`
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Project Status: `In-progress`
