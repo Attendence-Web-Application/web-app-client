@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Dialog from "@material-ui/core/Dialog";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import Button from "@material-ui/core/Button";
 import '../index.css'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -42,7 +42,7 @@ const Classroom = ({item, handleEnterClass, handleDeleteClass}) => {
     const [open, setOpen] = useState(false)
     console.log('item', item)
     const {id, number, title} = item;
-
+    console.log('id', id);
     //delete class from page and db when choose delete in pop up dialog
     const handleToDelete = () => {
         setOpen(false)
@@ -56,7 +56,7 @@ const Classroom = ({item, handleEnterClass, handleDeleteClass}) => {
                 <h5 className="card-subtitle" style={{paddingBottom:5 + 'px'}}>{title}</h5>
                 {/* <h6 className="card-subtitle">{title}</h6> */}
                 <Container>
-                    <button type="button" onClick={handleEnterClass} className="btn-enter">Enter</button>
+                    <button type="button" className="btn-enter"><Link to={{pathname: "/professorClassroom", state: {classNumber: number, classId: id}}} className="link">Enter</Link></button>
                     <button type="button" onClick={() => {setOpen(true)}} className="btn-delete">Delete</button>
                 </Container>
             </div>
@@ -109,13 +109,6 @@ const Wrapper = styled.main`
       margin-left: 10px;
   }
 `
-// const Container = styled.div.attrs({
-//     className: 'container',
-// })`
-//   margin: auto;
-//   width: 80%;
-//   padding: 10px;
-// `
 const Container = styled.main`
   margin: 0;
   width: 100%;
@@ -151,6 +144,10 @@ const Container = styled.main`
     padding-top: 6px;
     padding-bottom: 6px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  }
+  .link{
+    color:white;
+    text-decoration: none;;
   }
 `
 export default Classroom;

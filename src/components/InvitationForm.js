@@ -7,6 +7,7 @@ const InvitationForm = ({handleSubmit}) => {
     const [classroomList, setClassroomList] = useState([]);
     const [classroom, setClassroom] = useState('');
     const [code, setCode] = useState('');
+
     const handleCodeChange = (e) => {
         setCode(e.target.value);
     }

@@ -40,6 +40,7 @@ const AddClassroomStudent = ({classrooms, setClassrooms}) => {
     const [existCourse, setExistCourse] = useState('');
     const curUserId = parseInt(sessionStorage.getItem('id'));
     console.log(classrooms);
+    
     const handleClick = () => {
         setIsShowForm(true);
         console.log("change")

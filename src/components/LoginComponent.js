@@ -20,8 +20,6 @@ async function loginUser(email, password) {
 const LoginComponent = () => {
     const history = useHistory();
     const {setIsAuthenticated, setType, setToken, setUserId, setName } = useContext(AttendanceContext);
-    
-
     const [email, setEmail] = useState('');;
     const [password, setPassword] = useState('');
     const [isPasswordCorrect, setIsPasswordCorrect] = useState(true);
@@ -35,7 +33,6 @@ const LoginComponent = () => {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        
         const token = await loginUser(email, password);
         if (token.success === true) {
             setToken(token.token)
@@ -61,8 +58,6 @@ const LoginComponent = () => {
         }
 
     }
-
-    
 
     return (
          <Wrapper className='left'>
