@@ -2,23 +2,29 @@ import React from "react";
 import styled from 'styled-components';
 
 const FIND_ALL_STUDENTS = "http://localhost:8080/"
-const FIND_ALL_ENROLL_RECORD = "http://localhost:8080/class_enrolled/getClassEnroll/class"
+const FIND_ALL_ENROLL_STUDENT = "http://localhost:8080/class_enrolled/getUser/class"
+const CREATE_ROLL_CALL = 'http://localhost:8080/rollCall/createRollCall'
+const MINUTE_TO_ADD = 10;
+const RollCall = ({classId, setRecord}) => {
 
-const RollCall = ({classId}) => {
-
-    const getAllEnrollRecord = async () => {
-        try {
-            const response = await fetch(FIND_ALL_ENROLL_RECORD + classId, {mode: "cors"});
-            const data = await response.json();
-            console.log("enroll", data);
+    const createRollCall = async () => {
+        let curDate = new Date();
+        let futureDate = new Date(curDate.getTime() + MINUTE_TO_ADD * 60000);
+        console.log(curDate);
+        console.log(futureDate);
+        const params = {
+            method: 'POST',
+            body: JSON.stringify({ class_id: classId, expired_times: futureDate}),
+            headers: { 'Content-Type': 'application/json' },
         }
-        catch (e) {
-            console.log(e);
-        }
+        const createResponse = await fetch(CREATE_ROLL_CALL, params);
+        const newData = await createResponse.json();
+        console.log("newRollCall: ", newData);
+        setRecord(prev => [...prev, newData]);
     }
     //insert a record into 
     const handleClick = () => {
-        getAllEnrollRecord();
+        createRollCall();
     }
     return (
         <Wrapper>

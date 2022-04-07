@@ -8,7 +8,8 @@ import AttendanceTable from './AttendanceTable'
 import CloseIcon from '@material-ui/icons/Close';
 import { IconButton } from '@material-ui/core';
 
-const FIND_ATTENDANCE_STATUS = "http://localhost:8080/attendanceRecord/user/"
+const FIND_ATTENDANCE_STATUS = "http://localhost:8080/attendanceRecord/user/";
+const FIND_ATTENDANCE_RECORD_BY_USER = 'http://localhost:8080/attendanceRecord/user/';
 const useStyles = makeStyles(theme => ({
   paper: {
     overflowY: 'unset',
@@ -41,25 +42,39 @@ const AttendanceDetailByUser = ({setPopup, record, uid, name}) => {
 
     const [attendanceRecord, setAttendanceRecord] = useState([]);
     const [isShow, setIsShow] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
 
     const handleClose = () => {
         setPopup(null);
     }
+
     const fetchRecordByComposeId = async () => {
         try {
-            //HARDCODE!!!
-            // for (let i = ; i < record.length; i++) {
-            for (let i = 1; i < 2; i++) {
+            for (let i = 0; i < record.length; i++) { //read record of each rollcall
                 const response = await fetch(FIND_ATTENDANCE_STATUS + uid + "/rollcall/" + record[i].id, {mode:'cors'});
                 const data = await response.json();
                 setAttendanceRecord(prev => [...prev, data]);
             }
+            setIsLoading(false);
         }
         catch(e) {
             console.log(e);
         }
     }
+    
+   /*
+   const fetchRecordByUser = async () => {
+       try {
+           console.log(FIND_ATTENDANCE_RECORD_BY_USER + uid);
+            const response = await fetch(FIND_ATTENDANCE_RECORD_BY_USER + uid, {mode:'cors'});
+            const data = await response.json();
+            setAttendanceRecord(data);
+       }
+       catch(e) {
 
+       }
+   }
+   */
     useEffect(() => {
         setAttendanceRecord([]);
         fetchRecordByComposeId();
@@ -75,7 +90,7 @@ const AttendanceDetailByUser = ({setPopup, record, uid, name}) => {
                 <DialogTitle className={classes.alignItemsAndJustifyContentTitle}>
                     {"Attendance Details of Student " + name}
                 </DialogTitle>
-                {attendanceRecord.length > 0 ? <AttendanceTable attendanceRecord={attendanceRecord} record={record}/> : <div>No record</div>}
+                {!isLoading && attendanceRecord.length > 0 ? <AttendanceTable attendanceRecord={attendanceRecord} record={record}/> : <div>No record</div>}
             </Dialog>
         </Wrapper>
     );

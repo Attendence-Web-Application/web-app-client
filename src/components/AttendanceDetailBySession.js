@@ -9,6 +9,7 @@ import { Paper, TableCell, TableContainer, TableHead, TableRow, Table, TableBody
 import StudentTable from "./StudentTable";
 //display all students of the class in a specific roll call according to roll_call_id, attend or not
 
+const FIND_ALL_USER = "http://localhost:8080/user/nameIdPair/";
 const FIND_ALL_USER_BY_ROLLCALL_ID = "http://localhost:8080/attendanceRecord/rollCall/";
 const FIND_STUDENT = "http://localhost:8080/user/";
 
@@ -50,6 +51,7 @@ const AttendanceDetailBySession = ({setPopup, rollCallId}) => {
         setPopup(null);
     }
     
+    /*
     const fetchAllStudent = async (data) => {
         try{
             for (let i = 0; i < data.length; i++) {
@@ -65,12 +67,29 @@ const AttendanceDetailBySession = ({setPopup, rollCallId}) => {
             console.log(e);
         } 
     }
-
+    */
+    
     const fetchAllUser = async (rollCallId) => {
+        try{
+            const response = await fetch(FIND_ALL_USER, {mode:'cors'});
+            const data = await response.json();
+            console.log("pair: ", data)
+            fetchUserByRollCallId(rollCallId, data);
+        }
+        catch(e) {
+            console.log(e);
+        }
+    }
+    const fetchUserByRollCallId = async (rollCallId, userData) => {
         try{
             const response = await fetch(FIND_ALL_USER_BY_ROLLCALL_ID + rollCallId, {mode:'cors'});
             const data = await response.json();
-            fetchAllStudent(data);
+            console.log("rollcall: ", data)
+            for (let i = 0; i < data.length; i++) {
+                let res = userData[data[i].id.userId];
+                data[i].name = res;
+                setRecord(prev => [...prev, data[i]]);
+            }
         }
         catch(e) {
             console.log(e);

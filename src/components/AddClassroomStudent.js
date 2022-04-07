@@ -29,10 +29,9 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const SEARCH_CLASS_URL = 'http://localhost:8080/class/getClass/';
+const SEARCH_CLASS_URL = 'http://localhost:8080/class/getClassByTitle/';
 const CHECK_ENROLL_URL = 'http://localhost:8080/class_enrolled/getClassEnroll/';
 const INSERT_ENROLL_URL = 'http://localhost:8080/class_enrolled/createEnroll/';
-
 const AddClassroomStudent = ({classrooms, setClassrooms}) => {
     const [isShowForm, setIsShowForm] = useState(false);
     const [isShowNotExist, setIsShowNotExist] = useState(false);
@@ -48,6 +47,7 @@ const AddClassroomStudent = ({classrooms, setClassrooms}) => {
 
     //insert (userId, classId) record into "class_enrolled" table
     const insertEnrollRecord = async (userId, classData) => {
+        console.log("classData", classData);
         const response = await fetch(CHECK_ENROLL_URL + userId + "_" + classData.id, {mode: 'cors'});
         
         try{
@@ -73,6 +73,7 @@ const AddClassroomStudent = ({classrooms, setClassrooms}) => {
         try {
             const response = await fetch(SEARCH_CLASS_URL + number, {mode: 'cors'});
             const data = await response.json();
+            console.log("search class", data);
             if (data.length == 0) { //no such class
                 setIsShowNotExist(true);
             }
@@ -87,8 +88,11 @@ const AddClassroomStudent = ({classrooms, setClassrooms}) => {
     }
     const handleSubmit = (event) => {
         event.preventDefault();
+        console.log("element", event.target.elements);
         const newClassroom = event.target.elements.classroom.value;
         const newCode = event.target.elements.code.value;
+        console.log("newClassroom", event.target.elements.classroom.value);
+        console.log("newCode", event.target.elements.code.value)
         setExistCourse(newClassroom);
         //check code 
         checkClassCode(newClassroom, newCode);

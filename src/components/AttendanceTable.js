@@ -11,13 +11,17 @@ const columns = [
 
 const AttendanceTable = ({attendanceRecord, record}) => {
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(2);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('Session Time');
-
+    // console.log("record", record);
+    // console.log("attendanceRecord", attendanceRecord);
     const getExpireTime = (id) => {
-        return record.filter((row) => row.id === id).expire_time;
-        // console.log("id", id, record.filter((row) => row.id === id));
+
+        console.log("id", id, record.filter((row) => row.id == id));
+        const row = record.filter((row) => row.id === id);
+        return row.length > 0 ? row[0].expired_times : null;
+        
     }
 
     const handleChangePage = (e, newPage) => {
@@ -40,8 +44,8 @@ const AttendanceTable = ({attendanceRecord, record}) => {
         keyValueArr.sort((a, b) => {
             let res;
             if (orderBy === 'Session Time') {
-                const a_time = a[1].getExpireTime(a[1].id.rollCallId);
-                const b_time = b[1].getExpireTime(b[1].id.rollCallId);
+                const a_time = getExpireTime(a[1].id.rollCallId);
+                const b_time = getExpireTime(b[1].id.rollCallId);
                 res = a_time < b_time ? -1 : a_time === b_time ? 0 : 1;
             }
             else if (orderBy === 'Check Time') {
@@ -77,7 +81,7 @@ const AttendanceTable = ({attendanceRecord, record}) => {
                         {customSort(attendanceRecord)
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((row) => {
-                            console.log("row within", row);
+                            console.log("row: ", row);
                             let attend = (row.check_status == false) ? "No": "Yes";
                             let checkTime = row.check_time == null ? "Not recorded" : row.check_time;
                             let getTime = getExpireTime(row.id.rollCallId);
