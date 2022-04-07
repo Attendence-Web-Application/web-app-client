@@ -6,6 +6,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
 import { makeStyles } from '@material-ui/core/styles'
 import '../index.css';
+import { SEARCH_CLASS_URL, CHECK_ENROLL_URL, INSERT_ENROLL_URL } from '../utils/api'
 
 
 const useStyles = makeStyles(theme => ({
@@ -29,9 +30,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const SEARCH_CLASS_URL = 'http://localhost:8080/class/getClassByTitle/';
-const CHECK_ENROLL_URL = 'http://localhost:8080/class_enrolled/getClassEnroll/';
-const INSERT_ENROLL_URL = 'http://localhost:8080/class_enrolled/createEnroll/';
+
 const AddClassroomStudent = ({classrooms, setClassrooms}) => {
     const [isShowForm, setIsShowForm] = useState(false);
     const [isShowNotExist, setIsShowNotExist] = useState(false);

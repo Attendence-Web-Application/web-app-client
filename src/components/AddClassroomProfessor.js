@@ -8,6 +8,7 @@ import CreateClassForm from "./CreateClassForm";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogContent from "@material-ui/core/DialogContent";
+import { GET_ALL_CLASS_URL, CREATE_CLASS_URL, INSERT_ENROLL_URL, CHECK_ENROLL_URL } from '../utils/api'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -42,11 +43,6 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-//define urls connecting to api
-const SEARCH_CLASS_URL = 'http://localhost:8080/class/getClass/';
-const CREATE_CLASS_URL = 'http://localhost:8080/class/createClass';
-const INSERT_ENROLL_URL = 'http://localhost:8080/class_enrolled/createEnroll/';
-const CHECK_ENROLL_URL = 'http://localhost:8080/class_enrolled/getClassEnroll/';
 
 const AddClassroomProfessor = ({classrooms, setClassrooms}) => {
     const [isShow, setIsShow] = useState(false);

@@ -4,13 +4,9 @@ import { useLocation } from "react-router";
 import styled from 'styled-components';
 import { Link } from 'react-router-dom'
 import AttendanceDetailBySession from "./AttendanceDetailBySession";
+import { FIND_STUDENT_ID_URL, FIND_ROLL_CALL_ID_URL, FIND_ROLL_CALL_URL, FIND_ALL_USER_BY_ROLLCALL_ID, FIND_STUDENT  } from '../utils/api'
 
 
-const FIND_STUDENT_ID_URL = 'http://localhost:8080/class_enrolled/getClassEnroll/user';
-const FIND_ROLL_CALL_ID_URL = 'http://localhost:8080/attendanceRecord/user/';
-const FIND_ROLL_CALL_URL = 'http://localhost:8080/rollCall/';
-const FIND_ALL_USER_BY_ROLLCALL_ID = "http://localhost:8080/attendanceRecord/rollCall/";
-const FIND_STUDENT = "http://localhost:8080/user/";
 //get all ROLL_CALL_ID from "attendence_record" table, using  ROLL_CALL_ID to search in "roll_call" table, find the correpsonding class_id
 const AttendenceRecordTable = ({classNumber, classId, record}) => {
     const curUserId = parseInt(sessionStorage.getItem("id"));
