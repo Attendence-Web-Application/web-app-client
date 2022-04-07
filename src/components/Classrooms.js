@@ -6,7 +6,9 @@ import AddClassroomStudent from '../components/AddClassroomStudent';
 import NavBar from './NavBar';
 import { Container } from 'bootstrap-4-react';
 
-const DELETE_CLASS_URL = 'http://localhost:8080/class_enrolled/getClassEnroll/'
+const DELETE_STUDENT_CLASS_URL = 'http://localhost:8080/class_enrolled/getClassEnroll/'
+const DELETE_PROFESSOR_CLASS_URL = 'http://localhost:8080/class/getClass/Id'
+const DELETE_ATTENDANCE_URL = ''
 const Classrooms = ({ classrooms, setClassrooms }) => {
 
     const token = sessionStorage.getItem('token');
@@ -21,16 +23,26 @@ const Classrooms = ({ classrooms, setClassrooms }) => {
 
     const handleDeleteClass = async (id) => {
         const remainClass = classrooms.filter((p) => id !== p.id);
-        //delete class by id in db
+        console.log("delete class ", id);
+        //update after trigger finish
+        /*
+        if (isStudent) { //delete in class_enroll
+
+        }
+        else { //delete in class
+
+        }
+        //delete course in class_enroll table
         try{
-            const response = await fetch(DELETE_CLASS_URL + curUserId + "_" + id, {method: 'DELETE'});
+            const response = await fetch(DELETE_STUDENT_CLASS_URL + curUserId + "_" + id, {method: 'DELETE'});
             const data = await response.json();
         }
         catch (e){
             console.log(e);
         }
-        
         setClassrooms(remainClass);
+        */
+        
     }
 
     const clearState = () => {
@@ -44,15 +56,6 @@ const Classrooms = ({ classrooms, setClassrooms }) => {
        else {
             setIsLogin(true);
        }
-
-    //    if (sessionStorage.getItem('type') === 'student') {
-    //         console.log(localStorage.getItem('type'));
-    //         setIsStudent(true);
-    //    }
-    //    else if (localStorage.getItem('type') === 'professor') {
-    //        console.log(localStorage.getItem('type'));
-    //        setIsStudent(false);
-    //    }
     }, [sessionStorage.getItem('id')]);
 
     return (

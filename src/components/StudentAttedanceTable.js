@@ -9,7 +9,8 @@ const FIND_ROLL_CALL_URL = 'http://localhost:8080/rollCall/';
 const FIND_ALL_USER_BY_ROLLCALL_ID = "http://localhost:8080/attendanceRecord/rollCall/";
 const FIND_STUDENT = "http://localhost:8080/user/";
 const FIND_STUDENT_RATE = "http://localhost:8080/class_enrolled/getClassEnroll/"
-
+const FIND_ALL_USER = "http://localhost:8080/user/nameIdPair/";
+const FIND_ALL_STUDENT_BY_CLASS_ID = 'http://localhost:8080/class_enrolled/getClassEnroll/class';
 //read all students according to class
 const StudentAttendanceTable = ({classNumber, classId, record}) => {
     const curUserId = parseInt(sessionStorage.getItem("id"));
@@ -44,7 +45,8 @@ const StudentAttendanceTable = ({classNumber, classId, record}) => {
         setPopup(<AttendanceDetailByUser setPopup = {setPopup} record = {record} uid = {id} name = {name}/>);
     }
 
-    const fetchAttendanceRate = async (index, classId, oneUser) => {
+    /*
+    const fetchAttendanceRate = async (oneUser) => {
         try {
             const response = await fetch(FIND_STUDENT_RATE + oneUser.uid + "_" + classId, {mode:'cors'});
             const data = await response.json();
@@ -57,20 +59,14 @@ const StudentAttendanceTable = ({classNumber, classId, record}) => {
         }
         
     }
-
+    */
     //get students from all users
-    const fetchAllStudent = async (data) => {
+    const mergeStudentInfo = async (enrollData, userData) => {
         try{
-            let counter = 0;
-            for (let i = 0; i < data.length; i++) {
-                const response = await fetch(FIND_STUDENT + data[i].id.userId, {mode:'cors'});
-                const user = await response.json();
-                if (user.role_id === 2) {
-                    data[i].name = user.name;
-                    data[i].uid = user.id;
-                    fetchAttendanceRate(counter, classId, data[i]);
-                    counter++;
-                }
+            for (let i = 0; i < enrollData.length; i++) {
+                enrollData[i].name = userData[enrollData[i].id.userId];
+                enrollData[i].id = enrollData[i].id.userId;
+                setStudentRecord(prev => [...prev, enrollData[i]])
             }
         }
         catch(e) {
@@ -79,24 +75,36 @@ const StudentAttendanceTable = ({classNumber, classId, record}) => {
     }
 
     //find all users of this roll call/this class
-    const fetchAllUser = async (rollCallId) => {
+    const fetchStudentByClassId = async (userData) => {
         try{
-            const response = await fetch(FIND_ALL_USER_BY_ROLLCALL_ID + rollCallId, {mode:'cors'});
+            const response = await fetch(FIND_ALL_STUDENT_BY_CLASS_ID + classId, {mode:'cors'});
             const data = await response.json();
-            console.log("data_", data);
-            fetchAllStudent(data);
+            // console.log("data_", data);
+            mergeStudentInfo(data, userData);
         }
         catch(e) {
             console.log(e);
         }
     }
 
+    const fetchAllUser = async () => {
+        try{
+            const response = await fetch(FIND_ALL_USER, {mode:'cors'});
+            const data = await response.json();
+            // console.log("pair: ", data)
+            fetchStudentByClassId(data);
+        }
+        catch(e) {
+            console.log(e);
+        }
+    }
 
     useEffect(() => {
         setStudentRecord([]);
-        if (oneRollCallId != -1) fetchAllUser(oneRollCallId);
+        fetchAllUser();
     }, [curUserId]);
 
+    // console.log("all students info: ", studentRecord);
     return (
         <Wrapper>
             <TableContainer className="table_container">
@@ -119,11 +127,11 @@ const StudentAttendanceTable = ({classNumber, classId, record}) => {
                                 <TableRow className="body_row" key={row.id}>
                                     {columns.map((column) => {
                                         const value = column;
-                                        if (value.id == 'ID') return (<TableCell className="table_cell">{row.uid}</TableCell>);
+                                        if (value.id == 'ID') return (<TableCell className="table_cell">{row.id}</TableCell>);
                                         else if (value.id == 'Name') return (<TableCell className="table_cell">{row.name}</TableCell>);
-                                        else if (value.id == 'Rate') return (<TableCell className="table_cell">{row.student_attendance_rate}</TableCell>);
-                                        else if (value.id == 'Times') return (<TableCell className="table_cell">{row.student_attendance_time}</TableCell>);
-                                        else return (<TableCell className="table_cell"><button className='table_btn' onClick={() => handleEnterDetail(row.uid, row.name)}>Enter</button></TableCell>);
+                                        else if (value.id == 'Rate') return (<TableCell className="table_cell">{row.attendance_rate}</TableCell>);
+                                        else if (value.id == 'Times') return (<TableCell className="table_cell">{row.attendance_times}</TableCell>);
+                                        else return (<TableCell className="table_cell"><button className='table_btn' onClick={() => handleEnterDetail(row.id, row.name)}>Enter</button></TableCell>);
                                     })}
                                 </TableRow>
                                 </>)
@@ -133,7 +141,7 @@ const StudentAttendanceTable = ({classNumber, classId, record}) => {
                     {popup}
                 </Table>
             </TableContainer>
-            <TablePagination className="table_pagination" rowsPerPageOptions={[2, 25, 100]} count={record.length} component="div" rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage }/>
+            <TablePagination className="table_pagination" rowsPerPageOptions={[2, 25, 100]} count={studentRecord.length} component="div" rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage }/>
         </Wrapper>
     );
 

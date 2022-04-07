@@ -42,7 +42,6 @@ const Classroom = ({item, handleEnterClass, handleDeleteClass}) => {
     const [open, setOpen] = useState(false)
     console.log('item', item)
     const {id, number, title} = item;
-    console.log('id', id);
     //delete class from page and db when choose delete in pop up dialog
     const handleToDelete = () => {
         setOpen(false)

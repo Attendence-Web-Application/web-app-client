@@ -63,6 +63,7 @@ const AddClassroomProfessor = ({classrooms, setClassrooms}) => {
         setIsShow(true);
     }
 
+    /*
     //insert (userId, classId) record into "class_enrolled" table
     const insertEnrollRecord = async (userId, classData) => {
         const response = await fetch(CHECK_ENROLL_URL + userId + "_" + classData.id, {mode: 'cors'});
@@ -86,27 +87,6 @@ const AddClassroomProfessor = ({classrooms, setClassrooms}) => {
             setClassrooms(arr => [...arr, classData]);
         }
     }
-
-    //post new class into "class" table if the class doesn't exist
-    /*
-    const postNewClass = async (newClass) => {
-        try {
-            console.log("number", newClass);
-            const params = {
-                method: 'POST',
-                body: JSON.stringify({ number: newClass.number, title: newClass.title, start_date: newClass.startDate, end_date: newClass.endDate}),
-                headers: { 'Content-Type': 'application/json' },
-            }
-            const createResponse = await fetch(CREATE_CLASS_URL, params);
-            const newData = await createResponse.json();
-            insertEnrollRecord(curUserId, newData);
-        }
-        catch (e) {
-            console.log(e);
-        }
-        setIsExist(false);
-    }
-    */
 
     //professor add one more class
     //1. check whether the class exist in "class" table
@@ -142,6 +122,19 @@ const AddClassroomProfessor = ({classrooms, setClassrooms}) => {
             console.log(e)
         }
     }
+    */
+
+    const insertNewClass = async (newClass) => {
+        const params = {
+            method: 'POST',
+            body: JSON.stringify({ number: newClass.number, title: newClass.title, start_date: newClass.startDate, end_date: newClass.endDate, user_id:curUserId}),
+            headers: { 'Content-Type': 'application/json' },
+        }
+        const createResponse = await fetch(CREATE_CLASS_URL, params);
+        const newData = await createResponse.json();
+        console.log("newClass: ", newData);
+        setClassrooms(arr => [...arr, newData]);
+    }
 
     //get the data get from class dialog
     const handleSubmit = (event) => {
@@ -160,8 +153,8 @@ const AddClassroomProfessor = ({classrooms, setClassrooms}) => {
         // const newEndDate = event.target.elements.endDate.value;
         
         // fetchDataByNumber(newClassNumber, newClassTitle, newStartDate, newEndDate);
-        fetchDataByNumber(newClass);
-        
+        // fetchDataByNumber(newClass);
+        insertNewClass(newClass);
 
     }
 

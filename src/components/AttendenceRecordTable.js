@@ -15,7 +15,7 @@ const FIND_STUDENT = "http://localhost:8080/user/";
 const AttendenceRecordTable = ({classNumber, classId, record}) => {
     const curUserId = parseInt(sessionStorage.getItem("id"));
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(2);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
     const [isShow, setIsShow] = useState(false);
     const [popup, setPopup] = useState(null);
 

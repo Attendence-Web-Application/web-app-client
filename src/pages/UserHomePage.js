@@ -6,7 +6,7 @@ import { AttendanceContext } from '../context/context';
 
 const FIND_CLASS_ID_URL = 'http://localhost:8080/class_enrolled/getClassEnroll/user';
 const FIND_CLASS_URL = 'http://localhost:8080/class/getClass/id'
-
+const FIND_CLASS_BY_USER = 'http://localhost:8080/class/userId/';
 const UserHomePage = () => {
   const { isAuthenticated } = useContext(AttendanceContext);
   const token = sessionStorage.getItem('token');
@@ -18,29 +18,50 @@ const UserHomePage = () => {
   const [classrooms, setClassrooms] = useState([]);
   const curUserId = parseInt(sessionStorage.getItem("id"));
 
-  const fetchClass = async (classId) => {
-      let classArr = [];
-      for (let id = 0; id < classId.length; id++) {
-          const response = await fetch(FIND_CLASS_URL + classId[id], {mode:'cors'});
-          const data = await response.json();
-          classArr.push(data);
+  const fetchClassById = async (classId) => {
+      try {
+        const response = await fetch(FIND_CLASS_URL + classId, {mode:'cors'});
+        const data = await response.json();
+        setClassrooms(prev => [...prev, data]);
       }
-      setClassrooms(classArr);
+      catch (e) {
+        console.log(e)
+      }
+  }
+  const fetchStudentData = async () => {
+      try {
+        const response = await fetch(FIND_CLASS_ID_URL + curUserId, {mode:'cors'});
+        const data = await response.json();
+        console.log(data);
+        for (let i = 0; i < data.length; i++) {
+            fetchClassById(data[i]);
+        }
+      }
+      catch (e) {
+        console.log(e)
+      }
   }
 
-  //read all classrooms of this professor
-  const fetchData = async () => { 
+  const fetchProfessorData = async () => { 
     try {
-      const response = await fetch(FIND_CLASS_ID_URL + curUserId, {mode:'cors'});
+      const response = await fetch(FIND_CLASS_BY_USER + curUserId, {mode:'cors'});
       const data = await response.json();
-      fetchClass(data);
+      // console.log("data", data);
+      setClassrooms(data);
     }
     catch (e) {
       console.log(e)
     }
   }
+
   useEffect(() => {
-       fetchData();
+       if (isStudent) {
+          fetchStudentData();
+       }
+       else {
+          fetchProfessorData();
+       }
+       
     }, [curUserId]);
 
 

@@ -6,18 +6,19 @@ import StudentAttendanceTable from "./StudentAttedanceTable";
 
 const FIND_ROLL_CALL_ID_URL = 'http://localhost:8080/attendanceRecord/user/';
 const FIND_ROLL_CALL_URL = 'http://localhost:8080/rollCall/';
-
-const Tabs = ({classNumber, classId, tabContent}) => {
+const FIND_ROLL_CALL_BY_CLASS_URL = 'http://localhost:8080/rollCall/classId/';
+const Tabs = ({classNumber, classId, record}) => {
     const curUserId = parseInt(sessionStorage.getItem("id"));
     const tabValues = ['Attendence Records', 'Student Attendence Rate'];
     const [activeTab, setActiveTab] = useState(0);
-    const [record, setRecord] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-
+    // const [record, setRecord] = useState([]);
+    // const [isLoading, setIsLoading] = useState(true);
+    console.log("enter class: ", classId);
     const handleOnClickTab = (tab) => {
         setActiveTab(tab);
     }
 
+    /*
     //get all roll call record of this class
     const fetchRollCallByClass = async (classId, IdArr) => {
         try{
@@ -47,14 +48,28 @@ const Tabs = ({classNumber, classId, tabContent}) => {
             console.log(e)
         }
     }
+    */
+    /*
+    const fetchRollCallByClass = async (classId) => {
+        try{
+            const response = await fetch(FIND_ROLL_CALL_BY_CLASS_URL + classId, {mode: 'cors'});
+            const data = await response.json();
+            console.log("all rollcall of class ", classId);
+            setRecord(data);
+            setIsLoading(false);
 
+        }
+        catch(e) {
+            console.log(e);
+        }
+    }
+    
     useEffect(() => {
         setRecord([]);
-       fetchAllRollCallByUser(curUserId);
+       fetchRollCallByClass(classId);
     }, [curUserId]);
-
+    */
     return (
-        !isLoading && 
         <Wrapper>
             <div className="tab_list_div">
                 <ul className="tab_list">

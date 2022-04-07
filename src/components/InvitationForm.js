@@ -35,7 +35,7 @@ const InvitationForm = ({handleSubmit}) => {
             <form onSubmit={handleSubmit} className='add_box'>
                 <div className='user_box'>
                     {/* <label htmlFor="classroom">Class </label> */}
-                    <select value={classroom} onChange={classroomChange}>
+                    <select id="classroom" value={classroom} onChange={classroomChange}>
                         {classroomList.map((classroomItem) => {
                             return <option value={classroomItem.title} key={classroomItem.id}>{classroomItem.title}</option>
                         })}
