@@ -3,14 +3,14 @@ import { Paper, TableCell, TableContainer, TableHead, TableRow, Table, TableBody
 import { useLocation } from "react-router";
 import styled from 'styled-components';
 import AttendanceDetailByUser from "./AttendanceDetailByUser";
+import { FIND_ALL_USER, FIND_ALL_STUDENT_BY_CLASS_ID } from '../utils/api'
 
-const FIND_ROLL_CALL_ID_URL = 'http://localhost:8080/attendanceRecord/user/';
-const FIND_ROLL_CALL_URL = 'http://localhost:8080/rollCall/';
-const FIND_ALL_USER_BY_ROLLCALL_ID = "http://localhost:8080/attendanceRecord/rollCall/";
-const FIND_STUDENT = "http://localhost:8080/user/";
-const FIND_STUDENT_RATE = "http://localhost:8080/class_enrolled/getClassEnroll/"
-const FIND_ALL_USER = "http://localhost:8080/user/nameIdPair/";
-const FIND_ALL_STUDENT_BY_CLASS_ID = 'http://localhost:8080/class_enrolled/getClassEnroll/class';
+// const FIND_ROLL_CALL_ID_URL = 'http://localhost:8080/attendanceRecord/user/';
+// const FIND_ROLL_CALL_URL = 'http://localhost:8080/rollCall/';
+// const FIND_ALL_USER_BY_ROLLCALL_ID = "http://localhost:8080/attendanceRecord/rollCall/";
+// const FIND_STUDENT = "http://localhost:8080/user/";
+// const FIND_STUDENT_RATE = "http://localhost:8080/class_enrolled/getClassEnroll/"
+
 //read all students according to class
 const StudentAttendanceTable = ({classNumber, classId, record}) => {
     const curUserId = parseInt(sessionStorage.getItem("id"));
@@ -127,10 +127,10 @@ const StudentAttendanceTable = ({classNumber, classId, record}) => {
                                 <TableRow className="body_row" key={row.id}>
                                     {columns.map((column) => {
                                         const value = column;
-                                        if (value.id == 'ID') return (<TableCell className="table_cell">{row.id}</TableCell>);
-                                        else if (value.id == 'Name') return (<TableCell className="table_cell">{row.name}</TableCell>);
-                                        else if (value.id == 'Rate') return (<TableCell className="table_cell">{row.attendance_rate}</TableCell>);
-                                        else if (value.id == 'Times') return (<TableCell className="table_cell">{row.attendance_times}</TableCell>);
+                                        if (value.id === 'ID') return (<TableCell className="table_cell">{row.id}</TableCell>);
+                                        else if (value.id === 'Name') return (<TableCell className="table_cell">{row.name}</TableCell>);
+                                        else if (value.id === 'Rate') return (<TableCell className="table_cell">{row.attendance_rate}</TableCell>);
+                                        else if (value.id === 'Times') return (<TableCell className="table_cell">{row.attendance_times}</TableCell>);
                                         else return (<TableCell className="table_cell"><button className='table_btn' onClick={() => handleEnterDetail(row.id, row.name)}>Enter</button></TableCell>);
                                     })}
                                 </TableRow>

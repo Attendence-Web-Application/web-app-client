@@ -1,9 +1,8 @@
 import React from "react";
 import styled from 'styled-components';
+import { FIND_ALL_ENROLL_STUDENT_URL, CREATE_ROLL_CALL_URL } from '../utils/api'
 
-const FIND_ALL_STUDENTS = "http://localhost:8080/"
-const FIND_ALL_ENROLL_STUDENT = "http://localhost:8080/class_enrolled/getUser/class"
-const CREATE_ROLL_CALL = 'http://localhost:8080/rollCall/createRollCall'
+
 const MINUTE_TO_ADD = 10;
 const RollCall = ({classId, setRecord}) => {
 
@@ -17,7 +16,7 @@ const RollCall = ({classId, setRecord}) => {
             body: JSON.stringify({ class_id: classId, expired_times: futureDate}),
             headers: { 'Content-Type': 'application/json' },
         }
-        const createResponse = await fetch(CREATE_ROLL_CALL, params);
+        const createResponse = await fetch(CREATE_ROLL_CALL_URL, params);
         const newData = await createResponse.json();
         console.log("newRollCall: ", newData);
         setRecord(prev => [...prev, newData]);

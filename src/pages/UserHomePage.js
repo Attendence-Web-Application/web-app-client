@@ -3,10 +3,9 @@ import styled from 'styled-components'
 import Classrooms from '../components/Classrooms'; 
 import { Redirect } from 'react-router-dom';
 import { AttendanceContext } from '../context/context';
+import { FIND_CLASS_ID_URL, FIND_CLASS_URL, FIND_CLASS_BY_USER_URL } from '../utils/api';
 
-const FIND_CLASS_ID_URL = 'http://localhost:8080/class_enrolled/getClassEnroll/user';
-const FIND_CLASS_URL = 'http://localhost:8080/class/getClass/id'
-const FIND_CLASS_BY_USER = 'http://localhost:8080/class/userId/';
+
 const UserHomePage = () => {
   const { isAuthenticated } = useContext(AttendanceContext);
   const token = sessionStorage.getItem('token');
@@ -44,7 +43,7 @@ const UserHomePage = () => {
 
   const fetchProfessorData = async () => { 
     try {
-      const response = await fetch(FIND_CLASS_BY_USER + curUserId, {mode:'cors'});
+      const response = await fetch(FIND_CLASS_BY_USER_URL + curUserId, {mode:'cors'});
       const data = await response.json();
       // console.log("data", data);
       setClassrooms(data);

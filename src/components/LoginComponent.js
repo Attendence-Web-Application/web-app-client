@@ -2,9 +2,10 @@ import React, { useState, useContext } from 'react';
 import styled from 'styled-components'
 import { Link, useHistory} from 'react-router-dom';
 import { AttendanceContext } from '../context/context';
+import { LOGIN_CHECK_API } from '../utils/api'
 
 async function loginUser(email, password) {
-    return fetch('http://localhost:8080/login', {
+    return fetch(LOGIN_CHECK_API, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

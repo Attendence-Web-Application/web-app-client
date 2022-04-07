@@ -4,9 +4,10 @@ import Tab from "./Tab";
 import AttendenceRecordTable from "./AttendenceRecordTable";
 import StudentAttendanceTable from "./StudentAttedanceTable";
 
-const FIND_ROLL_CALL_ID_URL = 'http://localhost:8080/attendanceRecord/user/';
-const FIND_ROLL_CALL_URL = 'http://localhost:8080/rollCall/';
-const FIND_ROLL_CALL_BY_CLASS_URL = 'http://localhost:8080/rollCall/classId/';
+// const FIND_ROLL_CALL_ID_URL = 'http://localhost:8080/attendanceRecord/user/';
+// const FIND_ROLL_CALL_URL = 'http://localhost:8080/rollCall/';
+// const FIND_ROLL_CALL_BY_CLASS_URL = 'http://localhost:8080/rollCall/classId/';
+
 const Tabs = ({classNumber, classId, record}) => {
     const curUserId = parseInt(sessionStorage.getItem("id"));
     const tabValues = ['Attendence Records', 'Student Attendence Rate'];

@@ -7,11 +7,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import { IconButton } from '@material-ui/core';
 import { Paper, TableCell, TableContainer, TableHead, TableRow, Table, TableBody, TablePagination, TableSortLabel } from "@material-ui/core";
 import StudentTable from "./StudentTable";
+import { FIND_ALL_USER_URL, FIND_ALL_USER_BY_ROLLCALL_ID_URL, FIND_STUDENT_URL } from '../utils/api'
 //display all students of the class in a specific roll call according to roll_call_id, attend or not
-
-const FIND_ALL_USER = "http://localhost:8080/user/nameIdPair/";
-const FIND_ALL_USER_BY_ROLLCALL_ID = "http://localhost:8080/attendanceRecord/rollCall/";
-const FIND_STUDENT = "http://localhost:8080/user/";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -71,7 +68,7 @@ const AttendanceDetailBySession = ({setPopup, rollCallId}) => {
     
     const fetchAllUser = async (rollCallId) => {
         try{
-            const response = await fetch(FIND_ALL_USER, {mode:'cors'});
+            const response = await fetch(FIND_ALL_USER_URL, {mode:'cors'});
             const data = await response.json();
             console.log("pair: ", data)
             fetchUserByRollCallId(rollCallId, data);
@@ -82,7 +79,7 @@ const AttendanceDetailBySession = ({setPopup, rollCallId}) => {
     }
     const fetchUserByRollCallId = async (rollCallId, userData) => {
         try{
-            const response = await fetch(FIND_ALL_USER_BY_ROLLCALL_ID + rollCallId, {mode:'cors'});
+            const response = await fetch(FIND_ALL_USER_BY_ROLLCALL_ID_URL + rollCallId, {mode:'cors'});
             const data = await response.json();
             console.log("rollcall: ", data)
             for (let i = 0; i < data.length; i++) {

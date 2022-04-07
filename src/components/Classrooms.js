@@ -5,10 +5,9 @@ import AddClassroomProfessor from './AddClassroomProfessor';
 import AddClassroomStudent from '../components/AddClassroomStudent';
 import NavBar from './NavBar';
 import { Container } from 'bootstrap-4-react';
+import { DELETE_STUDENT_CLASS_URL, DELETE_PROFESSOR_CLASS_URL } from '../utils/api'
 
-const DELETE_STUDENT_CLASS_URL = 'http://localhost:8080/class_enrolled/getClassEnroll/'
-const DELETE_PROFESSOR_CLASS_URL = 'http://localhost:8080/class/getClass/Id'
-const DELETE_ATTENDANCE_URL = ''
+
 const Classrooms = ({ classrooms, setClassrooms }) => {
 
     const token = sessionStorage.getItem('token');

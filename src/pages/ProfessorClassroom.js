@@ -4,8 +4,8 @@ import NavBar from "../components/NavBar";
 import styled from 'styled-components'
 import RollCall from "../components/RollCall";
 import Tabs from "../components/Tabs";
+import { FIND_ROLL_CALL_BY_CLASS_URL } from '../utils/api'
 
-const FIND_ROLL_CALL_BY_CLASS_URL = 'http://localhost:8080/rollCall/classId/';
 const ProfessorClassroom = () => {
     const token = sessionStorage.getItem('token');
     const type = sessionStorage.getItem('type');

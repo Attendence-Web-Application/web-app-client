@@ -7,9 +7,8 @@ import { Table, TableContainer, TableHead, TableRow, TableCell, TableSortLabel }
 import AttendanceTable from './AttendanceTable'
 import CloseIcon from '@material-ui/icons/Close';
 import { IconButton } from '@material-ui/core';
+import { FIND_ATTENDANCE_STATUS_URL } from '../utils/api'
 
-const FIND_ATTENDANCE_STATUS = "http://localhost:8080/attendanceRecord/user/";
-const FIND_ATTENDANCE_RECORD_BY_USER = 'http://localhost:8080/attendanceRecord/user/';
 const useStyles = makeStyles(theme => ({
   paper: {
     overflowY: 'unset',
@@ -51,7 +50,7 @@ const AttendanceDetailByUser = ({setPopup, record, uid, name}) => {
     const fetchRecordByComposeId = async () => {
         try {
             for (let i = 0; i < record.length; i++) { //read record of each rollcall
-                const response = await fetch(FIND_ATTENDANCE_STATUS + uid + "/rollcall/" + record[i].id, {mode:'cors'});
+                const response = await fetch(FIND_ATTENDANCE_STATUS_URL + uid + "/rollcall/" + record[i].id, {mode:'cors'});
                 const data = await response.json();
                 setAttendanceRecord(prev => [...prev, data]);
             }

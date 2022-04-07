@@ -4,10 +4,12 @@ import { Container } from 'bootstrap-4-react';
 import lockerImage from '../assets/locker.png'
 import { VscLock } from "react-icons/vsc";
 import Loading from '../components/Loading';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import { CHECK_INFO_VALID_URL, CREATE_USER_URL } from '../utils/api'
+
 
 async function checkInfoValid(email, name) {
-    return fetch('http://localhost:8080/user/checkInfoValid', {
+    return fetch(CHECK_INFO_VALID_URL, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -54,7 +56,7 @@ const RegisterPage = () => {
     const status = await checkInfoValid(email, username);
     console.log("Status", status.email, status.name);
     if (status.email && status.name) {
-      fetch('http://localhost:8080/user/createUser', {
+      fetch(CREATE_USER_URL, {
         method: 'POST',
         body: JSON.stringify({ name: username, password: password, email: email, role_id: role_id }),
         headers: { 'Content-Type': 'application/json' },
