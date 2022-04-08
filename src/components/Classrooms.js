@@ -5,7 +5,7 @@ import AddClassroomProfessor from './AddClassroomProfessor';
 import AddClassroomStudent from '../components/AddClassroomStudent';
 import NavBar from './NavBar';
 import { Container } from 'bootstrap-4-react';
-import { DELETE_STUDENT_CLASS_URL, DELETE_PROFESSOR_CLASS_URL, FIND_ALL_USER_URL } from '../utils/api'
+import { DELETE_STUDENT_CLASS_URL, DELETE_PROFESSOR_CLASS_URL, FIND_ALL_USER_URL } from '../utils/api';
 
 
 const Classrooms = ({ classrooms, setClassrooms }) => {
@@ -31,28 +31,38 @@ const Classrooms = ({ classrooms, setClassrooms }) => {
         console.log("enter into ", id);
     }
 
+    const deleteStudentClass = async (id) => {
+        try {
+            console.log(DELETE_STUDENT_CLASS_URL + curUserId + "_" + id);
+            const response = await fetch(DELETE_STUDENT_CLASS_URL + curUserId + "_" + id, {mode: "cors", method: "DELETE"});
+            const data = await response.json();
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+
+    const deleteProfessorClass = async (id) => {
+        try {
+            const response = await fetch(DELETE_PROFESSOR_CLASS_URL + id, {mode: "cors", method: "DELETE"});
+            const data = await response.json();
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
     const handleDeleteClass = async (id) => {
         const remainClass = classrooms.filter((p) => id !== p.id);
         console.log("delete class ", id);
         //update after trigger finish
-        /*
+        
         if (isStudent) { //delete in class_enroll
-
+            deleteStudentClass(id);
         }
         else { //delete in class
-
+            deleteProfessorClass(id);
         }
-        //delete course in class_enroll table
-        try{
-            const response = await fetch(DELETE_STUDENT_CLASS_URL + curUserId + "_" + id, {method: 'DELETE'});
-            const data = await response.json();
-        }
-        catch (e){
-            console.log(e);
-        }
-        setClassrooms(remainClass);
-        */
-        
+        setClassrooms(remainClass);    
     }
 
     const clearState = () => {
