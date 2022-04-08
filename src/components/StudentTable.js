@@ -10,7 +10,7 @@ const columns = [
 
 const StudentTable = ({record}) => {
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(2);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('Name');
     // var records = record;
@@ -92,7 +92,7 @@ const StudentTable = ({record}) => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <TablePagination className="table_pagination" rowsPerPageOptions={[2, 25, 100]} count={record.length} component="div" rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage }/>
+            <TablePagination className="table_pagination" rowsPerPageOptions={[10, 25, 50]} count={record.length} component="div" rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage }/>
         </Wrapper>
     );
 }

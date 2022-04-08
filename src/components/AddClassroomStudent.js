@@ -4,10 +4,9 @@ import InvitationForm from './InvitationForm';
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles';
 import '../index.css';
-import { SEARCH_CLASS_URL, CHECK_ENROLL_URL, INSERT_ENROLL_URL } from '../utils/api'
-
+import { SEARCH_CLASS_URL, CHECK_ENROLL_URL, INSERT_ENROLL_URL, FIND_CLASS_URL } from '../utils/api'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -35,8 +34,9 @@ const AddClassroomStudent = ({classrooms, setClassrooms}) => {
     const [isShowForm, setIsShowForm] = useState(false);
     const [isShowNotExist, setIsShowNotExist] = useState(false);
     const [isCreated, setIsCreated] = useState(false);
-    const [existCourse, setExistCourse] = useState('');
+    // const [existCourse, setExistCourse] = useState('');
     const curUserId = parseInt(sessionStorage.getItem('id'));
+    let newClass;
     console.log(classrooms);
     
     const handleClick = () => {
@@ -44,62 +44,50 @@ const AddClassroomStudent = ({classrooms, setClassrooms}) => {
         console.log("change")
     }
 
-    //insert (userId, classId) record into "class_enrolled" table
-    const insertEnrollRecord = async (userId, classData) => {
-        console.log("classData", classData);
-        const response = await fetch(CHECK_ENROLL_URL + userId + "_" + classData.id, {mode: 'cors'});
-        
-        try{
+    const fetchClassById = async (classId) => {
+        try {
+            const response = await fetch(FIND_CLASS_URL + classId, {mode:'cors'});
             const data = await response.json();
-            //if the class has been created by the professor, pop out a message
-            setExistCourse(classData.number);
+            setClassrooms(prev => [...prev, data]);
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }
+    const checkClassInfo = async (newClass, code) => {
+        //check code??
+        try {
+            const response = await fetch(CHECK_ENROLL_URL + curUserId + "_" + newClass.id, {mode: 'cors'});
+            const data = await response.json();
             setIsCreated(true);
         }
-        catch (e) { 
+        catch(e) {
             const params = {
                 method: 'POST',
-                body: JSON.stringify({ id: {classId: classData.id, userId: userId}, attendance_times: 0, attendance_rate: "0"}),
+                body: JSON.stringify({ id: {classId: newClass.id, userId: curUserId}, attendance_times: 0, attendance_rate: "0"}),
                 headers: { 'Content-Type': 'application/json' },
             }
 
             const createResponse = await fetch(INSERT_ENROLL_URL, params);
             const newData = await createResponse.json();
-            setClassrooms(arr => [...arr, classData]);
-        }
-    }
-
-    const checkClassCode = async (number, code) => {
-        try {
-            const response = await fetch(SEARCH_CLASS_URL + number, {mode: 'cors'});
-            const data = await response.json();
-            console.log("search class", data);
-            if (data.length == 0) { //no such class
-                setIsShowNotExist(true);
-            }
-            else { //check code
-                insertEnrollRecord(curUserId, data[0]);
-            }
-        }
-        catch(e) {
-            console.log(e);
+            fetchClassById(newClass.id);
         }
         
     }
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log("element", event.target.elements);
-        const newClassroom = event.target.elements.classroom.value;
-        const newCode = event.target.elements.code.value;
-        console.log("newClassroom", event.target.elements.classroom.value);
-        console.log("newCode", event.target.elements.code.value)
-        setExistCourse(newClassroom);
+    const handleSubmit = (classId, classroom, instructor, code) => {
+        newClass = {"id": classId, "title": classroom, "instructor": instructor};
+        // setExistCourse(newClass);
         //check code 
-        checkClassCode(newClassroom, newCode);
+        checkClassInfo(newClass, code);
         //change status
         setIsShowForm(false);
 
     }
     
+    const handleCancel = () => {
+        setIsShowForm(false);
+        setIsCreated(false);
+    }
     const handleMessageCancel = () => {
         setIsShowNotExist(false);
         setIsCreated(false);
@@ -123,16 +111,17 @@ const AddClassroomStudent = ({classrooms, setClassrooms}) => {
                     {/* <DialogContent>
                     </DialogContent> */}
                     {/* <DialogActions className={classes.alignItemsAndJustifyContentForm} style={{backgroundColor: '#3d3c40', marginBottom: '0px'}}> */}
-                        <InvitationForm className={classes.alignItemsAndJustifyContentForm} handleSubmit={handleSubmit}/>
+                        <InvitationForm className={classes.alignItemsAndJustifyContentForm} handleSubmit={handleSubmit} handleCancel={handleCancel}/>
                     {/* </DialogActions> */}
                 </div>
             </Dialog>
         </DialogWrapper>
 
+        {isCreated  && 
         <DialogWrapper>
             <Dialog open={isCreated} onClose={!isCreated} className="dialog_box">
                 <div style={{width: 500, margin: '0 auto'}}>
-                    <DialogTitle className={classes.alignItemsAndJustifyContentTitle}>{"The class " + existCourse + " already exists"}</DialogTitle>
+                    <DialogTitle className={classes.alignItemsAndJustifyContentTitle}>{"The class already exists"}</DialogTitle>
                     <DialogActions style={{backgroundColor:'#3e3d40'}}>
                         <Wrapper>
                             <button className="form-btn" onClick={handleMessageCancel}>OK</button>
@@ -140,9 +129,9 @@ const AddClassroomStudent = ({classrooms, setClassrooms}) => {
                     </DialogActions>
                 </div>
             </Dialog>
-        </DialogWrapper>
+        </DialogWrapper>}
 
-        <DialogWrapper>
+        {/* <DialogWrapper>
               <Dialog open={isShowNotExist} onClose={!isShowNotExist} className="dialog_box">
                   <div style={{width: 500, margin: '0 auto'}}>
                       <DialogTitle className={classes.alignItemsAndJustifyContentTitle}>{"The class " + existCourse + " doesn't exists"}</DialogTitle>
@@ -153,7 +142,7 @@ const AddClassroomStudent = ({classrooms, setClassrooms}) => {
                       </DialogActions>
                   </div>
               </Dialog>
-          </DialogWrapper>
+          </DialogWrapper> */}
       
         
         </>

@@ -38,10 +38,10 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Classroom = ({item, handleEnterClass, handleDeleteClass}) => {
+const Classroom = ({item, isStudent, userData, handleEnterClass, handleDeleteClass}) => {
     const [open, setOpen] = useState(false)
     console.log('item', item)
-    const {id, number, title} = item;
+    const {id, number, title, user_id} = item;
     //delete class from page and db when choose delete in pop up dialog
     const handleToDelete = () => {
         setOpen(false)
@@ -52,7 +52,8 @@ const Classroom = ({item, handleEnterClass, handleDeleteClass}) => {
         <section className="card text-white bg-secondary mb-3" style={{height: 13 + 'em', width: 18 + 'em', margin: 20 + 'px', borderRadius: '20px 20px 20px 20px'}}>
             <div className="card-body">
                 <h5 className="card-title">{number}</h5>
-                <h5 className="card-subtitle" style={{paddingBottom:5 + 'px'}}>{title}</h5>
+                <h5 className="card-subtitle" style={{paddingBottom:10 + 'px'}}>{title}</h5>
+                {isStudent && <h5 className="card-subtitle">Instructor: {userData[user_id]}</h5>}
                 {/* <h6 className="card-subtitle">{title}</h6> */}
                 <Container>
                     <button type="button" className="btn-enter"><Link to={{pathname: "/professorClassroom", state: {classNumber: number, classId: id}}} className="link">Enter</Link></button>

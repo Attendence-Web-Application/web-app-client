@@ -11,7 +11,7 @@ import { FIND_STUDENT_ID_URL, FIND_ROLL_CALL_ID_URL, FIND_ROLL_CALL_URL, FIND_AL
 const AttendenceRecordTable = ({classNumber, classId, record}) => {
     const curUserId = parseInt(sessionStorage.getItem("id"));
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
     const [isShow, setIsShow] = useState(false);
     const [popup, setPopup] = useState(null);
 
@@ -82,7 +82,7 @@ const AttendenceRecordTable = ({classNumber, classId, record}) => {
                     {popup}
                 </Table>
             </TableContainer>
-            <TablePagination className="table_pagination" rowsPerPageOptions={[2, 25, 100]} count={record.length} component="div" rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage }/>
+            <TablePagination className="table_pagination" rowsPerPageOptions={[10, 25, 50]} count={record.length} component="div" rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage }/>
             
         </Wrapper>
     )

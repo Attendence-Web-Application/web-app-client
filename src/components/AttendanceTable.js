@@ -11,7 +11,7 @@ const columns = [
 
 const AttendanceTable = ({attendanceRecord, record}) => {
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('Session Time');
     // console.log("record", record);
@@ -99,7 +99,7 @@ const AttendanceTable = ({attendanceRecord, record}) => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <TablePagination className="table_pagination" rowsPerPageOptions={[2, 25, 100]} count={attendanceRecord.length} component="div" rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage }/>
+            <TablePagination className="table_pagination" rowsPerPageOptions={[10, 25, 50]} count={attendanceRecord.length} component="div" rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage }/>
         </Wrapper>
     );
 }

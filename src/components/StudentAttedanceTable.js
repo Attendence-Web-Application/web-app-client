@@ -16,12 +16,8 @@ const StudentAttendanceTable = ({classNumber, classId, record}) => {
     const curUserId = parseInt(sessionStorage.getItem("id"));
     const [studentRecord, setStudentRecord] = useState([]);
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(2);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
     const [popup, setPopup] = useState(null);
-
-    let oneRollCallId = -1;
-    //HARDCODE!!!
-    if (record.length > 0) oneRollCallId = 3; //change to first roll call id
 
     const columns = [
         {id: 'ID', label: 'ID'},
@@ -141,7 +137,7 @@ const StudentAttendanceTable = ({classNumber, classId, record}) => {
                     {popup}
                 </Table>
             </TableContainer>
-            <TablePagination className="table_pagination" rowsPerPageOptions={[2, 25, 100]} count={studentRecord.length} component="div" rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage }/>
+            <TablePagination className="table_pagination" rowsPerPageOptions={[10, 25, 50]} count={studentRecord.length} component="div" rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage }/>
         </Wrapper>
     );
 

@@ -54,6 +54,7 @@ const UserHomePage = () => {
   }
 
   useEffect(() => {
+      setClassrooms([]);
        if (isStudent) {
           fetchStudentData();
        }
