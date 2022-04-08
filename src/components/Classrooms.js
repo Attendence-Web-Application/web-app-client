@@ -5,7 +5,7 @@ import AddClassroomProfessor from './AddClassroomProfessor';
 import AddClassroomStudent from '../components/AddClassroomStudent';
 import NavBar from './NavBar';
 import { Container } from 'bootstrap-4-react';
-import { DELETE_STUDENT_CLASS_URL, DELETE_PROFESSOR_CLASS_URL } from '../utils/api'
+import { DELETE_STUDENT_CLASS_URL, DELETE_PROFESSOR_CLASS_URL, FIND_ALL_USER_URL } from '../utils/api'
 
 
 const Classrooms = ({ classrooms, setClassrooms }) => {
@@ -15,6 +15,17 @@ const Classrooms = ({ classrooms, setClassrooms }) => {
     const [isLogin, setIsLogin] = useState(token);
     const [isStudent, setIsStudent] = useState(type === "student");
     const curUserId = sessionStorage.getItem('id');
+    const [userData, setUserData] = useState(null);
+    const fetchAllUser = async () => {
+        try {
+            const response = await fetch(FIND_ALL_USER_URL, {mode: 'cors'});
+            const data = await response.json();
+            setUserData(data);
+        }
+        catch(e) {
+            console.log(e);
+        }
+    }
 
     const handleEnterClass = (id) => {
         console.log("enter into ", id);
@@ -48,7 +59,8 @@ const Classrooms = ({ classrooms, setClassrooms }) => {
         setIsLogin(false)
     }
     useEffect(() => {
-        console.log(sessionStorage.getItem('id'))
+        console.log(sessionStorage.getItem('id'));
+        fetchAllUser();
        if (sessionStorage.getItem('id') == null) {
             setIsLogin(false);
        }
@@ -58,6 +70,8 @@ const Classrooms = ({ classrooms, setClassrooms }) => {
     }, [sessionStorage.getItem('id')]);
 
     return (
+        userData != null 
+        && 
         <React.Fragment>
             <NavBar props={clearState} />
             <ButtonWrapper>
@@ -68,13 +82,12 @@ const Classrooms = ({ classrooms, setClassrooms }) => {
                 <div className="row row-cols-auto row-cols-md-3" style={{margin: '0 auto', float: 'none'}}>
                     {isLogin && classrooms.map((item, index) => {  
                     return (
-                        <Classroom className="shadow-lg p-3 mb-5 bg-white rounded" key={index} item = {item} handleEnterClass = {handleEnterClass} handleDeleteClass = {handleDeleteClass}/>  
+                        <Classroom className="shadow-lg p-3 mb-5 bg-white rounded" key={index} item = {item} isStudent = {isStudent} userData = {userData} handleEnterClass = {handleEnterClass} handleDeleteClass = {handleDeleteClass}/>  
                     ) 
                 })}
                 </div>
             </Wrapper> 
         </React.Fragment>
-      
 
     );
 }

@@ -52,3 +52,7 @@ export const CREATE_ROLL_CALL_URL = BASE_URL + '/rollCall/createRollCall'
 export const FIND_ALL_USER = BASE_URL + "/user/nameIdPair/";
 export const FIND_ALL_STUDENT_BY_CLASS_ID = BASE_URL + '/class_enrolled/getClassEnroll/class';
 
+//InvitationForm.js
+export const GET_ALL_TITLE = BASE_URL + "/class/getDistinctClassTitle";
+export const GET_USER_BY_TITLE = BASE_URL + "/class/getClassByTitle/";
+
