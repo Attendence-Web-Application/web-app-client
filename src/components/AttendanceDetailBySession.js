@@ -42,7 +42,7 @@ const AttendanceDetailBySession = ({setPopup, rollCallId}) => {
 
     const [record, setRecord] = useState([]);
     const [isShow, setIsShow] = useState(true);
-
+    const [isLoading, setIsLoading] = useState(true);
     const handleClose = () => {
         setIsShow(false);
         setPopup(null);
@@ -87,6 +87,7 @@ const AttendanceDetailBySession = ({setPopup, rollCallId}) => {
                 data[i].name = res;
                 setRecord(prev => [...prev, data[i]]);
             }
+            setIsLoading(false);
         }
         catch(e) {
             console.log(e);
@@ -110,7 +111,8 @@ const AttendanceDetailBySession = ({setPopup, rollCallId}) => {
                     <DialogTitle className={classes.alignItemsAndJustifyContentTitle}>{"Attendance Details"}</DialogTitle>
                     {/* <DialogActions className={classes.alignItemsAndJustifyContentForm} style={{backgroundColor: '#3d3c40', marginBottom: '0px'}}> */}
                         {/* <CreateClassForm className={classes.alignItemsAndJustifyContentForm} handleSubmit={handleSubmit} handleCancel={handleCancel}/> */}
-                        {record.length > 0 ? <StudentTable record={record}/> : <div>No record</div>}
+                        {isLoading && <h4>Loading...</h4>}
+                        {!isLoading && (record.length > 0 ? <StudentTable record={record}/> : <div>No record</div>)}
                     {/* </DialogActions> */}
                 </div>
             </Dialog>
