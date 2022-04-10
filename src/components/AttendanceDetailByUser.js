@@ -89,7 +89,8 @@ const AttendanceDetailByUser = ({setPopup, record, uid, name}) => {
                 <DialogTitle className={classes.alignItemsAndJustifyContentTitle}>
                     {"Attendance Details of Student " + name}
                 </DialogTitle>
-                {!isLoading && attendanceRecord.length > 0 ? <AttendanceTable attendanceRecord={attendanceRecord} record={record}/> : <div>No record</div>}
+                {isLoading && <h5>Loading...</h5>}
+                {!isLoading && (attendanceRecord.length > 0 ? <AttendanceTable attendanceRecord={attendanceRecord} record={record}/> : <h5>No record</h5>)}
             </Dialog>
         </Wrapper>
     );
