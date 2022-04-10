@@ -56,7 +56,8 @@ const Classroom = ({item, isStudent, userData, handleEnterClass, handleDeleteCla
                 {isStudent && <h5 className="card-subtitle">Instructor: {userData[user_id]}</h5>}
                 {/* <h6 className="card-subtitle">{title}</h6> */}
                 <Container>
-                    <button type="button" className="btn-enter"><Link to={{pathname: "/professorClassroom", state: {classNumber: number, classId: id}}} className="link">Enter</Link></button>
+                    {!isStudent && <button type="button" className="btn-enter"><Link to={{pathname: "/professorClassroom", state: {classNumber: number, classId: id}}} className="link">Enter</Link></button>}
+                    {isStudent && <button type="button" className="btn-enter"><Link to={{pathname: "/studentClassroom", state: {classNumber: number, classId: id}}} className="link">Enter</Link></button>}
                     <button type="button" onClick={() => {setOpen(true)}} className="btn-delete">Delete</button>
                 </Container>
             </div>
