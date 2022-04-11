@@ -14,6 +14,9 @@ export const FIND_ATTENDANCE_RECORD_BY_USER_URL =
   BASE_URL + '/attendanceRecord/user/';
 export const BY_ROLL_CALL_ID_URL = '/rollcall/';
 
+// StudentCheckInTable.js
+export const CHECK_IN_BY_USER_ID_URL = BASE_URL + '/attendanceRecord/user/';
+
 // RegisterPage.js
 export const CHECK_INFO_VALID_URL = BASE_URL + '/user/checkInfoValid';
 export const CREATE_USER_URL = BASE_URL + '/user/createUser';

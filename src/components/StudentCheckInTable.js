@@ -13,7 +13,12 @@ import {
 import { useLocation } from 'react-router';
 import styled from 'styled-components';
 import AttendanceDetailByUser from './AttendanceDetailByUser';
-import { FIND_ALL_USER, FIND_ALL_STUDENT_BY_CLASS_ID } from '../utils/api';
+import {
+  FIND_ALL_USER,
+  FIND_ALL_STUDENT_BY_CLASS_ID,
+  CHECK_IN_BY_USER_ID_URL,
+  BY_ROLL_CALL_ID_URL,
+} from '../utils/api';
 
 //read the check in history of a student in classroom
 const StudentCheckInTable = ({ classNumber, classId, record }) => {
@@ -41,66 +46,31 @@ const StudentCheckInTable = ({ classNumber, classId, record }) => {
   };
 
   //attend which session
-  const handleCheckIn = (id, name) => {
-    // setPopup(<StudentCheckInTable record={record}></StudentCheckInTable>);
-  };
-
-  /*
-    const fetchAttendanceRate = async (oneUser) => {
-        try {
-            const response = await fetch(FIND_STUDENT_RATE + oneUser.uid + "_" + classId, {mode:'cors'});
-            const data = await response.json();
-            oneUser.student_attendance_rate = data.attendance_rate;
-            oneUser.student_attendance_time = data.attendance_times;
-            setStudentRecord(prev => [...prev, oneUser])
-        }
-        catch(e) {
-            console.log(e);
-        }
-        
+  const handleCheckIn = async (id, userId, status) => {
+    if (!status) {
+      try {
+        await fetch(
+          CHECK_IN_BY_USER_ID_URL + userId + BY_ROLL_CALL_ID_URL + id,
+          {
+            method: 'put',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              id: {
+                rollCallId: id,
+                userId: userId,
+              },
+              check_status: true,
+              check_time: new Date(),
+            }),
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
     }
-    */
-  //   //get students from all users
-  //   const mergeStudentInfo = async (enrollData, userData) => {
-  //     try {
-  //       for (let i = 0; i < enrollData.length; i++) {
-  //         enrollData[i].name = userData[enrollData[i].id.userId];
-  //         enrollData[i].id = enrollData[i].id.userId;
-  //         setStudentRecord((prev) => [...prev, enrollData[i]]);
-  //       }
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   };
-
-  //   //find all users of this roll call/this class
-  //   const fetchStudentByClassId = async (userData) => {
-  //     try {
-  //       const response = await fetch(FIND_ALL_STUDENT_BY_CLASS_ID + classId, {
-  //         mode: 'cors',
-  //       });
-  //       const data = await response.json();
-  //       // console.log("data_", data);
-  //       mergeStudentInfo(data, userData);
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   };
-
-  //   const fetchAllUser = async () => {
-  //     try {
-  //       const response = await fetch(FIND_ALL_USER, { mode: 'cors' });
-  //       const data = await response.json();
-  //       // console.log("pair: ", data)
-  //       fetchStudentByClassId(data);
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   };
-
-  //   useEffect(() => {
-  //     setPage(0);
-  //   }, [curUserId]);
+  };
 
   // console.log("all students info: ", studentRecord);
   return (
@@ -150,7 +120,11 @@ const StudentCheckInTable = ({ classNumber, classId, record }) => {
                                 <button
                                   className="table_btn"
                                   onClick={() =>
-                                    handleCheckIn(row.id, row.name)
+                                    handleCheckIn(
+                                      row.id.rollCallId,
+                                      curUserId,
+                                      row.check_status
+                                    )
                                   }
                                 >
                                   Check
