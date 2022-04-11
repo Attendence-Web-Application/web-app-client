@@ -1,15 +1,23 @@
-import React, {useState} from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import { Home, Login, Register, Error, UserHome, UserHomePrivateRoute, ProfessorClassroom } from './pages'
-
+import {
+  Home,
+  Login,
+  Register,
+  Error,
+  UserHome,
+  UserHomePrivateRoute,
+  ProfessorClassroom,
+  StudentClassroom,
+} from './pages';
 
 function App() {
   return (
     <Router>
       <Switch>
         <Route path="/" exact={true}>
-           <Home />
+          <Home />
         </Route>
         <UserHomePrivateRoute path="/homepage" exact={true}>
           <UserHome />
@@ -21,13 +29,15 @@ function App() {
           <Register />
         </Route>
         <Route path="/professorClassroom">
-          <ProfessorClassroom/>
+          <ProfessorClassroom />
+        </Route>
+        <Route path="/StudentClassroom">
+          <StudentClassroom />
         </Route>
         <Route path="*">
           <Error />
         </Route>
       </Switch>
-
     </Router>
   );
 }
