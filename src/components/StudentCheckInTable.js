@@ -21,7 +21,7 @@ import {
 } from '../utils/api';
 
 //read the check in history of a student in classroom
-const StudentCheckInTable = ({ classNumber, classId, record }) => {
+const StudentCheckInTable = ({ classNumber, classId, record, setRecord }) => {
   const curUserId = parseInt(sessionStorage.getItem('id'));
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -49,6 +49,8 @@ const StudentCheckInTable = ({ classNumber, classId, record }) => {
   const handleCheckIn = async (id, userId, status) => {
     if (!status) {
       try {
+        let checkInDate = new Date();
+
         await fetch(
           CHECK_IN_BY_USER_ID_URL + userId + BY_ROLL_CALL_ID_URL + id,
           {
@@ -62,10 +64,12 @@ const StudentCheckInTable = ({ classNumber, classId, record }) => {
                 userId: userId,
               },
               check_status: true,
-              check_time: new Date(),
+              check_time: checkInDate,
             }),
           }
         );
+        // refresh the page
+        window.location.reload();
       } catch (error) {
         console.log(error);
       }

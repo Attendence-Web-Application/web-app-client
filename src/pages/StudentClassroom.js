@@ -65,7 +65,10 @@ const StudentClassroom = () => {
           student
         </h1>
         <NavBar />
-        <StudentCheckInTable record={record}></StudentCheckInTable>
+        <StudentCheckInTable
+          record={record}
+          setRecord={setRecord}
+        ></StudentCheckInTable>
       </Wrapper>
     )
   );
