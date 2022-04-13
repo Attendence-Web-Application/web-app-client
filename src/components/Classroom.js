@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import Dialog from "@material-ui/core/Dialog";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
+import Dialog from "@material-ui/core/Dialog"
+import DialogContentText from "@material-ui/core/DialogContentText"
+import DialogTitle from "@material-ui/core/DialogTitle"
+import DialogActions from "@material-ui/core/DialogActions"
+import DialogContent from "@material-ui/core/DialogContent"
 import '../index.css'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -38,47 +38,47 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Classroom = ({item, isStudent, userData, handleEnterClass, handleDeleteClass}) => {
-    const [open, setOpen] = useState(false)
-    console.log('item', item)
-    const {id, number, title, user_id} = item;
-    //delete class from page and db when choose delete in pop up dialog
-    const handleToDelete = () => {
-        setOpen(false)
-        handleDeleteClass(id)
-    }
-    const classes = useStyles();
-    return (
-        <section className="card text-white bg-secondary mb-3" style={{height: 13 + 'em', width: 18 + 'em', margin: 20 + 'px', borderRadius: '20px 20px 20px 20px'}}>
-            <div className="card-body">
-                <h5 className="card-title">{number}</h5>
-                <h5 className="card-subtitle" style={{paddingBottom:10 + 'px'}}>{title}</h5>
-                {isStudent && <h5 className="card-subtitle">Instructor: {userData[user_id]}</h5>}
-                {/* <h6 className="card-subtitle">{title}</h6> */}
-                <Container>
-                    {!isStudent && <button type="button" className="btn-enter"><Link to={{pathname: "/professorClassroom", state: {classNumber: number, classId: id}}} className="link">Enter</Link></button>}
-                    {isStudent && <button type="button" className="btn-enter"><Link to={{pathname: "/studentClassroom", state: {classNumber: number, classId: id}}} className="link">Enter</Link></button>}
-                    <button type="button" onClick={() => {setOpen(true)}} className="btn-delete">Delete</button>
-                </Container>
+const Classroom = ({ item, isStudent, userData, handleEnterClass, handleDeleteClass }) => {
+  const [open, setOpen] = useState(false)
+  console.log('item', item)
+  const { id, number, title, user_id } = item
+  //delete class from page and db when choose delete in pop up dialog
+  const handleToDelete = () => {
+    setOpen(false)
+    handleDeleteClass(id)
+  }
+  const classes = useStyles()
+  return (
+    <section className="card text-white bg-secondary mb-3" style={{ height: 13 + 'em', width: 18 + 'em', margin: 20 + 'px', borderRadius: '20px 20px 20px 20px' }}>
+      <div className="card-body">
+        <h5 className="card-title">{number}</h5>
+        <h5 className="card-subtitle" style={{ paddingBottom: 10 + 'px' }}>{title}</h5>
+        {isStudent && <h5 className="card-subtitle">Instructor: {userData[user_id]}</h5>}
+        {/* <h6 className="card-subtitle">{title}</h6> */}
+        <Container>
+          {!isStudent && <button type="button" className="btn-enter"><Link to={{ pathname: "/professorClassroom", state: { classNumber: number, classId: id } }} className="link">Enter</Link></button>}
+          {isStudent && <button type="button" className="btn-enter"><Link to={{ pathname: "/studentClassroom", state: { classNumber: number, classId: id } }} className="link">Enter</Link></button>}
+          <button type="button" onClick={() => { setOpen(true) }} className="btn-delete">Delete</button>
+        </Container>
+      </div>
+      <Dialog open={open} onClose={!open || handleToDelete}>
+        <DialogTitle className={classes.alignItemsAndJustifyContentTitle}>{"Delete Classroom"}</DialogTitle>
+        <DialogContent className={classes.alignItemsAndJustifyContentTitle}>
+          <DialogContentText className={classes.alignItemsAndJustifyContentText}>
+            Do you want to delete classroom {title} ?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions className={classes.alignItemsAndJustifyContentButton}>
+          <Wrapper>
+            <div className='del_classroom_button_div'>
+              <button className='form-btn left' onClick={handleToDelete}>DELETE</button>
+              <button className='form-btn right' onClick={() => { setOpen(false) }}>CANCEL</button>
             </div>
-            <Dialog open={open} onClose={!open || handleToDelete}>
-                <DialogTitle className={classes.alignItemsAndJustifyContentTitle}>{"Delete Classroom"}</DialogTitle>
-                <DialogContent className={classes.alignItemsAndJustifyContentTitle}>
-                    <DialogContentText className={classes.alignItemsAndJustifyContentText}>
-                        Do you want to delete classroom {title} ?
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions className={classes.alignItemsAndJustifyContentButton}>
-                <Wrapper>
-                    <div className='del_classroom_button_div'>
-                        <button className='form-btn left' onClick={handleToDelete}>DELETE</button>
-                        <button className='form-btn right' onClick={() => {setOpen(false)}}>CANCEL</button>
-                    </div>
-                </Wrapper>
-                </DialogActions>
-            </Dialog>
-        </section>
-    );
+          </Wrapper>
+        </DialogActions>
+      </Dialog>
+    </section>
+  )
 }
 
 const Wrapper = styled.main`
@@ -151,4 +151,4 @@ const Container = styled.main`
     text-decoration: none;;
   }
 `
-export default Classroom;
+export default Classroom
