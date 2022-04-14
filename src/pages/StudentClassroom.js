@@ -22,31 +22,33 @@ const StudentClassroom = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchAttendanceRecord = async (classId, userId) => {
+    console.log('classId received: ', classId);
     try {
       const response = await fetch(FIND_ROLL_CALL_ID_BY_CLASS_URL + classId, {
         mode: 'cors',
       });
       const rollCalls = await response.json();
 
-      let data = [];
-      rollCalls.forEach(async (row) => {
-        (
-          await fetch(
-            FIND_ATTENDANCE_RECORD_BY_USER_URL +
-              userId +
-              BY_ROLL_CALL_ID_URL +
-              row.id
+      try {
+        rollCalls.forEach(async (row) => {
+          (
+            await fetch(
+              FIND_ATTENDANCE_RECORD_BY_USER_URL +
+                userId +
+                BY_ROLL_CALL_ID_URL +
+                row.id
+            )
           )
-        )
-          .json()
-          .then((e) => {
-            data.push(e);
-          });
-      });
+            .json()
+            .then((e) => {
+              setRecord((prev) => [...prev, e]);
+            });
+        });
 
-      setRecord(data);
-
-      setIsLoading(false);
+        setIsLoading(false);
+      } catch (e) {
+        console.log(e);
+      }
     } catch (e) {
       console.log(e);
     }
@@ -63,7 +65,10 @@ const StudentClassroom = () => {
           student
         </h1>
         <NavBar />
-        <StudentCheckInTable record={record}></StudentCheckInTable>
+        <StudentCheckInTable
+          record={record}
+          setRecord={setRecord}
+        ></StudentCheckInTable>
       </Wrapper>
     )
   );

@@ -101,22 +101,17 @@ const AttendanceDetailBySession = ({setPopup, rollCallId}) => {
     }, [rollCallId]);
 
     return (
-        <DialogWrapper>
             <Dialog open={isShow} onClose={!isShow} className="dialog_box">
                 <IconButton className={classes.closeBtn} onClick={handleClose}>
                     <CloseIcon/>
                 </IconButton>
-                
-                <div style={{width: 500, margin: '0 auto'}}>
-                    <DialogTitle className={classes.alignItemsAndJustifyContentTitle}>{"Attendance Details"}</DialogTitle>
-                    {/* <DialogActions className={classes.alignItemsAndJustifyContentForm} style={{backgroundColor: '#3d3c40', marginBottom: '0px'}}> */}
-                        {/* <CreateClassForm className={classes.alignItemsAndJustifyContentForm} handleSubmit={handleSubmit} handleCancel={handleCancel}/> */}
-                        {isLoading && <h4>Loading...</h4>}
-                        {!isLoading && (record.length > 0 ? <StudentTable record={record}/> : <div>No record</div>)}
-                    {/* </DialogActions> */}
-                </div>
+                <DialogTitle className={classes.alignItemsAndJustifyContentTitle}>{"Attendance Details"}</DialogTitle>
+                {/* <DialogActions className={classes.alignItemsAndJustifyContentForm} style={{backgroundColor: '#3d3c40', marginBottom: '0px'}}> */}
+                    {/* <CreateClassForm className={classes.alignItemsAndJustifyContentForm} handleSubmit={handleSubmit} handleCancel={handleCancel}/> */}
+                    {isLoading && <h4>Loading...</h4>}
+                    {!isLoading && (record.length > 0 ? <StudentTable record={record}/> : <div>No record</div>)}
+                {/* </DialogActions> */}
             </Dialog>
-        </DialogWrapper>
     );
     
 }

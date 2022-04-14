@@ -75,10 +75,9 @@ const StudentTable = ({record}) => {
                             return (
                                 <TableRow className="body_row" key={row.id}>
                                     {columns.map((column) => {
-                                        let attend = (row.check_status == false) ? "No": "Yes";
+                                        let attend = (row.check_status == false) ? '❌': '✅';
                                         let checkTime = row.check_time == null ? "Not recorded" : row.check_time;
                                         //compare check_time and expire_time
-                                        console.log("index", attend);
                                         if (column.id == 'Name') {
                                             return (<TableCell className="table_cell" key={index + "_" + column.id}>{row.name}</TableCell>);
                                         }
@@ -144,27 +143,6 @@ const Wrapper = styled.main`
     }
     .body_row: hover{
        background-color: #353a3f;
-    }
-`
-const DialogWrapper = styled.main`
-    width: 500px;
-    .login{
-    text-decoration:none;
-    transition: 0.3s;
-    color: white;
-    }
-    .custom-flex-justify-center{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    // text-align:center;
-    }
-    .close_btn{
-        position: absolute;
-        left: 95%;
-        top: -9%;
-        color: white;
-        background-color: #6167f3
     }
 `
 export default StudentTable;
