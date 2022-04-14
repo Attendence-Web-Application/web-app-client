@@ -1,25 +1,25 @@
-import React, {useState, useEffect} from "react";
-import styled from 'styled-components'
-import Tab from "./Tab";
-import AttendenceRecordTable from "./AttendenceRecordTable";
-import StudentAttendanceTable from "./StudentAttedanceTable";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import Tab from './Tab';
+import AttendenceRecordTable from './AttendenceRecordTable';
+import StudentAttendanceTable from './StudentAttedanceTable';
 
 // const FIND_ROLL_CALL_ID_URL = 'http://localhost:8080/attendanceRecord/user/';
 // const FIND_ROLL_CALL_URL = 'http://localhost:8080/rollCall/';
 // const FIND_ROLL_CALL_BY_CLASS_URL = 'http://localhost:8080/rollCall/classId/';
 
-const Tabs = ({classNumber, classId, record}) => {
-    const curUserId = parseInt(sessionStorage.getItem("id"));
-    const tabValues = ['Attendence Records', 'Student Attendence Rate'];
-    const [activeTab, setActiveTab] = useState(0);
-    // const [record, setRecord] = useState([]);
-    // const [isLoading, setIsLoading] = useState(true);
-    console.log("enter class: ", classId);
-    const handleOnClickTab = (tab) => {
-        setActiveTab(tab);
-    }
+const Tabs = ({ classNumber, classId, record }) => {
+  const curUserId = parseInt(sessionStorage.getItem('id'));
+  const tabValues = ['Attendence Records', 'Student Attendence Rate'];
+  const [activeTab, setActiveTab] = useState(0);
+  // const [record, setRecord] = useState([]);
+  // const [isLoading, setIsLoading] = useState(true);
+  console.log('enter class: ', classId);
+  const handleOnClickTab = (tab) => {
+    setActiveTab(tab);
+  };
 
-    /*
+  /*
     //get all roll call record of this class
     const fetchRollCallByClass = async (classId, IdArr) => {
         try{
@@ -50,7 +50,7 @@ const Tabs = ({classNumber, classId, record}) => {
         }
     }
     */
-    /*
+  /*
     const fetchRollCallByClass = async (classId) => {
         try{
             const response = await fetch(FIND_ROLL_CALL_BY_CLASS_URL + classId, {mode: 'cors'});
@@ -70,45 +70,62 @@ const Tabs = ({classNumber, classId, record}) => {
        fetchRollCallByClass(classId);
     }, [curUserId]);
     */
-    return (
-        <Wrapper>
-            <div className="tab_list_div">
-                <ul className="tab_list">
-                    {tabValues.map((tab, index) => {
-                        return (
-                            <Tab key={index} id={index} onClickItem={handleOnClickTab} label={tab} activeTab={activeTab}/>
-                        )
-                    })}
-                </ul>
-            </div>
-            <div className="tab_content">
-                {activeTab === 0 ? <AttendenceRecordTable classNumber={classNumber} classId={classId} record = {record}/> : 
-                    <StudentAttendanceTable classNumber={classNumber} classId={classId} record = {record}/>}
-            </div>
-        </Wrapper> 
-    );
-}
+  return (
+    <Wrapper>
+      <div className="tab_list_div">
+        <ul className="tab_list">
+          {tabValues.map((tab, index) => {
+            return (
+              <Tab
+                key={index}
+                id={index}
+                onClickItem={handleOnClickTab}
+                label={tab}
+                activeTab={activeTab}
+              />
+            );
+          })}
+        </ul>
+      </div>
+      <div className="tab_content">
+        {activeTab === 0 ? (
+          <AttendenceRecordTable
+            classNumber={classNumber}
+            classId={classId}
+            record={record}
+          />
+        ) : (
+          <StudentAttendanceTable
+            classNumber={classNumber}
+            classId={classId}
+            record={record}
+          />
+        )}
+      </div>
+    </Wrapper>
+  );
+};
 
 const Wrapper = styled.main`
-  .tab_list_div{
+  .tab_list_div {
     margin: auto;
-    margin-top:100px;
+    margin-top: 100px;
     width: 80%;
     height: 30px;
   }
-  .tab_content{
-      margin: auto;
-      width: 80%;
-      background-color: blue;
-      height: 100px;
-      color:white;
+  .tab_content {
+    margin: auto;
+    width: 80%;
+    background-color: blue;
+    height: 100px;
+    color: white;
   }
   .tab_list {
     margin: 10px;
-    margin-left:0px;
+    margin-left: 0px;
     padding-left: 0;
     list-style-type: none;
     background-color: red;
   }
-  `
+`;
 export default Tabs;
