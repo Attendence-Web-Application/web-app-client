@@ -68,8 +68,8 @@ const AttendanceTable = ({attendanceRecord, record}) => {
                     <TableHead className="table_head">
                         <TableRow>
                             {columns.map((column) => (
-                                <TableCell className="table_cell large_front" key = {column.id}>
-                                    <TableSortLabel className="table_cell large_front" onClick = {() => createSortHandler(column.id)} active = {orderBy === column.id} direction = {orderBy === column.id ? order : 'asc'}>
+                                <TableCell className="table_cell" key = {column.id}>
+                                    <TableSortLabel className="large_front" onClick = {() => createSortHandler(column.id)} active = {orderBy === column.id} direction = {orderBy === column.id ? order : 'asc'}>
                                         {column.label}
                                     </TableSortLabel>
                                     
@@ -82,7 +82,7 @@ const AttendanceTable = ({attendanceRecord, record}) => {
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((row) => {
                             console.log("row: ", row);
-                            let attend = (row.check_status == false) ? "No": "Yes";
+                            let attend = (row.check_status == false) ? "❌": "✅";
                             let checkTime = row.check_time == null ? "Not recorded" : row.check_time;
                             let getTime = getExpireTime(row.id.rollCallId);
                             let expireTime = getTime == null ? "Not recorded" : getTime;
@@ -127,10 +127,13 @@ const Wrapper = styled.main`
         border-width: 1px 0px 1px 0px;
     }
     .large_font{
+        text-align: center;
         font-size: 15px;
         font-weight: bold;
+        color: white;
         border-width: 0px 0px 0px 0px;
     }
+
     .table_btn{
         background-color: #6167f3;
         color:white;
