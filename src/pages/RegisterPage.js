@@ -46,7 +46,7 @@ const RegisterPage = () => {
   }
   const handleCreate = async e => {
     var role_id;
-    if (type === "Professor") {
+    if (type === "professor") {
       role_id = 1;
     } else {
       role_id = 2;

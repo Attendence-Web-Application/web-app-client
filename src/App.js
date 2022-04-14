@@ -16,9 +16,9 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/" exact={true}>
+        {/* <Route path="/" exact={true}>
           <Home />
-        </Route>
+        </Route> */}
         <UserHomePrivateRoute path="/homepage" exact={true}>
           <UserHome />
         </UserHomePrivateRoute>

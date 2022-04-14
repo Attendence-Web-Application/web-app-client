@@ -61,9 +61,6 @@ const StudentClassroom = () => {
   return (
     !isLoading && (
       <Wrapper>
-        <h1 className="title" style={{ color: 'white' }}>
-          student
-        </h1>
         <NavBar />
         <StudentCheckInTable
           record={record}

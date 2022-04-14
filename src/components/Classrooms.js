@@ -132,8 +132,8 @@ const Classrooms = ({ classrooms, setClassrooms }) => {
               classrooms={classrooms}
               setClassrooms={setClassrooms}
             />
-          )}{' '}
-          ||
+          )}
+          
           {isLogin && !isStudent && (
             <AddClassroomProfessor
               classrooms={classrooms}
@@ -195,8 +195,7 @@ const ButtonWrapper = styled.main`
   width: 100vw;
 `;
 const Wrapper = styled.main`
-  margin: 0 auto;
-  width: 150vh;
+  display: grid;
   height: 100vh;
 }
 `;

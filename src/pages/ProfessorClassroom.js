@@ -40,9 +40,6 @@ const ProfessorClassroom = () => {
   return (
     !isLoading && (
       <Wrapper>
-        <h1 className="title" style={{ color: 'white' }}>
-          professor
-        </h1>
         <NavBar />
         <RollCall classId={classId} setRecord={setRecord} />
         <Tabs

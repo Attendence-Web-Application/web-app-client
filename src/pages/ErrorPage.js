@@ -9,9 +9,9 @@ const ErrorPage = () => {
       <Container class="container col-sm-10 col-sm-offset-1">
         <div>
           <h1>Oh No! Error 404</h1>
-          <p>The page you are looking for not avaible!</p>
+          <p>The page you are looking for not available!</p>
         </div>
-        <Link to="/" className="back__home">Go to Home</Link>
+        <Link to="/homepage" className="back__home">Go to Home</Link>
       </Container>
     </Wrapper>
   )
