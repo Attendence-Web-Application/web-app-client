@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import {
-  Home,
   Login,
   Register,
   Error,
@@ -16,9 +15,6 @@ function App() {
   return (
     <Router>
       <Switch>
-        {/* <Route path="/" exact={true}>
-          <Home />
-        </Route> */}
         <UserHomePrivateRoute path="/homepage" exact={true}>
           <UserHome />
         </UserHomePrivateRoute>
