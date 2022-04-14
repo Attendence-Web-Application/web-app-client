@@ -1,7 +1,7 @@
 import React from 'react'
 
+// const BASE_URL = 'http://54.237.185.154:8888';
 const BASE_URL = 'http://localhost:8080';
-
 // LoginComponent.js
 export const LOGIN_CHECK_API = BASE_URL + '/login'
 
