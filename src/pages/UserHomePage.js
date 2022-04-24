@@ -1,6 +1,6 @@
 import React, { useState, useContext, useReducer, useEffect } from 'react'
 import styled from 'styled-components'
-import Classrooms from '../components/Classrooms'; 
+import Classrooms from '../components/Classrooms';
 import { Redirect } from 'react-router-dom';
 import { AttendanceContext } from '../context/context';
 import { FIND_CLASS_ID_URL, FIND_CLASS_URL, FIND_CLASS_BY_USER_URL } from '../utils/api';
@@ -41,7 +41,7 @@ const UserHomePage = () => {
       }
   }
 
-  const fetchProfessorData = async () => { 
+  const fetchProfessorData = async () => {
     try {
       const response = await fetch(FIND_CLASS_BY_USER_URL + curUserId, {mode:'cors'});
       const data = await response.json();
@@ -61,14 +61,14 @@ const UserHomePage = () => {
        else {
           fetchProfessorData();
        }
-       
+
     }, [curUserId]);
 
 
   return (
     (token ?
       (isProfessor
-      && 
+      &&
       <Wrapper>
         <React.Fragment>
           {/* <NavBar/>
@@ -76,20 +76,20 @@ const UserHomePage = () => {
           <Classrooms classrooms={classrooms} setClassrooms={setClassrooms} />
         </React.Fragment>
         </Wrapper>)
-      || 
+      ||
       (isStudent
         &&
       <Wrapper>
-        <React.Fragment> 
+        <React.Fragment>
           {/* <NavBar/>
           <NewClassroom/> */}
             <Classrooms classrooms={classrooms} setClassrooms={setClassrooms} />
         </React.Fragment>
       </Wrapper>)
-      : 
-      <Redirect to='/login'></Redirect>
+      :
+      <Redirect to='/loginuser'></Redirect>
     )
-    
+
 
   )
 }
