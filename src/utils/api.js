@@ -1,9 +1,8 @@
 import React from 'react'
 
 const BASE_URL = 'http://localhost:8888'
-
 // LoginComponent.js
-export const LOGIN_CHECK_API = BASE_URL + '/login'
+export const LOGIN_CHECK_API = BASE_URL + '/user/login'
 
 // ProfessorClassroom.js
 export const FIND_ROLL_CALL_BY_CLASS_URL = BASE_URL + '/rollCall/classId/'

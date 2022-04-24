@@ -6,7 +6,7 @@ const Loading = ({setLoading}) => {
     const history = useHistory();
     useEffect(() => {
         setTimeout(() => {
-            history.push('/');
+            history.push('/loginuser');
             setLoading(false);
         }, 2000)
     }, [])
@@ -20,8 +20,8 @@ const Loading = ({setLoading}) => {
 
 const Wrapper = styled.main`
     background-color: #3E424A;
-    height: 100vh; 
-    
+    height: 100vh;
+
     h2{
         color:white;
         display:flex;

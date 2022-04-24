@@ -10,8 +10,8 @@ const UserHomePrivateRoute = ({ children, ...rest }) => {
     return (
         <Route
         {...rest}
-        render={() => { 
-            return token ? children : <Redirect to='/login'></Redirect>;
+        render={() => {
+            return token ? children : <Redirect to='/loginuser'></Redirect>;
         }}
         ></Route>
     );
