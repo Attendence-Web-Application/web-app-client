@@ -15,7 +15,7 @@ async function checkInfoValid(email, name) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            email: email, 
+            email: email,
             name: name
         })
     })
@@ -80,7 +80,7 @@ const RegisterPage = () => {
       setEmailValid(true);
     }
 
-    
+
   }
   if (loading) {
     return <Loading setLoading={setLoading} />;
@@ -98,7 +98,7 @@ const RegisterPage = () => {
           <div className='mid'></div>
           <div className='right'>
             <h1>Create new account.</h1>
-            <p>Already A Member? <Link to="/login" className='login'>Log In</Link></p>
+            <p>Already A Member? <Link to="/loginuser" className='login'>Log In</Link></p>
             <form className='input_section'>
               <input type="text" placeholder='Username' onChange={usernameChange} value={username} required />
               {!usernameValid && <p className='error-msg'>Username is already in use.</p>}
@@ -122,7 +122,7 @@ const RegisterPage = () => {
 const Wrapper = styled.main`
   color: white;
   background-color: #1f2125;
-  height: 100vh;  
+  height: 100vh;
 
   .main_section{
     display: flex;
@@ -156,10 +156,10 @@ const Wrapper = styled.main`
     display: block;
     background-color: #2c3038;
     margin: 0 auto;
-    
+
     margin-top: 30px;
     width: 280px;
-    border: none; 
+    border: none;
     padding: 8px;
     border-radius: 10px;
     color: white;
@@ -175,7 +175,7 @@ const Wrapper = styled.main`
     background-color: #434950;
   }
 
-  
+
   .btn-signin{
     background-color:rgba(56, 101, 250, 0.8);
     border: none;
@@ -192,7 +192,7 @@ const Wrapper = styled.main`
   .btn-signin:hover{
     background-color:rgba(109, 117, 255, 0.8);
   }
-  
+
   .lockerImage{
     width: 70%;
     margin-top:10%;
