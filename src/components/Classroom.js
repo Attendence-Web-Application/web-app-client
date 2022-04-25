@@ -75,7 +75,6 @@ const Classroom = ({
         {/* <h6 className="card-subtitle">{title}</h6> */}
         <Container>
           {!isStudent && (
-            <button type="button" className="btn-enter">
               <Link
                 to={{
                   pathname: '/professorClassroom',
@@ -83,12 +82,13 @@ const Classroom = ({
                 }}
                 className="link"
               >
+                <button type="button" className="btn-enter">
                 Enter
+                </button>
               </Link>
-            </button>
+            
           )}
           {isStudent && (
-            <button type="button" className="btn-enter">
               <Link
                 to={{
                   pathname: '/studentClassroom',
@@ -97,9 +97,10 @@ const Classroom = ({
                 className="link"
                 onClick={() => handleEnterClass(id)}
               >
-                Entering
+                <button type="button" className="btn-enter">
+                Enter
+                </button>
               </Link>
-            </button>
           )}
           <button
             type="button"

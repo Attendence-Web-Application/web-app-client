@@ -1,7 +1,6 @@
 import React from 'react'
 
-const BASE_URL = 'http://ec2-34-222-243-41.us-west-2.compute.amazonaws.com'
-
+const BASE_URL = 'http://localhost:8080'
 // LoginComponent.js
 export const LOGIN_CHECK_API = BASE_URL + '/user/login'
 

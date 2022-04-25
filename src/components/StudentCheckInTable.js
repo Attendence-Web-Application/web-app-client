@@ -21,7 +21,7 @@ import {
 } from '../utils/api';
 
 //read the check in history of a student in classroom
-const StudentCheckInTable = ({ classNumber, classId, record, setRecord }) => {
+const StudentCheckInTable = ({record, setRecord, setIsShow }) => {
   const curUserId = parseInt(sessionStorage.getItem('id'));
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -46,11 +46,17 @@ const StudentCheckInTable = ({ classNumber, classId, record, setRecord }) => {
   };
 
   //attend which session
-  const handleCheckIn = async (id, userId, status) => {
+  const handleCheckIn = async (id, userId, status, expireTime) => {
     if (!status) {
-      try {
+      try { 
         let checkInDate = new Date();
-
+        expireTime = expireTime + 'z'; //convert to UTC string
+        expireTime = new Date(expireTime);
+        //if cannot checkin before expireTime, considered as not attend
+        if (expireTime != null && expireTime.getTime() < checkInDate.getTime()) {
+          setIsShow(true);
+          return;
+        }
         await fetch(
           CHECK_IN_BY_USER_ID_URL + userId + BY_ROLL_CALL_ID_URL + id,
           {
@@ -95,6 +101,7 @@ const StudentCheckInTable = ({ classNumber, classId, record, setRecord }) => {
               {record
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
+                  console.log("row-- ", row)
                   return (
                     <>
                       <TableRow className="body_row" key={row.id}>
@@ -127,7 +134,8 @@ const StudentCheckInTable = ({ classNumber, classId, record, setRecord }) => {
                                     handleCheckIn(
                                       row.id.rollCallId,
                                       curUserId,
-                                      row.check_status
+                                      row.check_status,
+                                      row.expired_times
                                     )
                                   }
                                 >
