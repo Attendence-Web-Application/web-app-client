@@ -125,7 +125,7 @@ const StudentAttendanceTable = ({classNumber, classId, record}) => {
                                         const value = column;
                                         if (value.id === 'ID') return (<TableCell className="table_cell">{row.id}</TableCell>);
                                         else if (value.id === 'Name') return (<TableCell className="table_cell">{row.name}</TableCell>);
-                                        else if (value.id === 'Rate') return (<TableCell className="table_cell">{row.attendance_rate}</TableCell>);
+                                        else if (value.id === 'Rate') return (<TableCell className="table_cell">{parseFloat(row.attendance_rate).toFixed(3)}</TableCell>);
                                         else if (value.id === 'Times') return (<TableCell className="table_cell">{row.attendance_times}</TableCell>);
                                         else return (<TableCell className="table_cell"><button className='table_btn' onClick={() => handleEnterDetail(row.id, row.name)}>Enter</button></TableCell>);
                                     })}

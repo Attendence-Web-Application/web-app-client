@@ -30,7 +30,7 @@ const NavBar = () => { //or destruct the props: {total}
                 <div className="navbar-nav">
                     {isLogin && <span className="nav-link active" style={{color:'white'}}>Welcome {user}!</span>}
                     {!isLogin && <span className="nav-link active" style={{ color: 'white' }}>Please Sign in</span>}
-                    {isLogin && <span className="nav-link" onClick={logout} ><Link to="/login" style={{color:'white', textDecoration: 'none'}}>Log Out</Link></span>}
+                    {isLogin && <span className="nav-link" onClick={logout} ><Link to="/loginuser" style={{color:'white', textDecoration: 'none'}}>Log Out</Link></span>}
                     {!isLogin && <span className="nav-link" onClick={logout} style={{color:'white'}}>Log In</span>}
                 </div>
                 </div>

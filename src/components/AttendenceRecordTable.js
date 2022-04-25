@@ -68,7 +68,7 @@ const AttendenceRecordTable = ({classNumber, classId, record}) => {
                                             if (value.id == 'ID') return (<TableCell className="table_cell">{row.id}</TableCell>);
                                             else if (value.id == 'Expire Time') return (<TableCell className="table_cell">{row.expired_times}</TableCell>);
                                             else if (value.id == 'Count') return (<TableCell className="table_cell">{row.attendance_count}</TableCell>);
-                                            else if (value.id == 'Rate') return (<TableCell className="table_cell">{row.attendance_rate}</TableCell>);
+                                            else if (value.id == 'Rate') return (<TableCell className="table_cell">{parseFloat(row.attendance_rate).toFixed(3)}</TableCell>);
                                             else return (<TableCell className="table_cell"><button className='table_btn' onClick={() => handleEnterDetail(row.id)}>Enter</button></TableCell>);
                                         })}
                                     </TableRow>
