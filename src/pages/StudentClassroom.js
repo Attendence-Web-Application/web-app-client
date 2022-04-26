@@ -9,6 +9,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
 import StudentCheckInTable from '../components/StudentCheckInTable';
+import ClassroomLabel from '../components/ClassroomLabel';
 import {
   FIND_ROLL_CALL_ID_BY_CLASS_URL,
   FIND_ATTENDANCE_RECORD_BY_USER_URL,
@@ -41,6 +42,8 @@ const StudentClassroom = () => {
   const location = useLocation();
   const classNumber = location.state.classNumber;
   const classId = location.state.classId;
+  const classTitle = location.state.classTitle;
+  const classInstructor = location.state.instructor;
   const curUserId = parseInt(sessionStorage.getItem('id'));
 
   const [record, setRecord] = useState([]);
@@ -82,6 +85,7 @@ const StudentClassroom = () => {
   };
 
   useEffect(() => {
+    setRecord([]);
     fetchAttendanceRecord(classId, curUserId);
   }, [curUserId]);
   const classes = useStyles();
@@ -90,6 +94,8 @@ const StudentClassroom = () => {
     {!isLoading && (
       <Wrapper>
         <NavBar />
+        {/* <div className="classLabel"><p className="label">{classNumber + ' ' + classTitle}</p></div> */}
+        <ClassroomLabel classNumber={classNumber} classTitle={classTitle} instructor={classInstructor}/>
         <StudentCheckInTable
           record={record}
           setRecord={setRecord}

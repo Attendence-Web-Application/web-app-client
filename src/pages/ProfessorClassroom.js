@@ -13,6 +13,7 @@ const ProfessorClassroom = () => {
 
   const classNumber = location.state.classNumber;
   const classId = location.state.classId;
+  const classTitle = location.state.classTitle;
   const [record, setRecord] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const curUserId = parseInt(sessionStorage.getItem('id'));
@@ -41,7 +42,7 @@ const ProfessorClassroom = () => {
     !isLoading && (
       <Wrapper>
         <NavBar />
-        <RollCall classId={classId} setRecord={setRecord} />
+        <RollCall classId={classId} classNumber={classNumber} classTitle={classTitle} setRecord={setRecord} />
         <Tabs
           classNumber={classNumber}
           classId={classId}

@@ -53,8 +53,9 @@ const Classroom = ({
     setOpen(false)
     handleDeleteClass(id)
   }
-  const classes = useStyles()
+  const classes = useStyles();
   return (
+    
     <section
       className="card text-white bg-secondary mb-3"
       style={{
@@ -78,7 +79,7 @@ const Classroom = ({
               <Link
                 to={{
                   pathname: '/professorClassroom',
-                  state: { classNumber: number, classId: id },
+                  state: { classNumber: number, classId: id, classTitle: title},
                 }}
                 className="link"
               >
@@ -92,7 +93,7 @@ const Classroom = ({
               <Link
                 to={{
                   pathname: '/studentClassroom',
-                  state: { classNumber: number, classId: id },
+                  state: { classNumber: number, classId: id, classTitle: title, instructor: userData[user_id] },
                 }}
                 className="link"
                 onClick={() => handleEnterClass(id)}
