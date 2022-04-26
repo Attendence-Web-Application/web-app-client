@@ -168,11 +168,13 @@ const StudentCheckInTable = ({record, setRecord, setIsShow }) => {
 };
 
 const Wrapper = styled.main`
+
+  width: 80%;
   background-color: white;
   margin: auto;
-  width: 100%;
   .table_container {
     max-height: 50vh;
+    margin-top: 100px;
   }
   .table_head {
     background-color: #6167f3;
